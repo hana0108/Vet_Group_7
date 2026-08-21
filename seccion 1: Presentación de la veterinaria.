@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VetGroup7 | Clínica Veterinaria</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #2e8b57;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background-color: #222;
+            text-align: center;
+            padding: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 15px;
+        }
+
+        section {
+            background-color: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #2e8b57;
+        }
+
+        .servicios {
+            display: flex;
+            gap: 15px;
+        }
+
+        .servicios div {
+            background-color: #e9f7ef;
+            padding: 15px;
+            width: 33%;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .imagenes img {
+            width: 30%;
+            margin: 1%;
+            border-radius: 10px;
+        }
+
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Encabezado -->
+    <header>
+        <h1>🐾 VetGroup7</h1>
+        <p>Cuidamos a quienes forman parte de tu familia</p>
+    </header>
+
+    <!-- Menú -->
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <!-- Presentación y bienvenida -->
+    <section id="inicio">
+        <h2>Bienvenidos a VetGroup7</h2>
+
+        <p>
+            Somos una clínica veterinaria comprometida con el cuidado,
+            bienestar y salud de tus mascotas.
+        </p>
+
+        <p>
+            Nuestro equipo trabaja para ofrecer una atención responsable,
+            cercana y de calidad.
+        </p>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios">
+        <h2>Servicios destacados</h2>
+
+        <div class="servicios">
+
+            <div>
+                <h3>🩺 Consulta</h3>
+                <p>Revisión y atención general para tu mascota.</p>
+            </div>
+
+            <div>
+                <h3>💉 Vacunación</h3>
+                <p>Protección y prevención de enfermedades.</p>
+            </div>
+
+            <div>
+                <h3>🐶 Emergencias</h3>
+                <p>Atención para situaciones que requieren cuidado inmediato.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Imágenes -->
+    <section id="galeria">
+        <h2>Nuestras mascotas</h2>
+
+        <div class="imagenes">
+            <img src="https://placedog.net/400/300" alt="Perro">
+            <img src="https://placecats.com/400/300" alt="Gato">
+            <img src="https://placedog.net/401/300" alt="Mascota">
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+        <h2>Información de contacto</h2>
+
+        <p>📍 Dirección: Santo Domingo, República Dominicana</p>
+        <p>📞 Teléfono: (809) 767-3993</p>
+        <p>📧 Correo: contacto@vetgroup7.com</p>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2026 VetGroup7 - Clínica Veterinaria</p>
+    </footer>
+
+</body>
+</html>
