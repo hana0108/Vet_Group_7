@@ -2,56 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Citas Veterinarias</title>
+  <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
-  <h1>Formulario de Citas Veterinarias</h1>
+  <header>
+    <h1>Veterinaria Vet Group 7</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="mascotas.html">Mascotas</a>
+      <a href="Citas.html">Citas</a>
+    </nav>
+  </header>
 
-  <form>
-    <label for="dueno">Nombre del dueño:</label><br>
-    <input type="text" id="dueno" name="dueno"><br><br>
+  <main>
+    <section>
+      <h2>Formulario de Citas Veterinarias</h2>
 
-    <label for="mascota">Nombre de la mascota:</label><br>
-    <input type="text" id="mascota" name="mascota"><br><br>
+      <form>
+        <label for="dueno">Nombre del dueño:</label><br>
+        <input type="text" id="dueno" name="dueno"><br><br>
 
-    <label for="tipo">Tipo de mascota:</label><br>
-    <select id="tipo" name="tipo">
-      <option>Perro</option>
-      <option>Gato</option>
-      <option>Ave</option>
-      <option>Otro</option>
-    </select><br><br>
+        <label for="mascota">Nombre de la mascota:</label><br>
+        <input type="text" id="mascota" name="mascota"><br><br>
 
-    <label for="raza">Raza:</label><br>
-    <input type="text" id="raza" name="raza"><br><br>
+        <label for="tipo">Tipo de mascota:</label><br>
+        <select id="tipo" name="tipo">
+          <option>Perro</option>
+          <option>Gato</option>
+          <option>Ave</option>
+          <option>Otro</option>
+        </select><br><br>
 
-    <label for="edad">Edad:</label><br>
-    <input type="number" id="edad" name="edad"><br><br>
+        <label for="raza">Raza:</label><br>
+        <input type="text" id="raza" name="raza"><br><br>
 
-    <label for="servicio">Servicio:</label><br>
-    <select id="servicio" name="servicio">
-      <option>Consulta general</option>
-      <option>Vacunación</option>
-      <option>Baño y corte</option>
-      <option>Emergencia</option>
-    </select><br><br>
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" name="edad"><br><br>
 
-    <label for="fecha">Fecha:</label><br>
-    <input type="date" id="fecha" name="fecha"><br><br>
+        <label for="servicio">Servicio:</label><br>
+        <select id="servicio" name="servicio">
+          <option>Consulta general</option>
+          <option>Vacunación</option>
+          <option>Baño y corte</option>
+          <option>Emergencia</option>
+        </select><br><br>
 
-    <label for="hora">Hora:</label><br>
-    <input type="time" id="hora" name="hora"><br><br>
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha" name="fecha"><br><br>
 
-    <label for="telefono">Teléfono:</label><br>
-    <input type="tel" id="telefono" name="telefono"><br><br>
+        <label for="hora">Hora:</label><br>
+        <input type="time" id="hora" name="hora"><br><br>
 
-    <label for="correo">Correo:</label><br>
-    <input type="email" id="correo" name="correo"><br><br>
+        <label for="telefono">Teléfono:</label><br>
+        <input type="tel" id="telefono" name="telefono"><br><br>
 
-    <label for="observaciones">Observaciones:</label><br>
-    <textarea id="observaciones" name="observaciones"></textarea><br><br>
+        <label for="correo">Correo:</label><br>
+        <input type="email" id="correo" name="correo"><br><br>
 
-    <button type="submit">Enviar cita</button>
-  </form>
+        <label for="observaciones">Observaciones:</label><br>
+        <textarea id="observaciones" name="observaciones"></textarea><br><br>
+
+        <button type="submit">Enviar cita</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Vet Group 7 — Proyecto académico</p>
+  </footer>
 </body>
 </html>
