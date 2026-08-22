@@ -1,156 +1,125 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Servicios | VetGroup7</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- Encabezado -->
-    <header>
-        <h1>VetGroup7</h1>
-
-        <nav>
+    <header class="site-header">
+        <div class="logo">
+            <span class="logo-icon">🐾</span> VetGroup7
+        </div>
+        <nav class="main-nav">
             <a href="index.html">Inicio</a>
-            <a href="servicios.html">Servicios</a>
-            <a href="cuidados.html">Cuidados</a>
+            <a href="servicios.html" class="active">Servicios</a>
             <a href="mascotas.html">Mascotas</a>
-            <a href="citas.html">Citas</a>
+            <a href="citas.html">Contacto</a>
         </nav>
+        <a href="citas.html" class="btn-header">Reservar cita</a>
     </header>
 
-    <!-- Contenido principal -->
-    <main>
+    <main class="servicios-main">
 
-        <section>
-            <h2>Nuestros Servicios Veterinarios</h2>
-
-            <p>
-                En VetGroup7 ofrecemos diferentes servicios orientados
-                al cuidado, bienestar y salud de las mascotas.
-                Nuestro propósito es brindar una atención responsable
-                y adecuada para cada animal.
-            </p>
+        <section class="banner-servicio">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h2>CONSULTAS VETERINARIAS</h2>
+                    <p>Evaluaciones médicas exhaustivas para garantizar el bienestar de tu mascota y detectar cualquier condición a tiempo.</p>
+                    <a href="citas.html" class="btn-banner">Solicitar cita</a>
+                </div>
+                <div class="banner-image">
+                    <img src="img/Consulta veterinaria.png" alt="Consulta veterinaria">
+                </div>
+            </div>
         </section>
 
-        <!-- Consultas -->
-        <section>
-            <article>
-                <h2>Consultas Veterinarias</h2>
-
-                <img src="img/Consulta veterinaria.png"
-                     alt="Consulta veterinaria"
-                     width="300">
-                <p>
-                    Realizamos consultas generales para evaluar el estado
-                    de salud de las mascotas, detectar posibles enfermedades
-                    y ofrecer las recomendaciones necesarias para su cuidado.
-                </p>
-
-                <a href="citas.html">Solicitar cita</a>
-            </article>
+        <section class="banner-servicio">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h2>ESQUEMA DE VACUNACIÓN</h2>
+                    <p>Protección esencial para mantener a tu compañero inmune frente a las enfermedades más comunes y graves.</p>
+                    <a href="citas.html" class="btn-banner">Solicitar cita</a>
+                </div>
+                <div class="banner-image">
+                    <img src="img/vacunacion.png" alt="Vacunación de mascotas">
+                </div>
+            </div>
         </section>
 
-        <!-- Vacunación -->
-        <section>
-            <article>
-                <h2>Vacunación</h2>
-
-                <img src="img/vacunacion.png"
-                     alt="Vacunación de mascotas"
-                     width="300">
-
-                <p>
-                    Ofrecemos servicios de vacunación para ayudar a prevenir
-                    enfermedades y mantener protegidas a las mascotas durante
-                    las diferentes etapas de su vida.
-                </p>
-
-                <a href="citas.html">Solicitar cita</a>
-            </article>
+        <section class="banner-servicio">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h2>DESPARASITACIÓN INTEGRAL</h2>
+                    <p>Tratamientos preventivos y de control contra parásitos internos y externos adaptados exactamente a su peso.</p>
+                    <a href="citas.html" class="btn-banner">Solicitar cita</a>
+                </div>
+                <div class="banner-image">
+                    <img src="img/Desparasitación de mascotas.png" alt="Desparasitación de mascotas">
+                </div>
+            </div>
         </section>
 
-        <!-- Desparasitación -->
-        <section>
-            <article>
-                <h2>Desparasitación</h2>
-
-                <img src="img/Desparasitación de mascotas.png"
-                     alt="Desparasitación de mascotas"
-                     width="300">
-
-                <p>
-                    Contamos con orientación y tratamientos de desparasitación
-                    para contribuir a la prevención de parásitos internos y
-                    externos que pueden afectar la salud de las mascotas.
-                </p>
-
-                <a href="citas.html">Solicitar cita</a>
-            </article>
+        <section class="banner-servicio">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h2>BAÑO Y ESTÉTICA CANINA</h2>
+                    <p>Higiene profunda, corte de pelo y cuidado dermatológico para que tu mascota luzca y se sienta de lo mejor.</p>
+                    <a href="citas.html" class="btn-banner">Solicitar cita</a>
+                </div>
+                <div class="banner-image">
+                    <img src="img/estetica.png" alt="Baño y estética para mascotas">
+                </div>
+            </div>
         </section>
 
-        <!-- Baño y estética -->
-        <section>
-            <article>
-                <h2>Baño y Estética</h2>
-
-                <img src="img/estetica.png"
-                     alt="Baño y estética para mascotas"
-                     width="300">
-
-                <p>
-                    Brindamos servicios de higiene y estética que incluyen
-                    baño, limpieza y cuidado general para mantener a las
-                    mascotas limpias y cómodas.
-                </p>
-
-                <a href="citas.html">Solicitar cita</a>
-            </article>
-        </section>
-
-        <!-- Cirugías -->
-        <section>
-            <article>
-                <h2>Cirugías</h2>
-
-                <img src="img/cirugia.png"
-                     alt="Servicio de cirugía veterinaria"
-                     width="300">
-
-                <p>
-                    VetGroup7 ofrece atención para procedimientos quirúrgicos
-                    veterinarios, acompañados de evaluación profesional y
-                    seguimiento de la recuperación de cada mascota.
-                </p>
-
-                <a href="citas.html">Solicitar cita</a>
-            </article>
-        </section>
-
-        <!-- Lista -->
-        <section>
-            <h2>Servicios disponibles</h2>
-
-            <ul>
-                <li>Consultas veterinarias.</li>
-                <li>Vacunación.</li>
-                <li>Desparasitación.</li>
-                <li>Baño y estética.</li>
-                <li>Cirugías.</li>
-            </ul>
+        <section class="banner-servicio">
+            <div class="banner-container">
+                <div class="banner-text">
+                    <h2>PROCEDIMIENTOS CIRUGÍAS</h2>
+                    <p>Intervenciones quirúrgicas seguras realizadas con equipamiento especializado y monitoreo médico constante.</p>
+                    <a href="citas.html" class="btn-banner">Solicitar cita</a>
+                </div>
+                <div class="banner-image">
+                    <img src="img/cirugia.png" alt="Servicio de cirugía veterinaria">
+                </div>
+            </div>
         </section>
 
     </main>
 
-    <!-- Pie de página -->
-    <footer>
-        <p>VetGroup7 - Cuidado y bienestar para tus mascotas</p>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <span class="logo-icon">🐾</span> VetGroup7
+                </div>
+                <p>Cuidado profesional y humano para la salud y felicidad de tus mascotas.</p>
+            </div>
+
+            <div class="footer-col info-col">
+                <h3>Información de Contacto</h3>
+                <p>Santo Domingo, República Dominicana</p>
+                <p>(809) 767-3993</p>
+                <p>contacto@vetgroup7.com</p>
+            </div>
+
+            <div class="footer-col newsletter-col">
+                <h3>¡Mantente Informado!</h3>
+                <p>Recibe consejos de salud y novedades veterinarias.</p>
+                <form class="newsletter-form" action="#" method="post">
+                    <input type="email" placeholder="Tu correo electrónico" required>
+                    <button type="submit">Unirse</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
 </body>
-
 </html>
