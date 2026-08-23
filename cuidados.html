@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Recomendaciones de VetGroup7 para el cuidado, la alimentación, la higiene y la prevención de enfermedades en mascotas.">
+    <title>Información y Cuidados | VetGroup7</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Estilos específicos de la página de cuidados. Conservan la paleta del sitio. -->
+    <style>
+        .cuidados-main {
+            padding: 20px 8% 80px;
+        }
+
+        .cuidados-hero {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            align-items: center;
+            gap: 45px;
+            padding: 45px 55px;
+            margin-bottom: 40px;
+            background-color: var(--color-blanco);
+            border-radius: 24px;
+            box-shadow: 0 6px 20px rgba(28, 45, 55, 0.07);
+            overflow: hidden;
+        }
+
+        .cuidados-hero h1 {
+            margin-bottom: 18px;
+            color: var(--color-texto-oscuro);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.1;
+        }
+
+        .cuidados-hero h1 span {
+            color: var(--color-boton);
+        }
+
+        .cuidados-hero p {
+            margin-bottom: 25px;
+            color: var(--color-texto-secundario);
+            font-size: 1.05rem;
+        }
+
+        .cuidados-hero img {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+            border-radius: 55% 45% 48% 52% / 48% 52% 48% 52%;
+            background-color: var(--color-footer);
+            padding: 8px;
+        }
+
+        .intro-cuidados {
+            max-width: 850px;
+            margin: 0 auto 35px;
+            text-align: center;
+        }
+
+        .intro-cuidados h2,
+        .seccion-cuidados h2,
+        .tabla-section h2 {
+            margin-bottom: 12px;
+            color: var(--color-texto-oscuro);
+            font-size: 1.8rem;
+        }
+
+        .intro-cuidados p,
+        .seccion-cuidados p,
+        .tabla-section > p {
+            color: var(--color-texto-secundario);
+        }
+
+        .cuidados-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .seccion-cuidados {
+            padding: 30px;
+            background-color: var(--color-blanco);
+            border: 1px solid rgba(91, 192, 190, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 5px 16px rgba(28, 45, 55, 0.05);
+        }
+
+        .seccion-cuidados .icono {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            margin-bottom: 16px;
+            border-radius: 50%;
+            background-color: var(--color-footer);
+            font-size: 1.6rem;
+        }
+
+        .seccion-cuidados ul,
+        .seccion-cuidados ol {
+            margin: 18px 0 0 22px;
+            color: var(--color-texto-secundario);
+        }
+
+        .seccion-cuidados li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .galeria-cuidados {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .galeria-cuidados figure {
+            overflow: hidden;
+            background-color: var(--color-blanco);
+            border-radius: 18px;
+            box-shadow: 0 5px 16px rgba(28, 45, 55, 0.06);
+        }
+
+        .galeria-cuidados img {
+            display: block;
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+
+        .galeria-cuidados figcaption {
+            padding: 15px;
+            color: var(--color-texto-oscuro);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .tabla-section {
+            padding: 35px;
+            margin-bottom: 40px;
+            background-color: var(--color-blanco);
+            border-radius: 18px;
+            box-shadow: 0 5px 16px rgba(28, 45, 55, 0.06);
+        }
+
+        .tabla-responsive {
+            margin-top: 22px;
+            overflow-x: auto;
+        }
+
+        .tabla-cuidados {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 680px;
+        }
+
+        .tabla-cuidados th,
+        .tabla-cuidados td {
+            padding: 14px 16px;
+            border: 1px solid #d8e7e5;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .tabla-cuidados th {
+            background-color: var(--color-footer);
+            color: var(--color-texto-oscuro);
+        }
+
+        .tabla-cuidados tbody tr:nth-child(even) {
+            background-color: #f4faf9;
+        }
+
+        .aviso-prevencion {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 35px 40px;
+            background-color: var(--color-footer);
+            border-radius: 20px;
+        }
+
+        .aviso-prevencion h2 {
+            margin-bottom: 8px;
+            color: var(--color-texto-oscuro);
+        }
+
+        .aviso-prevencion p {
+            max-width: 760px;
+            color: var(--color-texto-oscuro);
+        }
+
+        .newsletter-col a {
+            color: var(--color-texto-oscuro);
+            text-decoration: none;
+        }
+
+        .newsletter-col a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1100px) {
+            .site-header {
+                flex-direction: column;
+                gap: 22px;
+                text-align: center;
+            }
+
+            .main-nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 18px 28px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .cuidados-hero,
+            .cuidados-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cuidados-hero {
+                padding: 35px 30px;
+            }
+
+            .cuidados-hero img {
+                height: 280px;
+            }
+
+            .galeria-cuidados {
+                grid-template-columns: 1fr;
+            }
+
+            .aviso-prevencion {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cuidados-main {
+                padding: 10px 5% 55px;
+            }
+
+            .seccion-cuidados,
+            .tabla-section {
+                padding: 24px 20px;
+            }
+
+            .aviso-prevencion {
+                padding: 28px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="logo">
+            <span class="logo-icon">🐾</span> VetGroup7
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+            <a href="Presentación_de_la_veterinaria.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="cuidados.html" class="active" aria-current="page">Cuidados</a>
+            <a href="mascotas.html">Mascotas</a>
+            <a href="Citas.html">Citas</a>
+        </nav>
+
+        <a href="Citas.html" class="btn-header">Reservar cita</a>
+    </header>
+
+    <main class="cuidados-main">
+        <section class="cuidados-hero">
+            <div>
+                <h1>Cuidados que dejan <span>huellas felices</span></h1>
+                <p>
+                    Una mascota sana necesita atención diaria, alimentación adecuada,
+                    higiene y visitas preventivas al veterinario. Aquí encontrarás
+                    recomendaciones sencillas para acompañarla en cada etapa de su vida.
+                </p>
+                <a href="#recomendaciones" class="btn-banner">Ver recomendaciones</a>
+            </div>
+            <img src="img/veterinarios.jpg" alt="Personal veterinario cuidando a una mascota">
+        </section>
+
+        <section class="intro-cuidados">
+            <h2>Bienestar integral para tu mascota</h2>
+            <p>
+                El cuidado responsable combina hábitos en el hogar con orientación
+                profesional. Las necesidades pueden cambiar según la especie, la edad,
+                el tamaño y el estado de salud de cada animal.
+            </p>
+        </section>
+
+        <div class="cuidados-grid" id="recomendaciones">
+            <section class="seccion-cuidados">
+                <span class="icono" aria-hidden="true">🏠</span>
+                <h2>Cuidados básicos</h2>
+                <p>Estas acciones ayudan a mantener una rutina saludable y segura:</p>
+                <ul>
+                    <li>Proporcionar agua limpia y fresca durante todo el día.</li>
+                    <li>Preparar un espacio cómodo, ventilado y protegido del clima.</li>
+                    <li>Ofrecer ejercicio, juegos y momentos de socialización.</li>
+                    <li>Observar cambios en el apetito, el ánimo o el comportamiento.</li>
+                    <li>Mantener su identificación y datos de contacto actualizados.</li>
+                </ul>
+            </section>
+
+            <section class="seccion-cuidados">
+                <span class="icono" aria-hidden="true">🥣</span>
+                <h2>Alimentación</h2>
+                <p>Una dieta equilibrada favorece el crecimiento y la energía diaria:</p>
+                <ol>
+                    <li>Selecciona alimento apropiado para su especie y etapa de vida.</li>
+                    <li>Respeta las porciones y horarios recomendados.</li>
+                    <li>Evita ofrecer sobras, huesos cocidos o alimentos desconocidos.</li>
+                    <li>Controla su peso y consulta si notas cambios repentinos.</li>
+                    <li>Realiza cualquier cambio de alimento de manera gradual.</li>
+                </ol>
+            </section>
+
+            <section class="seccion-cuidados">
+                <span class="icono" aria-hidden="true">🧼</span>
+                <h2>Higiene</h2>
+                <p>La frecuencia del aseo depende del tipo de mascota y de su pelaje.</p>
+                <ul>
+                    <li>Cepilla el pelaje para retirar suciedad y pelo suelto.</li>
+                    <li>Revisa periódicamente ojos, orejas, dientes, piel y uñas.</li>
+                    <li>Utiliza únicamente productos diseñados para animales.</li>
+                    <li>Lava sus recipientes, juguetes, cama y área de descanso.</li>
+                    <li>Solicita orientación antes de realizar baños muy frecuentes.</li>
+                </ul>
+            </section>
+
+            <section class="seccion-cuidados">
+                <span class="icono" aria-hidden="true">💉</span>
+                <h2>Vacunación y prevención</h2>
+                <p>El veterinario debe indicar el plan adecuado para cada mascota.</p>
+                <ul>
+                    <li>Lleva un registro de vacunas, desparasitación y consultas.</li>
+                    <li>Cumple las fechas de refuerzo indicadas por el profesional.</li>
+                    <li>Aplica medidas de control contra pulgas y garrapatas.</li>
+                    <li>Evita el contacto con animales enfermos o desconocidos.</li>
+                    <li>Realiza revisiones preventivas aunque no presente síntomas.</li>
+                </ul>
+            </section>
+        </div>
+
+        <section class="galeria-cuidados" aria-label="Servicios relacionados con el cuidado de mascotas">
+            <figure>
+                <img src="img/vacunacion.png" alt="Vacunación preventiva de una mascota">
+                <figcaption>Vacunación preventiva</figcaption>
+            </figure>
+            <figure>
+                <img src="img/Desparasitación de mascotas.png" alt="Desparasitación de una mascota">
+                <figcaption>Control de parásitos</figcaption>
+            </figure>
+            <figure>
+                <img src="img/estetica.png" alt="Baño y cuidado estético de una mascota">
+                <figcaption>Higiene y estética</figcaption>
+            </figure>
+        </section>
+
+        <section class="tabla-section">
+            <h2>Guía básica de cuidados</h2>
+            <p>
+                Esta tabla sirve como orientación general. La frecuencia puede variar
+                de acuerdo con las necesidades particulares de cada mascota.
+            </p>
+
+            <div class="tabla-responsive">
+                <table class="tabla-cuidados">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cuidado</th>
+                            <th scope="col">Frecuencia orientativa</th>
+                            <th scope="col">Recomendación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Agua</td>
+                            <td>Todos los días</td>
+                            <td>Renovar el agua y limpiar el recipiente.</td>
+                        </tr>
+                        <tr>
+                            <td>Alimentación</td>
+                            <td>Según la edad y el plan indicado</td>
+                            <td>Medir las porciones y evitar cambios bruscos.</td>
+                        </tr>
+                        <tr>
+                            <td>Cepillado</td>
+                            <td>Según el tipo de pelaje</td>
+                            <td>Usar un cepillo adecuado y revisar la piel.</td>
+                        </tr>
+                        <tr>
+                            <td>Actividad física</td>
+                            <td>Diariamente</td>
+                            <td>Adaptarla a su especie, edad y condición física.</td>
+                        </tr>
+                        <tr>
+                            <td>Consulta preventiva</td>
+                            <td>Según indique el veterinario</td>
+                            <td>Llevar el historial de salud y vacunación.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="aviso-prevencion">
+            <div>
+                <h2>¿Notas algo fuera de lo habitual?</h2>
+                <p>
+                    La falta de apetito, el decaimiento, los vómitos repetidos, la
+                    dificultad para respirar o un cambio repentino de conducta requieren
+                    atención profesional. No administres medicamentos sin orientación veterinaria.
+                </p>
+            </div>
+            <a href="Citas.html" class="btn-header">Agendar consulta</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <span class="logo-icon">🐾</span> VetGroup7
+                </div>
+                <p>Cuidado profesional y humano para la salud y felicidad de tus mascotas.</p>
+            </div>
+
+            <div class="footer-col info-col">
+                <h3>Información de contacto</h3>
+                <p>Santo Domingo, República Dominicana</p>
+                <p>(809) 767-3993</p>
+                <p>contacto@vetgroup7.com</p>
+            </div>
+
+            <div class="footer-col newsletter-col">
+                <h3>Explora VetGroup7</h3>
+                <p><a href="servicios.html">Conoce nuestros servicios</a></p>
+                <p><a href="mascotas.html">Visita la sección de mascotas</a></p>
+                <p><a href="Citas.html">Reserva una cita</a></p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
