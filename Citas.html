@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citas veterinarias - Vet Group 7</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon">🐾</span>
+      <span>Vet Group 7</span>
+    </div>
+
+    <nav class="main-nav">
+      <a href="Presentación_de_la_veterinaria.html">Inicio</a> 
+      <a href="servicios.html">Servicios</a>
+      <a href="mascotas.html">Mascotas</a>
+      <a href="Citas.html" class="active">Citas</a>
+    </nav>
+
+    <a href="Citas.html" class="btn-header">Agendar cita</a>
+  </header>
+
+  <main class="servicios-main">
+    <section class="form-container">
+      <div class="form-header">
+        <h2>Formulario de citas</h2>
+      </div>
+
+      <form class="appointment-form">
+        
+        <div class="form-section-title">
+          <h3>Datos del propietario</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="dueno">Nombre del dueño</label>
+            <input type="text" id="dueno" name="dueno" required>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" required>
+          </div>
+        </div>
+
+        <div class="form-section-title">
+          <h3>Datos de la mascota</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="mascota">Nombre de la mascota</label>
+            <input type="text" id="mascota" name="mascota" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tipo">Tipo de mascota</label>
+            <select id="tipo" name="tipo" required>
+              <option value="" disabled selected>Seleccione una opción</option>
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Ave">Ave</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="raza">Raza</label>
+            <input type="text" id="raza" name="raza">
+          </div>
+
+          <div class="form-group">
+            <label for="edad">Edad</label>
+            <input type="number" id="edad" name="edad" min="0">
+          </div>
+        </div>
+
+        <div class="form-section-title">
+          <h3>Detalles de la cita</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="servicio">Servicio requerido</label>
+            <select id="servicio" name="servicio" required>
+              <option value="" disabled selected>Seleccione un servicio</option>
+              <option value="Consulta general">Consulta general</option>
+              <option value="Vacunación">Vacunación</option>
+              <option value="Baño y corte">Baño y corte</option>
+              <option value="Emergencia">Emergencia</option>
+              <option value="Cirugía">Cirugía</option>
+              <option value="Desparasitación">Desparasitación</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" name="fecha" required>
+          </div>
+
+          <div class="form-group">
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" name="hora" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" rows="4"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Enviar cita</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-logo">Vet Group 7</div>
+        <p>Proyecto académico de servicios veterinarios.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <p>Santiago de los Caballeros, R.D.</p>
+        <p>+1 (809) 555-0199</p>
+        <p>contacto@vetgroup7.com</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Vet Group 7 — Proyecto académico</p>
+    </div>
+  </footer>
+
+</body>
+</html>>
