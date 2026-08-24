@@ -1,2 +1,2 @@
 # Vet_Group_7
-Repositorio de uso académico para la materia de: Desarrollo de Aplicaciones Web.
+Repositorio del grupo 7 para uso académico de la materia: Desarrollo de Aplicaciones Web.
