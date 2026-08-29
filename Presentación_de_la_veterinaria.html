@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetGroup7 | Clínica Veterinaria</title>
+    <style>
+        :root {
+            --color-oscuro: #5dc1b9;
+            --color-claro: #9ce0db;
+            --color-fondo: #F8F6F0;
+            --color-texto: #2d3748;
+            --color-blanco: #ffffff;
+            --color-tarjeta-bg: #f4efe6;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: transparent;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: var(--color-texto);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--color-texto);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--color-oscuro);
+        }
+
+        .btn-reserva {
+            background-color: var(--color-oscuro);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 8%;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2em, 4vw, 3em);
+            color: var(--color-texto);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            color: var(--color-oscuro);
+        }
+
+        .hero-text p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .btn-explorar {
+            background-color: var(--color-oscuro);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+            background-color: var(--color-claro);
+            padding: 10px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8em, 3vw, 2.2em);
+            color: var(--color-texto);
+            margin: 60px 0 10px;
+            padding: 0 5%;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            padding: 0 5%;
+        }
+
+        .servicios-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 0 8%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .servicio-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 24px;
+            text-align: center;
+            border: 2px solid transparent;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .servicio-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-oscuro);
+            box-shadow: 0 12px 25px rgba(93, 193, 185, 0.25);
+        }
+
+        .servicio-icon-bg {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .servicio-icon-bg img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .servicio-card:hover .servicio-icon-bg img {
+            transform: scale(1.1);
+        }
+
+        .servicio-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--color-texto);
+            font-weight: 700;
+        }
+
+        .servicio-card:hover h3 {
+            color: var(--color-oscuro);
+        }
+
+        .servicio-card p {
+            font-size: 0.88em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .mascotas-section {
+            padding: 40px 8% 80px;
+        }
+
+        .mascotas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 50px 30px;
+            max-width: 1100px;
+            margin: 60px auto 0;
+        }
+
+        .mascota-card-new {
+            background-color: var(--color-tarjeta-bg);
+            border-radius: 20px;
+            padding: 60px 25px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mascota-avatar {
+            position: absolute;
+            top: -45px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--color-fondo);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .mascota-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mascota-card-new h3 {
+            font-size: 1.2em;
+            color: var(--color-texto);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .mascota-card-new p {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .mascota-badge {
+            background-color: transparent;
+            border: 1px solid var(--color-oscuro);
+            color: var(--color-oscuro);
+            padding: 6px 16px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: var(--color-claro);
+            color: var(--color-texto);
+            padding: 50px 8% 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: var(--color-texto);
+        }
+
+        .footer-col p {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        #contacto {
+            scroll-margin-top: 30px;
+        }
+
+        .newsletter-form-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-form-footer input {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .newsletter-form-footer button {
+            background-color: var(--color-oscuro);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 20px;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        @media (max-width: 850px) {
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            nav {
+                justify-content: center;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-image-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">🐾 VetGroup7</div>
+        <nav>
+            <a href="Presentación_de_la_veterinaria.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="cuidados.html">Cuidados</a>
+            <a href="mascotas.html">Mascotas</a>
+            <a href="Citas.html">Citas</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+        <a href="Citas.html" class="btn-reserva">Reservar cita</a>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-text">
+            <h1>Mascotas felices, <span>corazones</span> felices.</h1>
+            <p>Cuidado integral, compasivo y profesional para todos los miembros de tu familia en VetGroup7.</p>
+            <a href="servicios.html" class="btn-explorar">Nuestros Servicios ➔</a>
+        </div>
+        <div class="hero-image-container">
+            <img src="img/veterinarios.jpg" alt="Veterinarios de VetGroup7" class="hero-img">
+        </div>
+    </section>
+
+    <h2 class="section-title" id="servicios">¿Cómo ayudamos a tu mascota?</h2>
+    <p class="section-subtitle">Ofrecemos atenciones veterinarias adaptadas a cada necesidad</p>
+
+    <div class="servicios-container">
+        <div class="servicio-card">
+            <div class="servicio-icon-bg">
+                <img src="img/consulta icono.jpeg" alt="Consulta">
+            </div>
+            <h3>Consulta general</h3>
+            <p>Revisiones exhaustivas para una vida saludable.</p>
+        </div>
+
+        <div class="servicio-card">
+            <div class="servicio-icon-bg">
+                <img src="img/vacuna icono.jpeg" alt="Vacunación">
+            </div>
+            <h3>Vacunación</h3>
+            <p>Inmunización y prevención de enfermedades.</p>
+        </div>
+
+        <div class="servicio-card">
+            <div class="servicio-icon-bg">
+                <img src="img/cirugia icono.jpeg" alt="Cirugía">
+            </div>
+            <h3>Cirugía</h3>
+            <p>Procedimientos quirúrgicos seguros y especializados.</p>
+        </div>
+
+        <div class="servicio-card">
+            <div class="servicio-icon-bg">
+                <img src="img/desparacitacion icono.jpeg" alt="Desparasitación">
+            </div>
+            <h3>Desparasitación</h3>
+            <p>Control integral contra parásitos externos e internos.</p>
+        </div>
+
+        <div class="servicio-card">
+            <div class="servicio-icon-bg">
+                <img src="img/estetica icono.jpeg" alt="Estética">
+            </div>
+            <h3>Estética</h3>
+            <p>Cuidado, baño y belleza para tus compañeros.</p>
+        </div>
+    </div>
+
+    <section class="mascotas-section" id="galeria">
+        <h2 class="section-title">Nuestros pacientes estrella</h2>
+        <p class="section-subtitle">Conoce a algunas de las hermosas mascotas que nos visitan cada día.</p>
+        
+        <div class="mascotas-grid">
+            <div class="mascota-card-new">
+                <div class="mascota-avatar">
+                    <img src="img/luna.jpg" alt="Luna">
+                </div>
+                <h3>Luna</h3>
+                <p>Siempre llena de energía y lista para sus chequeos de rutina con la mejor sonrisa.</p>
+                <span class="mascota-badge">Ver Historia</span>
+            </div>
+
+            <div class="mascota-card-new">
+                <div class="mascota-avatar">
+                    <img src="img/max.jpg" alt="Max">
+                </div>
+                <h3>Max</h3>
+                <p>Un valiente paciente que ama las visitas y sus sesiones de cuidado médico.</p>
+                <span class="mascota-badge">Ver Historia</span>
+            </div>
+
+            <div class="mascota-card-new">
+                <div class="mascota-avatar">
+                    <img src="img/milo.jpg" alt="Milo">
+                </div>
+                <h3>Milo</h3>
+                <p>El rey del área de estética, siempre sale luciendo impecable y relajado.</p>
+                <span class="mascota-badge">Ver Historia</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>🐾 VetGroup7</h3>
+                <p>Cuidado profesional y humano para la salud y felicidad de tus mascotas.</p>
+            </div>
+
+            <div class="footer-col" id="contacto">
+                <h3>Información de contacto</h3>
+                <p>Santiago de los Caballeros, República Dominicana</p>
+                <p>(809) 767-3993</p>
+                <p>contacto@vetgroup7.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>¡Mantente Informado!</h3>
+                <p>Recibe consejos de salud y novedades veterinarias.</p>
+                <div class="newsletter-form-footer">
+                    <input type="email" placeholder="Tu correo electrónico">
+                    <button>Unirse</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
