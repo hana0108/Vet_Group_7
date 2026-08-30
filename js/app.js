@@ -52,6 +52,16 @@ function persistirCitas() {
     return true;
 }
 
+function agregarCita(cita) {
+    cita.id = citas.length + 1;
+
+    citas.push(cita);
+
+    persistirCitas();
+
+    return cita;
+}
+
 function obtenerMascotas() {
     return mascotas;
 }
@@ -61,3 +71,4 @@ cargarDatosIniciales();
 window.cargarDatosIniciales = cargarDatosIniciales;
 window.persistirCitas = persistirCitas;
 window.obtenerMascotas = obtenerMascotas;
+window.agregarCita = agregarCita;;

@@ -120,6 +120,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         formulario.prepend(mensajeExito);
 
+        const nuevaCita = {
+     dueño: nombre.value.trim(),
+     telefono: telefono.value.trim(),
+     correo: correo.value.trim(),
+     mascota: mascota.value.trim(),
+     tipo: tipo.value,
+     raza: raza.value.trim(),
+     edad: Number(edad.value),
+     servicio: servicio.value,
+     fecha: fecha.value,
+     hora: hora.value
+};
+
+agregarCita(nuevaCita);
+
         // Limpiar formulario
         formulario.reset();
     });
