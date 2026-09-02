@@ -333,3 +333,195 @@ window.renderGaleria = renderGaleria;
 window.abrirPreview = abrirPreview;
 window.cerrarPreview = cerrarPreview;
 window.buscarMascotas = buscarMascotas;
+
+// VALIDACIÓN DEL FORMULARIO
+// ===============================
+
+function esEmailValido(email) {
+    const expresion = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return expresion.test(email.trim());
+}
+
+function validarFormularioReserva(formData) {
+    const errores = [];
+
+    if (!formData.dueno || formData.dueno.trim().length < 3) {
+        errores.push({
+            campo: "dueno",
+            mensaje: "Escribe el nombre completo del propietario."
+        });
+    }
+
+    const telefonoLimpio = (formData.telefono || "")
+        .replace(/\D/g, "");
+
+    if (telefonoLimpio.length !== 10) {
+        errores.push({
+            campo: "telefono",
+            mensaje: "El teléfono debe contener 10 dígitos."
+        });
+    }
+
+    if (!esEmailValido(formData.correo || "")) {
+        errores.push({
+            campo: "correo",
+            mensaje: "Escribe un correo electrónico válido."
+        });
+    }
+
+    if (!formData.mascota || formData.mascota.trim().length < 2) {
+        errores.push({
+            campo: "mascota",
+            mensaje: "Escribe el nombre de la mascota."
+        });
+    }
+
+    if (!formData.tipo) {
+        errores.push({
+            campo: "tipo",
+            mensaje: "Selecciona el tipo de mascota."
+        });
+    }
+
+    if (!formData.servicio) {
+        errores.push({
+            campo: "servicio",
+            mensaje: "Selecciona el servicio requerido."
+        });
+    }
+
+    if (!formData.fecha) {
+        errores.push({
+            campo: "fecha",
+            mensaje: "Selecciona la fecha de la cita."
+        });
+    } else {
+        const fechaSeleccionada =
+            new Date(formData.fecha + "T00:00:00");
+
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+
+        if (fechaSeleccionada < hoy) {
+            errores.push({
+                campo: "fecha",
+                mensaje: "La fecha no puede ser anterior a hoy."
+            });
+        }
+    }
+
+    if (!formData.hora) {
+        errores.push({
+            campo: "hora",
+            mensaje: "Selecciona la hora de la cita."
+        });
+    }
+
+    return {
+        ok: errores.length === 0,
+        errores: errores
+    };
+}
+
+function mostrarErrores(form, errores) {
+    form.querySelectorAll(".error-campo").forEach(function (elemento) {
+        elemento.remove();
+    });
+
+    errores.forEach(function (error) {
+        const campo = form.elements[error.campo];
+
+        if (!campo) {
+            return;
+        }
+
+        const mensaje = document.createElement("small");
+
+        mensaje.className = "error-campo";
+        mensaje.textContent = error.mensaje;
+        mensaje.style.display = "block";
+        mensaje.style.color = "#c62828";
+        mensaje.style.marginTop = "6px";
+        mensaje.style.fontWeight = "600";
+
+        campo.insertAdjacentElement("afterend", mensaje);
+        campo.setAttribute("aria-invalid", "true");
+    });
+}
+
+function mostrarConfirmacion(form, resultado) {
+    const confirmacionAnterior =
+        form.querySelector(".confirmacion-reserva");
+
+    if (confirmacionAnterior) {
+        confirmacionAnterior.remove();
+    }
+
+    const confirmacion = document.createElement("div");
+
+    confirmacion.className = "confirmacion-reserva";
+    confirmacion.innerHTML = `
+        <strong>✅ Cita reservada correctamente</strong>
+        <p>
+            La cita para ${resultado.cita.mascota}
+            fue registrada para el ${resultado.cita.fecha}
+            a las ${resultado.cita.hora}.
+        </p>
+    `;
+
+    confirmacion.style.backgroundColor = "#e8f5e9";
+    confirmacion.style.color = "#1b5e20";
+    confirmacion.style.padding = "15px";
+    confirmacion.style.marginBottom = "20px";
+    confirmacion.style.borderRadius = "8px";
+
+    form.prepend(confirmacion);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario =
+        document.querySelector(".appointment-form");
+
+    if (!formulario) {
+        return;
+    }
+
+    formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+
+        formulario
+            .querySelectorAll("[aria-invalid]")
+            .forEach(function (campo) {
+                campo.removeAttribute("aria-invalid");
+            });
+
+        const datosFormulario =
+            Object.fromEntries(new FormData(formulario).entries());
+
+        const validacion =
+            validarFormularioReserva(datosFormulario);
+
+        mostrarErrores(formulario, validacion.errores);
+
+        if (!validacion.ok) {
+            return;
+        }
+
+        const resultado = reservarCita({
+            nombre: datosFormulario.dueno.trim(),
+            mascota: datosFormulario.mascota.trim(),
+            fecha: datosFormulario.fecha,
+            hora: datosFormulario.hora,
+            servicio: datosFormulario.servicio
+        });
+
+        if (resultado.ok) {
+            mostrarConfirmacion(formulario, resultado);
+            formulario.reset();
+        }
+    });
+});
+
+window.esEmailValido = esEmailValido;
+window.validarFormularioReserva = validarFormularioReserva;
+window.mostrarErrores = mostrarErrores;
