@@ -34,12 +34,35 @@ const mascotas = [
     },
     {
         id: 3,
+        nombre: "Luna",
+        edad: "2 años",
+        imagen: "img/luna.jpg",
+        raza: "Labrador mestiza",
+        tipo: "Perro",
+        estado: "Disponible",
+        descripcion: "Luna es sociable, activa y muy cariñosa."
+    
+    },
+    {
+        id: 4,
+        nombre: "Lady",
+        edad: "2.5 años",
+        imagen: "img/Lady.jpg",
+        raza: "Perra beagle",
+        tipo: "Perro",
+        estado: "En Proceso",
+        descripcion: 
+            "Lady es juguetona, enérgica y muy amigable. Le fascina olfatear rastros en el parque y pasear al aire libre.",
+        
+    },
+    {
+        id: 5,
         nombre: "Felipe",
         tipo: "Tortuga",
         raza: "Tortuga terrestre",
         edad: "1 año",
         imagen: "img/Felipe.jpg",
-        estado: "En Proceso",
+        estado: "Adoptado",
         descripcion:
             "Felipe es una tortuguita serena y paciente. Le encanta tomar el sol por las mañanas y moverse despacio a su propio ritmo."
     }
@@ -81,6 +104,34 @@ const usuarios = [
         correo: "usuario2@email.com"
     }
 ];
+
+function filterPorEstado(estado) {
+    if (estado === "todas") {
+        return mascotas;
+    }
+
+    return mascotas.filter(function (mascota) {
+        return mascota.estado
+            .toLowerCase()
+            .includes(estado.toLowerCase());
+    });
+}
+
+function filterPorRaza(raza) {
+
+    if (raza === "todas") {
+        return mascotas;
+    }
+
+    return mascotas.filter(function (mascota) {
+        return mascota.raza
+            .toLowerCase()
+            .includes(raza.toLowerCase());
+    });
+
+}
+
+
 
 // ===============================
 // CARGAR CITAS
@@ -286,40 +337,146 @@ function buscarMascotas(termino) {
 cargarDatosIniciales();
 
 document.addEventListener("DOMContentLoaded", function () {
+
     const contenedor =
         document.getElementById("galeriaMascotas");
 
     const buscador =
         document.getElementById("buscadorMascotas");
 
-    if (contenedor) {
-        renderGaleria(contenedor, mascotas);
-    }
+    const botonesFiltro =
+        document.querySelectorAll(".btn-filtro");
 
-    if (buscador && contenedor) {
-        buscador.addEventListener("input", function () {
-            const resultados =
-                buscarMascotas(buscador.value);
+    const filtroRaza =
+        document.getElementById("filtroRaza");
 
-            renderGaleria(
-                contenedor,
-                resultados
-            );
+    let estadoSeleccionado = "todas";
+    let razaSeleccionada = "todas";
+
+
+    function aplicarFiltros() {
+
+        // Filtrar por estado
+        const porEstado =
+            filterPorEstado(estadoSeleccionado);
+
+        // Filtrar por raza
+        const porRaza =
+            filterPorRaza(razaSeleccionada);
+
+        // Combinar ambos resultados
+        let resultados = porEstado.filter(function (mascota) {
+            return porRaza.includes(mascota);
         });
+
+
+        // Aplicar búsqueda
+        if (buscador) {
+
+            const texto =
+                buscador.value
+                    .toLowerCase()
+                    .trim();
+
+            if (texto !== "") {
+
+                resultados = resultados.filter(function (mascota) {
+
+                    return (
+                        mascota.nombre.toLowerCase().includes(texto) ||
+                        mascota.tipo.toLowerCase().includes(texto) ||
+                        mascota.raza.toLowerCase().includes(texto) ||
+                        mascota.estado.toLowerCase().includes(texto)
+                    );
+
+                });
+
+            }
+
+        }
+
+
+        // Actualizar la galería
+        renderGaleria(
+            contenedor,
+            resultados
+        );
+
     }
 
+
+    // Mostrar todas al iniciar
+    if (contenedor) {
+        renderGaleria(
+            contenedor,
+            mascotas
+        );
+    }
+
+
+    // FILTRO POR ESTADO
+    botonesFiltro.forEach(function (boton) {
+
+        boton.addEventListener("click", function () {
+
+            estadoSeleccionado =
+                boton.dataset.filtro.toLowerCase();
+
+            botonesFiltro.forEach(function (btn) {
+                btn.classList.remove("activo");
+            });
+
+            boton.classList.add("activo");
+
+            aplicarFiltros();
+
+        });
+
+    });
+
+
+    // FILTRO POR RAZA
+    if (filtroRaza) {
+
+        filtroRaza.addEventListener("change", function () {
+
+            razaSeleccionada =
+                filtroRaza.value.toLowerCase();
+
+            aplicarFiltros();
+
+        });
+
+    }
+
+
+    // BUSCADOR
+    if (buscador) {
+
+        buscador.addEventListener("input", function () {
+            aplicarFiltros();
+        });
+
+    }
+
+
+    // MODAL
     const modal =
         document.getElementById("modalMascota");
 
     if (modal) {
+
         modal.addEventListener("click", function (evento) {
+
             if (evento.target === modal) {
                 cerrarPreview();
             }
-        });
-    }
-});
 
+        });
+
+    }
+
+});
 // ===============================
 // FUNCIONES GLOBALES
 // ===============================
@@ -333,6 +490,8 @@ window.renderGaleria = renderGaleria;
 window.abrirPreview = abrirPreview;
 window.cerrarPreview = cerrarPreview;
 window.buscarMascotas = buscarMascotas;
+window.filterPorEstado = filterPorEstado;
+window.filterPorRaza = filterPorRaza;
 
 // VALIDACIÓN DEL FORMULARIO
 // ===============================

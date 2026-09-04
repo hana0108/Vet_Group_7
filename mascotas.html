@@ -2,24 +2,24 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Mascotas en Adopción | VetGroup7</title>
 
-    <link rel="stylesheet"
-          href="mascotas.css?v=5.0">
-
+    <link
+        rel="stylesheet"
+        href="mascotas.css?v=5.0"
+    >
 </head>
 
 <body>
 
-
     <!-- ENCABEZADO -->
-
     <header>
 
         <div class="logo">
@@ -27,7 +27,6 @@
         </div>
 
         <nav>
-
             <a href="Presentación_de_la_veterinaria.html">
                 Inicio
             </a>
@@ -44,19 +43,22 @@
                 Citas
             </a>
 
-            <a href="mascotas.html"
-               class="activo">
+            <a
+                href="mascotas.html"
+                class="activo"
+            >
                 Mascotas
             </a>
 
             <a href="#contacto">
                 Contacto
             </a>
-
         </nav>
 
-        <a href="Citas.html"
-           class="btn-reserva">
+        <a
+            href="Citas.html"
+            class="btn-reserva"
+        >
             Reservar cita
         </a>
 
@@ -64,7 +66,6 @@
 
 
     <!-- CONTENIDO PRINCIPAL -->
-
     <main class="seccion-mascotas">
 
         <div class="titulo-seccion">
@@ -81,8 +82,56 @@
         </div>
 
 
-        <!-- BUSCADOR DINÁMICO -->
+    <!-- FILTROS -->
+    <section class="filtros-mascotas">
 
+        <div class="filtro-raza">
+
+            <label for="filtroRaza">Raza:</label>
+
+            <select id="filtroRaza">
+                <option value="todas">Todas</option>
+                <option value="pug">Pug</option>
+                <option value="labrador">Labrador</option>
+                <option value="beagle">Beagle</option>
+                <option value="conejo doméstico">Conejo doméstico</option>
+                <option value="tortuga terrestre">Tortuga terrestre</option>
+            </select>
+
+        </div>
+
+            <button
+                class="btn-filtro activo"
+                data-filtro="todas"
+            >
+                Todas
+            </button>
+
+            <button
+                class="btn-filtro"
+                data-filtro="disponible"
+            >
+                Disponibles
+            </button>
+
+            <button
+                class="btn-filtro"
+                data-filtro="proceso"
+            >
+                En proceso
+            </button>
+
+            <button
+                class="btn-filtro"
+                data-filtro="adoptado"
+            >
+                Adoptados
+            </button>
+
+        </section>
+
+
+        <!-- BUSCADOR DINÁMICO -->
         <section class="seccion-buscador">
 
             <label for="buscadorMascotas">
@@ -93,24 +142,23 @@
                 type="search"
                 id="buscadorMascotas"
                 placeholder="Buscar por nombre, tipo, raza o estado..."
-                autocomplete="off">
+                autocomplete="off"
+            >
 
         </section>
 
 
         <!-- GALERÍA GENERADA POR JAVASCRIPT -->
-
         <div
             class="lista-mascotas"
-            id="galeriaMascotas">
+            id="galeriaMascotas"
+        >
         </div>
-
 
     </main>
 
 
     <!-- PIE DE PÁGINA -->
-
     <footer>
 
         <div class="footer-content">
@@ -131,7 +179,8 @@
 
             <div
                 class="footer-col"
-                id="contacto">
+                id="contacto"
+            >
 
                 <h3>
                     Información de Contacto
@@ -168,10 +217,10 @@
 
 
     <!-- MODAL -->
-
     <div
         id="modalMascota"
-        class="modal-mascota">
+        class="modal-mascota"
+    >
 
         <div class="modal-contenido">
 
@@ -179,14 +228,16 @@
                 type="button"
                 class="cerrar-modal"
                 onclick="cerrarPreview()"
-                aria-label="Cerrar">
+                aria-label="Cerrar"
+            >
                 ×
             </button>
 
             <img
                 id="modalImagen"
                 src=""
-                alt="Mascota">
+                alt="Mascota"
+            >
 
             <h2 id="modalNombre"></h2>
 
@@ -212,9 +263,9 @@
     </div>
 
 
-    <!-- JAVASCRIPT EXTERNO -->
-
+    <!-- JAVASCRIPT GENERAL DEL PROYECTO -->
     <script src="js/app.js"></script>
+
 
 </body>
 
