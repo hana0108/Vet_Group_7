@@ -41,7 +41,6 @@ const mascotas = [
         tipo: "Perro",
         estado: "Disponible",
         descripcion: "Luna es sociable, activa y muy cariñosa."
-    
     },
     {
         id: 4,
@@ -51,9 +50,8 @@ const mascotas = [
         raza: "Perra beagle",
         tipo: "Perro",
         estado: "En Proceso",
-        descripcion: 
-            "Lady es juguetona, enérgica y muy amigable. Le fascina olfatear rastros en el parque y pasear al aire libre.",
-        
+        descripcion:
+            "Lady es juguetona, enérgica y muy amigable. Le fascina olfatear rastros en el parque y pasear al aire libre."
     },
     {
         id: 5,
@@ -105,6 +103,10 @@ const usuarios = [
     }
 ];
 
+// ===============================
+// FILTROS
+// ===============================
+
 function filterPorEstado(estado) {
     if (estado === "todas") {
         return mascotas;
@@ -118,7 +120,6 @@ function filterPorEstado(estado) {
 }
 
 function filterPorRaza(raza) {
-
     if (raza === "todas") {
         return mascotas;
     }
@@ -128,10 +129,7 @@ function filterPorRaza(raza) {
             .toLowerCase()
             .includes(raza.toLowerCase());
     });
-
 }
-
-
 
 // ===============================
 // CARGAR CITAS
@@ -162,9 +160,7 @@ function persistirCitas() {
 
 function agregarCita(cita) {
     cita.id = citas.length + 1;
-
     citas.push(cita);
-
     persistirCitas();
 
     return cita;
@@ -176,6 +172,28 @@ function agregarCita(cita) {
 
 function obtenerMascotas() {
     return mascotas;
+}
+
+// ===============================
+// INTEGRANTE 5
+// CREAR BOTÓN DINÁMICO
+// ===============================
+
+function crearBoton(texto, clases, handler, ariaLabel = "") {
+    const boton = document.createElement("button");
+
+    boton.type = "button";
+    boton.textContent = texto;
+    boton.className = clases;
+
+    boton.setAttribute(
+        "aria-label",
+        ariaLabel || texto
+    );
+
+    boton.addEventListener("click", handler);
+
+    return boton;
 }
 
 // ===============================
@@ -205,7 +223,6 @@ function renderGaleria(contenedor, lista) {
 
         tarjeta.innerHTML = `
             <div class="contenedor-img">
-
                 <div class="corona-badge ${claseEstado}">
                     <span>🐾</span>
                 </div>
@@ -214,11 +231,9 @@ function renderGaleria(contenedor, lista) {
                     src="${mascota.imagen}"
                     alt="${mascota.nombre}"
                 >
-
             </div>
 
             <div class="info-mascota">
-
                 <span class="badge-tag ${claseEstado}">
                     ${mascota.estado}
                 </span>
@@ -230,7 +245,6 @@ function renderGaleria(contenedor, lista) {
                 </p>
 
                 <div class="detalles-grid">
-
                     <div class="detalle-item">
                         <strong>Edad:</strong>
                         ${mascota.edad}
@@ -240,19 +254,23 @@ function renderGaleria(contenedor, lista) {
                         <strong>Raza:</strong>
                         ${mascota.raza}
                     </div>
-
                 </div>
-
-                <button
-                    type="button"
-                    class="btn-mas-info"
-                    onclick="abrirPreview(${mascota.id})"
-                >
-                    Más información
-                </button>
-
             </div>
         `;
+
+        const infoMascota =
+            tarjeta.querySelector(".info-mascota");
+
+        const botonMasInfo = crearBoton(
+            "Más información",
+            "btn-mas-info",
+            function () {
+                abrirPreview(mascota.id);
+            },
+            `Ver más información sobre ${mascota.nombre}`
+        );
+
+        infoMascota.appendChild(botonMasInfo);
 
         contenedor.appendChild(tarjeta);
     });
@@ -274,6 +292,10 @@ function abrirPreview(mascotaId) {
     }
 
     const modal = document.getElementById("modalMascota");
+
+    if (!modal) {
+        return;
+    }
 
     document.getElementById("modalNombre").textContent =
         mascota.nombre;
@@ -331,13 +353,56 @@ function buscarMascotas(termino) {
 }
 
 // ===============================
+// INTEGRANTE 5
+// HANDLERS DESCRIPTIVOS
+// ===============================
+
+function handleCerrarModal() {
+    cerrarPreview();
+}
+
+function handleClickFondoModal(evento) {
+    const modal = evento.currentTarget;
+
+    if (evento.target === modal) {
+        cerrarPreview();
+    }
+}
+
+// ===============================
+// INTEGRANTE 5
+// ASIGNAR HANDLERS
+// ===============================
+function attachHandlers() {
+
+    const btnCerrarModal =
+        document.getElementById("btnCerrarModal");
+
+    const modal =
+        document.getElementById("modalMascota");
+
+    if (btnCerrarModal) {
+        btnCerrarModal.addEventListener(
+            "click",
+            handleCerrarModal
+        );
+    }
+
+    if (modal) {
+        modal.addEventListener(
+            "click",
+            handleClickFondoModal
+        );
+    }
+}
+
+// ===============================
 // INICIALIZACIÓN
 // ===============================
 
 cargarDatosIniciales();
 
 document.addEventListener("DOMContentLoaded", function () {
-
     const contenedor =
         document.getElementById("galeriaMascotas");
 
@@ -353,59 +418,43 @@ document.addEventListener("DOMContentLoaded", function () {
     let estadoSeleccionado = "todas";
     let razaSeleccionada = "todas";
 
-
     function aplicarFiltros() {
-
-        // Filtrar por estado
         const porEstado =
             filterPorEstado(estadoSeleccionado);
 
-        // Filtrar por raza
         const porRaza =
             filterPorRaza(razaSeleccionada);
 
-        // Combinar ambos resultados
-        let resultados = porEstado.filter(function (mascota) {
-            return porRaza.includes(mascota);
-        });
+        let resultados =
+            porEstado.filter(function (mascota) {
+                return porRaza.includes(mascota);
+            });
 
-
-        // Aplicar búsqueda
         if (buscador) {
-
             const texto =
                 buscador.value
                     .toLowerCase()
                     .trim();
 
             if (texto !== "") {
-
-                resultados = resultados.filter(function (mascota) {
-
-                    return (
-                        mascota.nombre.toLowerCase().includes(texto) ||
-                        mascota.tipo.toLowerCase().includes(texto) ||
-                        mascota.raza.toLowerCase().includes(texto) ||
-                        mascota.estado.toLowerCase().includes(texto)
-                    );
-
-                });
-
+                resultados =
+                    resultados.filter(function (mascota) {
+                        return (
+                            mascota.nombre.toLowerCase().includes(texto) ||
+                            mascota.tipo.toLowerCase().includes(texto) ||
+                            mascota.raza.toLowerCase().includes(texto) ||
+                            mascota.estado.toLowerCase().includes(texto)
+                        );
+                    });
             }
-
         }
 
-
-        // Actualizar la galería
         renderGaleria(
             contenedor,
             resultados
         );
-
     }
 
-
-    // Mostrar todas al iniciar
     if (contenedor) {
         renderGaleria(
             contenedor,
@@ -413,12 +462,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     }
 
-
     // FILTRO POR ESTADO
     botonesFiltro.forEach(function (boton) {
-
         boton.addEventListener("click", function () {
-
             estadoSeleccionado =
                 boton.dataset.filtro.toLowerCase();
 
@@ -429,54 +475,29 @@ document.addEventListener("DOMContentLoaded", function () {
             boton.classList.add("activo");
 
             aplicarFiltros();
-
         });
-
     });
-
 
     // FILTRO POR RAZA
     if (filtroRaza) {
-
         filtroRaza.addEventListener("change", function () {
-
             razaSeleccionada =
                 filtroRaza.value.toLowerCase();
 
             aplicarFiltros();
-
         });
-
     }
-
 
     // BUSCADOR
     if (buscador) {
-
         buscador.addEventListener("input", function () {
             aplicarFiltros();
         });
-
     }
 
-
-    // MODAL
-    const modal =
-        document.getElementById("modalMascota");
-
-    if (modal) {
-
-        modal.addEventListener("click", function (evento) {
-
-            if (evento.target === modal) {
-                cerrarPreview();
-            }
-
-        });
-
-    }
-
+    attachHandlers();
 });
+
 // ===============================
 // FUNCIONES GLOBALES
 // ===============================
@@ -485,19 +506,22 @@ window.cargarDatosIniciales = cargarDatosIniciales;
 window.persistirCitas = persistirCitas;
 window.obtenerMascotas = obtenerMascotas;
 window.agregarCita = agregarCita;
-
 window.renderGaleria = renderGaleria;
 window.abrirPreview = abrirPreview;
 window.cerrarPreview = cerrarPreview;
 window.buscarMascotas = buscarMascotas;
 window.filterPorEstado = filterPorEstado;
 window.filterPorRaza = filterPorRaza;
+window.crearBoton = crearBoton;
+window.attachHandlers = attachHandlers;
 
+// ===============================
 // VALIDACIÓN DEL FORMULARIO
 // ===============================
 
 function esEmailValido(email) {
     const expresion = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     return expresion.test(email.trim());
 }
 
@@ -511,8 +535,9 @@ function validarFormularioReserva(formData) {
         });
     }
 
-    const telefonoLimpio = (formData.telefono || "")
-        .replace(/\D/g, "");
+    const telefonoLimpio =
+        (formData.telefono || "")
+            .replace(/\D/g, "");
 
     if (telefonoLimpio.length !== 10) {
         errores.push({
@@ -559,6 +584,7 @@ function validarFormularioReserva(formData) {
             new Date(formData.fecha + "T00:00:00");
 
         const hoy = new Date();
+
         hoy.setHours(0, 0, 0, 0);
 
         if (fechaSeleccionada < hoy) {
@@ -583,28 +609,42 @@ function validarFormularioReserva(formData) {
 }
 
 function mostrarErrores(form, errores) {
-    form.querySelectorAll(".error-campo").forEach(function (elemento) {
-        elemento.remove();
-    });
+    form.querySelectorAll(".error-campo")
+        .forEach(function (elemento) {
+            elemento.remove();
+        });
 
     errores.forEach(function (error) {
-        const campo = form.elements[error.campo];
+        const campo =
+            form.elements[error.campo];
 
         if (!campo) {
             return;
         }
 
-        const mensaje = document.createElement("small");
+        const mensaje =
+            document.createElement("small");
 
-        mensaje.className = "error-campo";
-        mensaje.textContent = error.mensaje;
+        mensaje.className =
+            "error-campo";
+
+        mensaje.textContent =
+            error.mensaje;
+
         mensaje.style.display = "block";
         mensaje.style.color = "#c62828";
         mensaje.style.marginTop = "6px";
         mensaje.style.fontWeight = "600";
 
-        campo.insertAdjacentElement("afterend", mensaje);
-        campo.setAttribute("aria-invalid", "true");
+        campo.insertAdjacentElement(
+            "afterend",
+            mensaje
+        );
+
+        campo.setAttribute(
+            "aria-invalid",
+            "true"
+        );
     });
 }
 
@@ -616,11 +656,15 @@ function mostrarConfirmacion(form, resultado) {
         confirmacionAnterior.remove();
     }
 
-    const confirmacion = document.createElement("div");
+    const confirmacion =
+        document.createElement("div");
 
-    confirmacion.className = "confirmacion-reserva";
+    confirmacion.className =
+        "confirmacion-reserva";
+
     confirmacion.innerHTML = `
         <strong>✅ Cita reservada correctamente</strong>
+
         <p>
             La cita para ${resultado.cita.mascota}
             fue registrada para el ${resultado.cita.fecha}
@@ -628,11 +672,20 @@ function mostrarConfirmacion(form, resultado) {
         </p>
     `;
 
-    confirmacion.style.backgroundColor = "#e8f5e9";
-    confirmacion.style.color = "#1b5e20";
-    confirmacion.style.padding = "15px";
-    confirmacion.style.marginBottom = "20px";
-    confirmacion.style.borderRadius = "8px";
+    confirmacion.style.backgroundColor =
+        "#e8f5e9";
+
+    confirmacion.style.color =
+        "#1b5e20";
+
+    confirmacion.style.padding =
+        "15px";
+
+    confirmacion.style.marginBottom =
+        "20px";
+
+    confirmacion.style.borderRadius =
+        "8px";
 
     form.prepend(confirmacion);
 }
@@ -655,12 +708,17 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         const datosFormulario =
-            Object.fromEntries(new FormData(formulario).entries());
+            Object.fromEntries(
+                new FormData(formulario).entries()
+            );
 
         const validacion =
             validarFormularioReserva(datosFormulario);
 
-        mostrarErrores(formulario, validacion.errores);
+        mostrarErrores(
+            formulario,
+            validacion.errores
+        );
 
         if (!validacion.ok) {
             return;
@@ -675,7 +733,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (resultado.ok) {
-            mostrarConfirmacion(formulario, resultado);
+            mostrarConfirmacion(
+                formulario,
+                resultado
+            );
+
             formulario.reset();
         }
     });

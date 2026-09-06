@@ -79,34 +79,47 @@ function editarCita(id, datos) {
 // Mostrar las citas en la página
 function mostrarCitas() {
 
-    let lista = document.getElementById("listaCitas");
+    const lista = document.getElementById("listaCitas");
 
-    if (!lista) return;
+    if (!lista) {
+        return;
+    }
 
-    let citas = listarCitas();
+    const citas = listarCitas();
 
     lista.innerHTML = "";
 
-    citas.forEach(cita => {
+    citas.forEach(function (cita) {
 
-        lista.innerHTML += `
-            <div class="cita">
-                <h3>${cita.mascota}</h3>
+        const tarjeta = document.createElement("div");
+        tarjeta.className = "cita";
 
-                <p><strong>Cliente:</strong> ${cita.nombre}</p>
-                <p><strong>Fecha:</strong> ${cita.fecha}</p>
-                <p><strong>Hora:</strong> ${cita.hora}</p>
-                <p><strong>Servicio:</strong> ${cita.servicio}</p>
-                <p><strong>Estado:</strong> ${cita.estado}</p>
+        tarjeta.innerHTML = `
+            <h3>${cita.mascota}</h3>
 
-                <button onclick="cancelarCita(${cita.id})">
-                    Cancelar
-                </button>
-            </div>
+            <p><strong>Cliente:</strong> ${cita.nombre}</p>
+            <p><strong>Fecha:</strong> ${cita.fecha}</p>
+            <p><strong>Hora:</strong> ${cita.hora}</p>
+            <p><strong>Servicio:</strong> ${cita.servicio}</p>
+            <p><strong>Estado:</strong> ${cita.estado}</p>
         `;
+
+        const botonCancelar = crearBoton(
+            "Cancelar",
+            "btn-cancelar",
+            function () {
+                cancelarCita(cita.id);
+            },
+            `Cancelar cita de ${cita.mascota}`
+        );
+
+        tarjeta.appendChild(botonCancelar);
+        lista.appendChild(tarjeta);
     });
 }
 
 
+
 // Cargar las citas al abrir la página
 document.addEventListener("DOMContentLoaded", mostrarCitas);
+

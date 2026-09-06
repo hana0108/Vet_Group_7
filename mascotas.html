@@ -89,7 +89,7 @@
 
             <label for="filtroRaza">Raza:</label>
 
-            <select id="filtroRaza">
+        <select id="filtroRaza">
                 <option value="todas">Todas</option>
                 <option value="pug">Pug</option>
                 <option value="labrador">Labrador</option>
@@ -100,14 +100,16 @@
 
         </div>
 
-            <button
-                class="btn-filtro activo"
-                data-filtro="todas"
-            >
-                Todas
-            </button>
+        <button
+            type="button"
+            class="btn-filtro activo"
+            data-filtro="todas"
+        >
+            Todas
+        </button>
 
             <button
+                type="button"
                 class="btn-filtro"
                 data-filtro="disponible"
             >
@@ -115,6 +117,7 @@
             </button>
 
             <button
+                type="button"
                 class="btn-filtro"
                 data-filtro="proceso"
             >
@@ -122,13 +125,14 @@
             </button>
 
             <button
+                type="button"
                 class="btn-filtro"
                 data-filtro="adoptado"
             >
                 Adoptados
             </button>
 
-        </section>
+    </section>
 
 
         <!-- BUSCADOR DINÁMICO -->
@@ -224,14 +228,14 @@
 
         <div class="modal-contenido">
 
-            <button
-                type="button"
-                class="cerrar-modal"
-                onclick="cerrarPreview()"
-                aria-label="Cerrar"
-            >
-                ×
-            </button>
+        <button
+            type="button"
+            class="cerrar-modal"
+            id="btnCerrarModal"
+            aria-label="Cerrar vista de mascota"
+        >
+            ×
+        </button>
 
             <img
                 id="modalImagen"
