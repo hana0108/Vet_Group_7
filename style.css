@@ -385,3 +385,498 @@ body {
         width: 100%;
     }
 }
+
+/* ==========================================
+   MASCOTAS
+   Estilos exclusivos de mascotas.html
+   ========================================== */
+
+.pagina-mascotas {
+    --color-oscuro: #5dc1b9;
+    --color-claro: #9ce0db;
+    --color-texto: #1F2937;
+
+    background-color: #F6F4EE;
+    color: var(--color-texto);
+}
+
+
+/* ==========================================
+   ENCABEZADO DE MASCOTAS
+   ========================================== */
+
+.pagina-mascotas header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.pagina-mascotas .logo {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--color-texto);
+}
+
+.pagina-mascotas nav {
+    display: flex;
+    gap: 20px;
+}
+
+.pagina-mascotas nav a {
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.pagina-mascotas nav a.activo,
+.pagina-mascotas nav a:hover {
+    color: var(--color-oscuro);
+}
+
+.pagina-mascotas .btn-reserva {
+    background-color: var(--color-oscuro);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   SECCIÓN DE MASCOTAS
+   ========================================== */
+
+.seccion-mascotas {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.titulo-seccion {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.titulo-seccion h2 {
+    font-size: 2.2em;
+    margin-bottom: 8px;
+}
+
+.titulo-seccion p {
+    color: #6B7280;
+}
+
+.lista-mascotas {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.tarjeta-mascota {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background-color: transparent;
+    padding: 10px;
+}
+
+
+/* ==========================================
+   IMAGEN DE MASCOTA
+   ========================================== */
+
+.contenedor-img {
+    position: relative;
+    width: 320px;
+    min-height: 320px;
+    flex-shrink: 0;
+    background-color: var(--color-blanco);
+    border-radius: 32px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-img img {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 16px;
+}
+
+.corona-badge {
+    position: absolute;
+    top: -12px;
+    right: 25px;
+    z-index: 3;
+    width: 55px;
+    height: 55px;
+    background: var(--color-blanco);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(93, 193, 185, 0.25);
+    border: 2px solid var(--color-claro);
+    transform: rotate(10deg);
+}
+
+.corona-badge svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--color-oscuro);
+}
+
+.corona-badge.proceso {
+    border-color: #ffe0b2;
+}
+
+.corona-badge.proceso svg {
+    fill: #e65100;
+}
+
+
+/* ==========================================
+   INFORMACIÓN DE MASCOTA
+   ========================================== */
+
+.info-mascota {
+    flex: 1;
+    max-width: 600px;
+}
+
+.badge-tag {
+    display: inline-block;
+    background-color: var(--color-blanco);
+    color: var(--color-oscuro);
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.badge-tag.proceso {
+    color: #e65100;
+}
+
+.info-mascota h2 {
+    font-size: 2.2em;
+    color: var(--color-texto);
+    margin-bottom: 10px;
+}
+
+.info-mascota .descripcion {
+    font-size: 1.05em;
+    color: #4B5563;
+    margin-bottom: 20px;
+}
+
+.detalles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.detalle-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95em;
+    color: var(--color-texto);
+}
+
+.check {
+    width: 22px;
+    height: 22px;
+    background-color: var(--color-oscuro);
+    color: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+
+/* ==========================================
+   BOTÓN MÁS INFORMACIÓN
+   ========================================== */
+
+.btn-mas-info {
+    display: inline-block;
+    background-color: var(--color-oscuro);
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-mas-info:hover {
+    opacity: 0.9;
+}
+
+
+/* ==========================================
+   ACCESIBILIDAD
+   ========================================== */
+
+.btn-mas-info:focus-visible,
+.btn-filtro:focus-visible,
+.cerrar-modal:focus-visible {
+    outline: 3px solid var(--color-oscuro);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   FILTROS DE MASCOTAS
+   ========================================== */
+
+.filtros-mascotas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.filtro-raza {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 18px;
+}
+
+.filtro-raza label {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.filtro-raza select {
+    width: auto;
+    min-width: 140px;
+    padding: 9px 12px;
+    border: 2px solid var(--color-claro);
+    border-radius: 12px;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    font-family: inherit;
+    font-size: 0.9em;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filtro-raza select:hover,
+.filtro-raza select:focus {
+    border-color: var(--color-oscuro);
+}
+
+.filtro-raza select:focus {
+    box-shadow: 0 0 0 3px rgba(93, 193, 185, 0.12);
+}
+
+.btn-filtro {
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    border: 2px solid var(--color-claro);
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-filtro:hover,
+.btn-filtro.activo {
+    background-color: var(--color-oscuro);
+    color: var(--color-blanco);
+    border-color: var(--color-oscuro);
+}
+
+
+/* ==========================================
+   BUSCADOR DE MASCOTAS
+   ========================================== */
+
+.seccion-buscador {
+    max-width: 700px;
+    margin: 0 auto 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.seccion-buscador label {
+    font-size: 0.95em;
+    font-weight: 700;
+    color: var(--color-texto);
+}
+
+.seccion-buscador input {
+    width: 100%;
+    padding: 13px 18px;
+    border: 2px solid var(--color-claro);
+    border-radius: 16px;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    font-family: inherit;
+    font-size: 0.95em;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.seccion-buscador input::placeholder {
+    color: #9CA3AF;
+}
+
+.seccion-buscador input:focus {
+    border-color: var(--color-oscuro);
+    box-shadow: 0 0 0 4px rgba(93, 193, 185, 0.15);
+}
+
+
+/* ==========================================
+   MODAL DE MASCOTAS
+   ========================================== */
+
+.modal-mascota {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-mascota.modal-visible {
+    display: flex;
+}
+
+.modal-contenido {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    padding: 25px;
+    position: relative;
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-contenido img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.modal-contenido h2 {
+    margin-bottom: 10px;
+}
+
+.modal-contenido p {
+    margin: 10px 0;
+}
+
+
+/* ==========================================
+   FOOTER DE MASCOTAS
+   ========================================== */
+
+.pagina-mascotas footer {
+    background-color: var(--color-claro);
+    padding: 40px 8% 20px;
+    margin-top: 60px;
+}
+
+.pagina-mascotas .footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+}
+
+.pagina-mascotas .footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 20px;
+    font-size: 0.9em;
+}
+
+
+/* ==========================================
+   RESPONSIVE MASCOTAS
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .tarjeta-mascota {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contenedor-img {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .detalles-grid {
+        justify-content: center;
+        text-align: left;
+    }
+
+    .filtros-mascotas {
+        gap: 8px;
+    }
+
+    .filtro-raza {
+        margin-right: 0;
+    }
+
+    .filtro-raza select {
+        min-width: 130px;
+    }
+
+    .btn-filtro {
+        padding: 9px 16px;
+        font-size: 0.9em;
+    }
+}
