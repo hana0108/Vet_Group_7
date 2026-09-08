@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetGroup7 - Cuidados de Mascotas</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -83,6 +84,23 @@
       padding: 0 20px;
     }
 
+    .titulo-cuidados {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .titulo-cuidados h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #1a202c;
+    }
+
+    .titulo-cuidados p {
+      color: #718096;
+      font-size: 1rem;
+    }
+
     .infographic-card {
       background-color: #ffffff;
       border-radius: 16px;
@@ -96,7 +114,7 @@
       margin-bottom: 35px;
     }
 
-    .info-header h1 {
+    .info-header h2 {
       font-size: 2.2rem;
       letter-spacing: 0.5px;
       font-weight: 800;
@@ -242,84 +260,120 @@
     }
 
     @media (max-width: 850px) {
-      .navbar, footer {
+      .navbar,
+      footer {
         padding: 20px;
       }
+
       .navbar {
         flex-direction: column;
         gap: 15px;
       }
+
       .nav-links {
         margin: 0;
         flex-wrap: wrap;
         justify-content: center;
         gap: 15px;
       }
+
       .info-grid {
         flex-direction: column;
       }
+
       .center-image {
         order: -1;
         width: 100%;
       }
+
       .column {
         padding: 0 10px;
         width: 100%;
       }
-      .left-col .card-box, .right-col .card-box {
+
+      .left-col .card-box,
+      .right-col .card-box {
         padding-left: 62px;
         padding-right: 18px;
       }
-      .left-col .icon-decor, .right-col .icon-decor {
+
+      .left-col .icon-decor,
+      .right-col .icon-decor {
         left: -18px;
         right: auto;
       }
-      .left-col .icon-grande, .right-col .icon-grande {
+
+      .left-col .icon-grande,
+      .right-col .icon-grande {
         left: -35px;
         right: auto;
       }
     }
   </style>
 </head>
+
 <body>
 
   <nav class="navbar">
     <div class="brand">
-      <span class="brand-icon">🐾</span> VetGroup7
+      <span class="brand-icon">🐾</span>
+      VetGroup7
     </div>
+
     <ul class="nav-links">
       <li><a href="Presentación_de_la_veterinaria.html">Inicio</a></li>
       <li><a href="servicios.html">Servicios</a></li>
       <li><a href="mascotas.html">Mascotas</a></li>
-      <li><a href="Citas.html">Contacto</a></li>
+      <li><a href="citas.html">Contacto</a></li>
     </ul>
-    <a href="Citas.html" class="btn-cita">Reservar cita</a>
+
+    <a href="citas.html" class="btn-cita">Reservar cita</a>
   </nav>
 
   <main>
 
+    <section class="titulo-cuidados">
+      <h1>Cuidados de Mascotas</h1>
+      <p>
+        Guías prácticas para el bienestar y cuidado responsable de tus mascotas.
+      </p>
+    </section>
+
     <article class="infographic-card" id="perro">
       <div class="info-header">
-        <h1 style="color: #9ee0d8;">Cachorro nuevo en casa</h1>
+        <h2 style="color: #9ee0d8;">Cachorro nuevo en casa</h2>
         <p>Te invitamos a ser un tutor responsable y considerar lo siguiente</p>
       </div>
+
       <div class="info-grid">
+
         <div class="column left-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/correa-de-perro.png" alt="Correa" class="icon-decor">
             <h3 style="color: #1a202c;">Correa y placa</h3>
-            <p style="color: #1a202c;">La correa debe ser cómoda y resistente, de 1 a 3 metros es lo recomendable. La placa con su nombre y datos del tutor.</p>
+            <p style="color: #1a202c;">
+              La correa debe ser cómoda y resistente, de 1 a 3 metros es lo recomendable.
+              La placa con su nombre y datos del tutor.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/juguete-para-perros.png" alt="Juguetes" class="icon-decor">
             <h3 style="color: #1a202c;">Juguetes</h3>
-            <p style="color: #1a202c;">De plástico lavable. Debe tener varios para que no muerda cosas.</p>
+            <p style="color: #1a202c;">
+              De plástico lavable. Debe tener varios para que no muerda cosas.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/cepillo-de-pelo.png" alt="Cepillo" class="icon-decor">
             <h3 style="color: #1a202c;">Cepillo</h3>
-            <p style="color: #1a202c;">Cepillado diario para un pelo brillante.</p>
+            <p style="color: #1a202c;">
+              Cepillado diario para un pelo brillante.
+            </p>
           </div>
+
         </div>
 
         <div class="center-image">
@@ -327,52 +381,74 @@
         </div>
 
         <div class="column right-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/cama.png" alt="Cama" class="icon-decor">
             <h3 style="color: #1a202c;">Cama y casa</h3>
             <p style="color: #1a202c;">Cómoda y grande.</p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/collar-de-perro.png" alt="Collar" class="icon-decor">
             <h3 style="color: #1a202c;">Collar</h3>
             <p style="color: #1a202c;">Resistente y adecuado.</p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/plato-de-perro.png" alt="Plato" class="icon-decor">
             <h3 style="color: #1a202c;">Platos</h3>
-            <p style="color: #1a202c;">Para agua y alimento. Son mejores de cerámica o metal.</p>
+            <p style="color: #1a202c;">
+              Para agua y alimento. Son mejores de cerámica o metal.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Perro/alimentos-para-mascotas.png" alt="Alimentación" class="icon-decor">
             <h3 style="color: #1a202c;">Alimentación</h3>
-            <p style="color: #1a202c;">Balanceada y nutritiva para que crezca sano y fuerte.</p>
+            <p style="color: #1a202c;">
+              Balanceada y nutritiva para que crezca sano y fuerte.
+            </p>
           </div>
+
         </div>
+
       </div>
     </article>
 
     <article class="infographic-card" id="conejo">
       <div class="info-header">
-        <h1 style="color: #9ee0d8;">Conejo nuevo en casa</h1>
+        <h2 style="color: #9ee0d8;">Conejo nuevo en casa</h2>
         <p>Guía rápida de cuidados esenciales</p>
       </div>
+
       <div class="info-grid">
+
         <div class="column left-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/heno.png" alt="Heno" class="icon-decor">
             <h3 style="color: #1a202c;">Heno ilimitado</h3>
-            <p style="color: #1a202c;">Es el 80% de su dieta. Indispensable para su digestión.</p>
+            <p style="color: #1a202c;">
+              Es el 80% de su dieta. Indispensable para su digestión.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/sustrato.png" alt="Sustrato" class="icon-decor">
             <h3 style="color: #1a202c;">Esquinero</h3>
-            <p style="color: #1a202c;">Bandeja con sustrato vegetal para sus necesidades.</p>
+            <p style="color: #1a202c;">
+              Bandeja con sustrato vegetal para sus necesidades.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/cepillo-para-mascotas.png" alt="Cepillo" class="icon-decor">
             <h3 style="color: #1a202c;">Cepillado</h3>
-            <p style="color: #1a202c;">Retirar pelo muerto para evitar bolas de pelo digestivas.</p>
+            <p style="color: #1a202c;">
+              Retirar pelo muerto para evitar bolas de pelo digestivas.
+            </p>
           </div>
+
         </div>
 
         <div class="center-image">
@@ -380,47 +456,70 @@
         </div>
 
         <div class="column right-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/verduras.png" alt="Verduras" class="icon-decor">
             <h3 style="color: #1a202c;">Verduras frescas</h3>
-            <p style="color: #1a202c;">Hojas verdes oscuras variadas todos los días.</p>
+            <p style="color: #1a202c;">
+              Hojas verdes oscuras variadas todos los días.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/dispensador-de-agua.png" alt="Agua" class="icon-decor">
             <h3 style="color: #1a202c;">Bebedero</h3>
-            <p style="color: #1a202c;">Agua fresca libre disponible en bebedero de tazón pesado.</p>
+            <p style="color: #1a202c;">
+              Agua fresca libre disponible en bebedero de tazón pesado.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Conejo/usb.png" alt="Cuidados" class="icon-decor">
             <h3 style="color: #1a202c;">Espacio seguro</h3>
-            <p style="color: #1a202c;">Protege cables eléctricos y plantas de sus mordidas.</p>
+            <p style="color: #1a202c;">
+              Protege cables eléctricos y plantas de sus mordidas.
+            </p>
           </div>
+
         </div>
+
       </div>
     </article>
 
     <article class="infographic-card" id="tortuga">
       <div class="info-header">
-        <h1 style="color: #9ee0d8;">Tortuga en casa</h1>
+        <h2 style="color: #9ee0d8;">Tortuga en casa</h2>
         <p>Cuidados básicos para un hábitat saludable</p>
       </div>
+
       <div class="info-grid">
+
         <div class="column left-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/Acuaterrario.png" alt="Acuaterrario" class="icon-decor icon-grande">
             <h3 style="color: #1a202c;">Acuaterrario</h3>
-            <p style="color: #1a202c;">Zona de agua limpia para nadar y zona seca para descansar.</p>
+            <p style="color: #1a202c;">
+              Zona de agua limpia para nadar y zona seca para descansar.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/ultravioleta.png" alt="Luz UV" class="icon-decor">
             <h3 style="color: #1a202c;">Luz uv/uvb</h3>
-            <p style="color: #1a202c;">Indispensable para fijar el calcio en su caparazón.</p>
+            <p style="color: #1a202c;">
+              Indispensable para fijar el calcio en su caparazón.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/filtro-de-agua.png" alt="Filtro" class="icon-decor">
             <h3 style="color: #1a202c;">Filtro de agua</h3>
-            <p style="color: #1a202c;">Mantiene el agua limpia y libre de bacterias dañinas.</p>
+            <p style="color: #1a202c;">
+              Mantiene el agua limpia y libre de bacterias dañinas.
+            </p>
           </div>
+
         </div>
 
         <div class="center-image">
@@ -428,47 +527,70 @@
         </div>
 
         <div class="column right-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/calentador-de-agua.png" alt="Calentador" class="icon-decor">
             <h3 style="color: #1a202c;">Calentador</h3>
-            <p style="color: #1a202c;">Mantener la temperatura del agua óptima según la especie.</p>
+            <p style="color: #1a202c;">
+              Mantener la temperatura del agua óptima según la especie.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/lechuga.png" alt="Alimentación" class="icon-decor">
             <h3 style="color: #1a202c;">Alimentación</h3>
-            <p style="color: #1a202c;">Pienso especial, peces pequeños y vegetales frescos.</p>
+            <p style="color: #1a202c;">
+              Pienso especial, peces pequeños y vegetales frescos.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Tortuga/luz-de-sol.png" alt="Sol Directo" class="icon-decor">
             <h3 style="color: #1a202c;">Sol directo</h3>
-            <p style="color: #1a202c;">Tomar sol directamente sin cristales fortalece su caparazón.</p>
+            <p style="color: #1a202c;">
+              Tomar sol directamente sin cristales fortalece su caparazón.
+            </p>
           </div>
+
         </div>
+
       </div>
     </article>
 
     <article class="infographic-card" id="cotorra">
       <div class="info-header">
-        <h1 style="color: #9ee0d8;">Cotorra en casa</h1>
+        <h2 style="color: #9ee0d8;">Cotorra en casa</h2>
         <p>Cuidados para un ave feliz y saludable</p>
       </div>
+
       <div class="info-grid">
+
         <div class="column left-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/jaula-de-pajaros.png" alt="Jaula" class="icon-decor">
             <h3 style="color: #1a202c;">Jaula amplia</h3>
-            <p style="color: #1a202c;">Espacio amplio donde pueda abrir las alas libremente.</p>
+            <p style="color: #1a202c;">
+              Espacio amplio donde pueda abrir las alas libremente.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/tronco.png" alt="Perchas" class="icon-decor">
             <h3 style="color: #1a202c;">Juguetes y perchas</h3>
-            <p style="color: #1a202c;">Perchas de madera natural y juguetes para ejercitar el pico.</p>
+            <p style="color: #1a202c;">
+              Perchas de madera natural y juguetes para ejercitar el pico.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/frutas-secas.png" alt="Frutas" class="icon-decor">
             <h3 style="color: #1a202c;">Dieta variada</h3>
-            <p style="color: #1a202c;">Pienso extrusado, frutas y verduras frescas variadas.</p>
+            <p style="color: #1a202c;">
+              Pienso extrusado, frutas y verduras frescas variadas.
+            </p>
           </div>
+
         </div>
 
         <div class="center-image">
@@ -476,22 +598,33 @@
         </div>
 
         <div class="column right-col">
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/escoba.png" alt="Higiene" class="icon-decor">
             <h3 style="color: #1a202c;">Higiene</h3>
-            <p style="color: #1a202c;">Limpieza constante de la base y receptores de comida.</p>
+            <p style="color: #1a202c;">
+              Limpieza constante de la base y receptores de comida.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/rociador-de-agua.png" alt="Rociador" class="icon-decor">
             <h3 style="color: #1a202c;">Baño diario</h3>
-            <p style="color: #1a202c;">Rociador suave con agua o recipiente poco profundo.</p>
+            <p style="color: #1a202c;">
+              Rociador suave con agua o recipiente poco profundo.
+            </p>
           </div>
+
           <div class="card-box" style="background-color: #9ee0d8;">
             <img src="img/Pajaro/tiempo-interactivo.png" alt="Interacción" class="icon-decor icon-grande">
             <h3 style="color: #1a202c;">Tiempo interactivo</h3>
-            <p style="color: #1a202c;">Horas de vuelo fuera de la jaula en una zona segura.</p>
+            <p style="color: #1a202c;">
+              Horas de vuelo fuera de la jaula en una zona segura.
+            </p>
           </div>
+
         </div>
+
       </div>
     </article>
 
@@ -499,19 +632,27 @@
 
   <footer>
     <div class="footer-content">
+
       <div class="footer-brand">
         <div class="brand">
-          <span class="brand-icon">🐾</span> VetGroup7
+          <span class="brand-icon">🐾</span>
+          VetGroup7
         </div>
-        <p>Cuidado profesional y humano para la salud y felicidad de tus mascotas.</p>
+
+        <p>
+          Cuidado profesional y humano para la salud y felicidad de tus mascotas.
+        </p>
       </div>
+
       <div class="footer-info">
         <h4>Información de contacto</h4>
         <p>Santiago de los Caballeros, República Dominicana</p>
         <p>(809) 767-3993</p>
         <p>contacto@vetgroup7.com</p>
       </div>
+
     </div>
+
     <div class="footer-bottom">
       © 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.
     </div>
