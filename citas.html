@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="js/auth-guard.js"></script>
     <script src="js/app.js" defer></script>
     <script src="validacion.js" defer></script>
 </head>
@@ -21,22 +22,24 @@
     </div>
 
     <nav class="main-nav">
-      <a href="Presentación_de_la_veterinaria.html">Inicio</a> 
+      <a href="presentacion.html">Inicio</a> 
       <a href="servicios.html">Servicios</a>
+      <a href="cuidados.html">Cuidados</a>
       <a href="mascotas.html">Mascotas</a>
-      <a href="Citas.html" class="active">Citas</a>
+      <a href="citas.html" class="active">Citas</a>
+      <a href="presentacion.html#contacto">Contacto</a>
     </nav>
 
-    <a href="Citas.html" class="btn-header">Agendar cita</a>
+    <a href="citas.html" class="btn-header">Agendar cita</a>
   </header>
 
   <main class="servicios-main">
     <section class="form-container">
       <div class="form-header">
-        <h2>Formulario de citas</h2>
+        <h1>Formulario de citas</h1>
       </div>
 
-      <form class="appointment-form">
+      <form class="appointment-form" novalidate>
         
         <div class="form-section-title">
           <h3>Datos del propietario</h3>
@@ -151,7 +154,8 @@
       <p>Vet Group 7 — Proyecto académico</p>
     </div>
   </footer>
-
-
+<script src="js/app.js"></script>
+<script src="administración de citas.js"></script>
 </body>
 </html>
+
