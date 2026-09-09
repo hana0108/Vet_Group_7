@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VetGroup7 | Clínica Veterinaria</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .pagina-presentacion .hero-text span {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body class="pagina-presentacion">
+    <header>
+      <div class="logo">🐾 VetGroup7</div>
+      <nav>
+        <a href="presentacion.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="cuidados.html">Cuidados</a>
+        <a href="mascotas.html">Mascotas</a>
+        <a href="Citas.html">Citas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a href="Citas.html" class="btn-reserva">Reservar cita</a>
+      <a href="login.html" class="btn-logout" onclick="cerrarSesion()"
+        >Cerrar sesión</a
+      >
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-text">
+          <h1>Mascotas felices, <span>corazones</span> felices.</h1>
+          <p>
+            Cuidado integral, compasivo y profesional para todos los miembros de
+            tu familia en VetGroup7.
+          </p>
+          <a href="servicios.html" class="btn-explorar">Nuestros Servicios ➔</a>
+        </div>
+        <div class="hero-image-container">
+          <img
+            src="img/veterinarios.jpg"
+            alt="Veterinarios de VetGroup7"
+            class="hero-img"
+          />
+        </div>
+      </section>
+
+      <h2 class="section-title" id="servicios">¿Cómo ayudamos a tu mascota?</h2>
+      <p class="section-subtitle">
+        Ofrecemos atenciones veterinarias adaptadas a cada necesidad
+      </p>
+
+      <div class="servicios-container">
+        <div class="servicio-card">
+          <div class="servicio-icon-bg">
+            <img src="img/consulta icono.jpeg" alt="Consulta" />
+          </div>
+          <h3>Consulta general</h3>
+          <p>Revisiones exhaustivas para una vida saludable.</p>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon-bg">
+            <img src="img/vacuna icono.jpeg" alt="Vacunación" />
+          </div>
+          <h3>Vacunación</h3>
+          <p>Inmunización y prevención de enfermedades.</p>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon-bg">
+            <img src="img/cirugia icono.jpeg" alt="Cirugía" />
+          </div>
+          <h3>Cirugía</h3>
+          <p>Procedimientos quirúrgicos seguros y especializados.</p>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon-bg">
+            <img src="img/desparacitacion icono.jpeg" alt="Desparasitación" />
+          </div>
+          <h3>Desparasitación</h3>
+          <p>Control integral contra parásitos externos e internos.</p>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon-bg">
+            <img src="img/estetica icono.jpeg" alt="Estética" />
+          </div>
+          <h3>Estética</h3>
+          <p>Cuidado, baño y belleza para tus compañeros.</p>
+        </div>
+      </div>
+
+      <div class="horarios-banner">
+        <div class="horarios-card-full">
+          <div class="horarios-info">
+            <h3>Horarios de Atención</h3>
+            <p>
+              Visítanos dentro de nuestros horarios de consulta o programa tu
+              cita previamente.
+            </p>
+          </div>
+          <table class="info-table-full">
+            <thead>
+              <tr>
+                <th>Días de la semana</th>
+                <th style="text-align: right">Horario de consulta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lunes a Viernes</td>
+                <td>8:00 AM - 7:00 PM</td>
+              </tr>
+              <tr>
+                <td>Sábados</td>
+                <td>9:00 AM - 2:00 PM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <section class="mascotas-section" id="galeria">
+        <h2 class="section-title">Nuestros pacientes estrella</h2>
+        <p class="section-subtitle">
+          Conoce a algunas de las hermosas mascotas que nos visitan cada día.
+        </p>
+
+        <div class="mascotas-grid">
+          <div class="mascota-card-new">
+            <div class="mascota-avatar">
+              <img src="img/luna.jpg" alt="Luna" />
+            </div>
+            <h3>Luna</h3>
+            <p>
+              Siempre llena de energía y lista para sus chequeos de rutina con
+              la mejor sonrisa.
+            </p>
+            <span class="mascota-badge">Ver Historia</span>
+          </div>
+
+          <div class="mascota-card-new">
+            <div class="mascota-avatar">
+              <img src="img/max.jpg" alt="Max" />
+            </div>
+            <h3>Max</h3>
+            <p>
+              Un valiente paciente que ama las visitas y sus sesiones de cuidado
+              médico.
+            </p>
+            <span class="mascota-badge">Ver Historia</span>
+          </div>
+
+          <div class="mascota-card-new">
+            <div class="mascota-avatar">
+              <img src="img/milo.jpg" alt="Milo" />
+            </div>
+            <h3>Milo</h3>
+            <p>
+              El rey del área de estética, siempre sale luciendo impecable y
+              relajado.
+            </p>
+            <span class="mascota-badge">Ver Historia</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h3>🐾 VetGroup7</h3>
+          <p>
+            Cuidado profesional y humano para la salud y felicidad de tus
+            mascotas.
+          </p>
+        </div>
+
+        <div class="footer-col" id="contacto">
+          <h3>Información de contacto</h3>
+          <p>Santiago de los Caballeros, República Dominicana</p>
+          <p>(809) 767-3993</p>
+          <p>contacto@vetgroup7.com</p>
+        </div>
+
+        <div class="footer-col">
+          <h3>¡Mantente Informado!</h3>
+          <p>Recibe consejos de salud y novedades veterinarias.</p>
+          <div class="newsletter-form-footer">
+            <input type="email" placeholder="Tu correo electrónico" />
+            <button>Unirse</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          © 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

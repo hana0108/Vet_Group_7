@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetGroup7 - Registro</title>
+    <link rel="stylesheet" href="login_style.css">
+    <script src="data.js"></script>
+    <script src="login.js" defer></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="brand-logo">
+            <span class="logo-icon">🐾</span> VetGroup7
+        </div>
+        <nav class="top-nav">
+            <a href="presentacion.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="cuidados.html">Cuidados</a>
+            <a href="mascotas.html">Mascotas</a>
+            <a href="citas.html">Citas</a>
+            <a href="presentacion.html#contacto">Contacto</a>
+            <a href="citas.html" class="btn-reservar">Reservar cita</a>
+            
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <div class="card">
+            
+            <div class="left-panel">
+                <img class="panel-bg-img" src="img/img_login.jpeg" alt="Mascotas VetGroup7">
+
+                <div class="banner-text">
+                    <h2>Bienvenido a<br><span>VetGroup7</span></h2>
+                    <p>¡Para la mejor experiencia con tus mascotas!</p>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="form-container">
+                    <h3>Registrarse</h3>
+
+                    <form id="authForm" data-mode="register" action="#" method="POST" novalidate>
+                        <div class="form-group">
+                            <input id="contacto" name="contacto" type="text" placeholder="Correo o Teléfono" autocomplete="username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="campoNombre" name="nombre" type="text" placeholder="Nombre completo" autocomplete="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="campoPassword" name="password" type="password" placeholder="Contraseña" autocomplete="new-password" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary">
+                            ¡Empezemos!
+                        </button>
+                    </form>
+
+                    <div class="divider">
+                        <span>¿Tienes pereza?</span>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="btn-social btn-facebook">
+                            <span class="social-icon">f</span> Facebook
+                        </button>
+                        <button type="button" class="btn-social btn-google">
+                            <span class="social-icon">G</span> Google
+                        </button>
+                    </div>
+
+                    <p class="signup-text">
+                        ¿Ya tienes una cuenta? <a href="login.html">Iniciar Sesión</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

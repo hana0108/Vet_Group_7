@@ -1,276 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Mascotas en Adopción | VetGroup7</title>
 
-    <link
-        rel="stylesheet" 
-        href="style.css"
-    >
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body class="pagina-mascotas">
-
+  <body class="pagina-mascotas">
     <!-- ENCABEZADO -->
     <header>
+      <div class="logo">🐾 VetGroup7</div>
 
-        <div class="logo">
-            🐾 VetGroup7
-        </div>
+      <nav>
+        <a href="presentacion.html"> Inicio </a>
 
-        <nav>
-            <a href="Presentación_de_la_veterinaria.html">
-                Inicio
-            </a>
+        <a href="servicios.html"> Servicios </a>
 
-            <a href="servicios.html">
-                Servicios
-            </a>
+        <a href="cuidados.html"> Cuidados </a>
 
-            <a href="cuidados.html">
-                Cuidados
-            </a>
+        <a href="Citas.html"> Citas </a>
 
-            <a href="Citas.html">
-                Citas
-            </a>
+        <a href="mascotas.html" class="activo"> Mascotas </a>
 
-            <a
-                href="mascotas.html"
-                class="activo"
-            >
-                Mascotas
-            </a>
+        <a href="#contacto"> Contacto </a>
+      </nav>
 
-            <a href="#contacto">
-                Contacto
-            </a>
-        </nav>
-
-        <a
-            href="Citas.html"
-            class="btn-reserva"
-        >
-            Reservar cita
-        </a>
-
+      <a href="Citas.html" class="btn-reserva"> Reservar cita </a>
     </header>
-
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="seccion-mascotas">
+      <div class="titulo-seccion">
+        <h1>Nuestras Mascotas en Adopción</h1>
 
-        <div class="titulo-seccion">
+        <p>
+          Conoce a los integrantes de nuestra familia que buscan un hogar lleno
+          de cariño.
+        </p>
+      </div>
 
-            <h1>
-                Nuestras Mascotas en Adopción
-            </h1>
-
-            <p>
-                Conoce a los integrantes de nuestra familia
-                que buscan un hogar lleno de cariño.
-            </p>
-
-        </div>
-
-
-    <!-- FILTROS -->
-    <section class="filtros-mascotas">
-
+      <!-- FILTROS -->
+      <section class="filtros-mascotas">
         <div class="filtro-raza">
+          <label for="filtroRaza">Raza:</label>
 
-            <label for="filtroRaza">Raza:</label>
-
-        <select id="filtroRaza">
-                <option value="todas">Todas</option>
-                <option value="pug">Pug</option>
-                <option value="labrador">Labrador</option>
-                <option value="beagle">Beagle</option>
-                <option value="conejo doméstico">Conejo doméstico</option>
-                <option value="tortuga terrestre">Tortuga terrestre</option>
-            </select>
-
+          <select id="filtroRaza">
+            <option value="todas">Todas</option>
+            <option value="pug">Pug</option>
+            <option value="labrador">Labrador</option>
+            <option value="beagle">Beagle</option>
+            <option value="conejo doméstico">Conejo doméstico</option>
+            <option value="tortuga terrestre">Tortuga terrestre</option>
+          </select>
         </div>
 
-        <button
-            type="button"
-            class="btn-filtro activo"
-            data-filtro="todas"
-        >
-            Todas
+        <button type="button" class="btn-filtro activo" data-filtro="todas">
+          Todas
         </button>
 
-            <button
-                type="button"
-                class="btn-filtro"
-                data-filtro="disponible"
-            >
-                Disponibles
-            </button>
+        <button type="button" class="btn-filtro" data-filtro="disponible">
+          Disponibles
+        </button>
 
-            <button
-                type="button"
-                class="btn-filtro"
-                data-filtro="proceso"
-            >
-                En proceso
-            </button>
+        <button type="button" class="btn-filtro" data-filtro="proceso">
+          En proceso
+        </button>
 
-            <button
-                type="button"
-                class="btn-filtro"
-                data-filtro="adoptado"
-            >
-                Adoptados
-            </button>
+        <button type="button" class="btn-filtro" data-filtro="adoptado">
+          Adoptados
+        </button>
+      </section>
 
-    </section>
+      <!-- BUSCADOR DINÁMICO -->
+      <section class="seccion-buscador">
+        <label for="buscadorMascotas"> Buscar mascota </label>
 
+        <input
+          type="search"
+          id="buscadorMascotas"
+          placeholder="Buscar por nombre, tipo, raza o estado..."
+          autocomplete="off"
+        />
+      </section>
 
-        <!-- BUSCADOR DINÁMICO -->
-        <section class="seccion-buscador">
-
-            <label for="buscadorMascotas">
-                Buscar mascota
-            </label>
-
-            <input
-                type="search"
-                id="buscadorMascotas"
-                placeholder="Buscar por nombre, tipo, raza o estado..."
-                autocomplete="off"
-            >
-
-        </section>
-
-
-        <!-- GALERÍA GENERADA POR JAVASCRIPT -->
-        <div
-            class="lista-mascotas"
-            id="galeriaMascotas"
-        >
-        </div>
-
+      <!-- GALERÍA GENERADA POR JAVASCRIPT -->
+      <div class="lista-mascotas" id="galeriaMascotas"></div>
     </main>
-
 
     <!-- PIE DE PÁGINA -->
     <footer>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h3>🐾 VetGroup7</h3>
 
-        <div class="footer-content">
-
-            <div class="footer-col">
-
-                <h3>
-                    🐾 VetGroup7
-                </h3>
-
-                <p>
-                    Cuidado profesional y humano para
-                    la salud y felicidad de tus mascotas.
-                </p>
-
-            </div>
-
-
-            <div
-                class="footer-col"
-                id="contacto"
-            >
-
-                <h3>
-                    Información de Contacto
-                </h3>
-
-                <p>
-                    Santiago de los Caballeros,
-                    República Dominicana
-                </p>
-
-                <p>
-                    (809) 767-3993
-                </p>
-
-                <p>
-                    contacto@vetgroup7.com
-                </p>
-
-            </div>
-
+          <p>
+            Cuidado profesional y humano para la salud y felicidad de tus
+            mascotas.
+          </p>
         </div>
 
+        <div class="footer-col" id="contacto">
+          <h3>Información de Contacto</h3>
 
-        <div class="footer-bottom">
+          <p>Santiago de los Caballeros, República Dominicana</p>
 
-            <p>
-                © 2026 VetGroup7 - Clínica Veterinaria.
-                Todos los derechos reservados.
-            </p>
+          <p>(809) 767-3993</p>
 
+          <p>contacto@vetgroup7.com</p>
         </div>
+      </div>
 
+      <div class="footer-bottom">
+        <p>
+          © 2026 VetGroup7 - Clínica Veterinaria. Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
 
-
     <!-- MODAL -->
-    <div
-        id="modalMascota"
-        class="modal-mascota"
-    >
-
-        <div class="modal-contenido">
-
+    <div id="modalMascota" class="modal-mascota">
+      <div class="modal-contenido">
         <button
-            type="button"
-            class="cerrar-modal"
-            id="btnCerrarModal"
-            aria-label="Cerrar vista de mascota"
+          type="button"
+          class="cerrar-modal"
+          id="btnCerrarModal"
+          aria-label="Cerrar vista de mascota"
         >
-            ×
+          ×
         </button>
 
-            <img
-                id="modalImagen"
-                src=""
-                alt="Mascota"
-            >
+        <img id="modalImagen" src="" alt="Mascota" />
 
-            <h2 id="modalNombre"></h2>
+        <h2 id="modalNombre"></h2>
 
-            <p id="modalDescripcion"></p>
+        <p id="modalDescripcion"></p>
 
-            <p>
-                <strong>Edad:</strong>
-                <span id="modalEdad"></span>
-            </p>
+        <p>
+          <strong>Edad:</strong>
+          <span id="modalEdad"></span>
+        </p>
 
-            <p>
-                <strong>Raza:</strong>
-                <span id="modalRaza"></span>
-            </p>
+        <p>
+          <strong>Raza:</strong>
+          <span id="modalRaza"></span>
+        </p>
 
-            <p>
-                <strong>Estado:</strong>
-                <span id="modalEstado"></span>
-            </p>
-
-        </div>
-
+        <p>
+          <strong>Estado:</strong>
+          <span id="modalEstado"></span>
+        </p>
+      </div>
     </div>
-
 
     <!-- JAVASCRIPT GENERAL DEL PROYECTO -->
     <script src="js/app.js"></script>
-
-
-</body>
-
+  </body>
 </html>

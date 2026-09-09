@@ -90,16 +90,16 @@ let citas = [
 // DATOS DE LOS USUARIOS
 // ===============================
 
-const usuarios = [
-    {
-        id: 1,
-        nombre: "Usuario 1",
-        correo: "usuario1@email.com"
+window.usuariosPrueba = [
+        {
+        correo: "usuario1@email.com",
+        password: "VetGroup7!",
+        nombre: "Usuario 1"
     },
     {
-        id: 2,
-        nombre: "Usuario 2",
-        correo: "usuario2@email.com"
+        correo: "usuario2@email.com",
+        password: "Mascotas2026!",
+        nombre: "Usuario 2"
     }
 ];
 
