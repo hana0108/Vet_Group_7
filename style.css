@@ -880,3 +880,308 @@ body {
         font-size: 0.9em;
     }
 }
+/* ==========================================
+   CUIDADOS
+   Estilos exclusivos de cuidados.html
+   ========================================== */
+
+.pagina-cuidados {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f6f2;
+    color: #1f2937;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.pagina-cuidados .navbar {
+    background-color: #f7f6f2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+}
+
+.pagina-cuidados .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.pagina-cuidados .brand-icon {
+    color: #4a5568;
+}
+
+.pagina-cuidados .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    list-style: none;
+    margin: 0 auto;
+}
+
+.pagina-cuidados .nav-links a {
+    text-decoration: none;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.pagina-cuidados .nav-links a.active {
+    color: #5bbab1;
+}
+
+.pagina-cuidados .btn-cita {
+    background-color: #5bbab1;
+    color: #ffffff !important;
+    padding: 10px 22px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.pagina-cuidados .btn-cita:hover {
+    background-color: #48a59c;
+}
+
+.pagina-cuidados main {
+    flex: 1;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.pagina-cuidados .titulo-cuidados {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.pagina-cuidados .titulo-cuidados h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #1a202c;
+}
+
+.pagina-cuidados .titulo-cuidados p {
+    color: #718096;
+    font-size: 1rem;
+}
+
+.pagina-cuidados .infographic-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 40px 30px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.pagina-cuidados .info-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.pagina-cuidados .info-header h2 {
+    font-size: 2.2rem;
+    letter-spacing: 0.5px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #9ee0d8;
+}
+
+.pagina-cuidados .info-header p {
+    color: #718096;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.pagina-cuidados .info-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pagina-cuidados .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 0 15px;
+}
+
+.pagina-cuidados .center-image {
+    flex: 0 0 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagina-cuidados .center-image img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+}
+
+.pagina-cuidados .card-box {
+    position: relative;
+    padding: 14px 18px;
+    border-radius: 12px;
+    overflow: visible;
+    background-color: #9ee0d8;
+}
+
+.pagina-cuidados .card-box h3 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    color: #1a202c;
+}
+
+.pagina-cuidados .card-box p {
+    font-size: 0.82rem;
+    line-height: 1.35;
+    opacity: 0.95;
+    color: #1a202c;
+}
+
+.pagina-cuidados .icon-decor {
+    position: absolute;
+    width: 56px !important;
+    height: 56px !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: fill;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.pagina-cuidados .icon-grande {
+    width: 90px !important;
+    height: 90px !important;
+}
+
+.pagina-cuidados .left-col .card-box {
+    padding-left: 62px;
+}
+
+.pagina-cuidados .left-col .icon-decor {
+    left: -22px;
+}
+
+.pagina-cuidados .left-col .icon-grande {
+    left: -38px;
+}
+
+.pagina-cuidados .right-col .card-box {
+    padding-right: 62px;
+}
+
+.pagina-cuidados .right-col .icon-decor {
+    right: -22px;
+}
+
+.pagina-cuidados .right-col .icon-grande {
+    right: -38px;
+}
+
+.pagina-cuidados footer {
+    background-color: #9ee0d8;
+    color: #1a202c;
+    padding: 40px 80px 20px;
+    margin-top: auto;
+}
+
+.pagina-cuidados .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 30px;
+}
+
+.pagina-cuidados .footer-brand p {
+    font-size: 0.9rem;
+    color: #2d3748;
+    margin-top: 6px;
+}
+
+.pagina-cuidados .footer-info h4 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #1a202c;
+}
+
+.pagina-cuidados .footer-info p {
+    font-size: 0.9rem;
+    color: #2d3748;
+    line-height: 1.5;
+}
+
+.pagina-cuidados .footer-bottom {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 15px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #2d3748;
+}
+
+@media (max-width: 850px) {
+
+    .pagina-cuidados .navbar,
+    .pagina-cuidados footer {
+        padding: 20px;
+    }
+
+    .pagina-cuidados .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .pagina-cuidados .nav-links {
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .pagina-cuidados .info-grid {
+        flex-direction: column;
+    }
+
+    .pagina-cuidados .center-image {
+        order: -1;
+        width: 100%;
+    }
+
+    .pagina-cuidados .column {
+        padding: 0 10px;
+        width: 100%;
+    }
+
+    .pagina-cuidados .left-col .card-box,
+    .pagina-cuidados .right-col .card-box {
+        padding-left: 62px;
+        padding-right: 18px;
+    }
+
+    .pagina-cuidados .left-col .icon-decor,
+    .pagina-cuidados .right-col .icon-decor {
+        left: -18px;
+        right: auto;
+    }
+
+    .pagina-cuidados .left-col .icon-grande,
+    .pagina-cuidados .right-col .icon-grande {
+        left: -35px;
+        right: auto;
+    }
+}
