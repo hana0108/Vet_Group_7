@@ -2,6 +2,7 @@
 
     try {
 
+        // Verificar si el usuario tiene una sesión válida
         const respuesta = await fetch(
             'http://localhost:3000/api/auth/me',
             {
@@ -10,26 +11,32 @@
             }
         );
 
+        // Si no está autenticado, enviar al login
         if (!respuesta.ok) {
             window.location.replace('login.html');
             return;
         }
 
+        // Obtener información del usuario
         const usuario = await respuesta.json();
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // Función para configurar la información del usuario
+        // y el botón de cerrar sesión
+        const inicializarUsuario = () => {
 
             const nombreUsuario =
-                document.getElementById('nombreUsuario');
+                document.getElementById('usuarioActual');
 
             const btnLogout =
                 document.getElementById('btnLogout');
 
+            // Mostrar nombre del usuario
             if (nombreUsuario) {
                 nombreUsuario.textContent =
                     `Hola, ${usuario.nombre}`;
             }
 
+            // Configurar cierre de sesión
             if (btnLogout) {
 
                 btnLogout.addEventListener('click', async () => {
@@ -61,7 +68,22 @@
 
             }
 
-        });
+        };
+
+        // Si el documento todavía está cargando,
+        // esperar a que termine de cargar.
+        if (document.readyState === 'loading') {
+
+            document.addEventListener(
+                'DOMContentLoaded',
+                inicializarUsuario
+            );
+
+        } else {
+
+            inicializarUsuario();
+
+        }
 
     } catch (error) {
 
@@ -70,7 +92,10 @@
             error
         );
 
+        // Si ocurre un error al verificar la sesión,
+        // enviar al usuario al login.
         window.location.replace('login.html');
+
     }
 
 })();
