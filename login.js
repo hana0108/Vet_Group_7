@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             window.setTimeout(() => {
-                window.location.href = 'citas.html';
+                window.location.href = 'dashboard.html';
             }, 1500);
         }
     );

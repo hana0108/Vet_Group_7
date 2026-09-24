@@ -19,6 +19,9 @@ app.use(session({
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
+const mascotasRoutes = require('./routes/mascotas');
+app.use('/api/mascotas', mascotasRoutes);
+
 app.get('/api/health', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT 1 + 1 AS resultado');

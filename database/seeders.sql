@@ -5,9 +5,9 @@
 USE vetgroup7_db;
 
 INSERT INTO usuarios (nombre, email, password, rol) VALUES
-('Ana Perez', 'ana@example.com', '$2b$10$hashDeEjemploUsuario1', 'cliente'),
-('Dr. Luis Gomez', 'luis@example.com', '$2b$10$hashDeEjemploUsuario2', 'veterinario'),
-('Administrador VetGroup7', 'admin@vetgroup7.com', '$2b$10$hashDeEjemploAdmin', 'admin');
+('Ana Perez', 'ana@example.com', '$2b$10$cKDfAdJM1Fc18p6u/lXZh.3FkRdI4i5t60o/XoY44YO4HSnmfjr/m', 'cliente'),
+('Dr. Luis Gomez', 'luis@example.com', '$2b$10$cKDfAdJM1Fc18p6u/lXZh.3FkRdI4i5t60o/XoY44YO4HSnmfjr/m', 'veterinario'),
+('Administrador VetGroup7', 'admin@vetgroup7.com', '$2b$10$cKDfAdJM1Fc18p6u/lXZh.3FkRdI4i5t60o/XoY44YO4HSnmfjr/m', 'admin');
 
 INSERT INTO mascotas
 (usuario_id, nombre, especie, raza, fecha_nacimiento) VALUES

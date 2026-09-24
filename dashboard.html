@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Vet Group 7</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+
+        <div class="logo">
+            <span class="logo-icon">🐾</span>
+            <span>Vet Group 7</span>
+        </div>
+
+        <nav class="main-nav">
+            <a href="presentacion.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="cuidados.html">Cuidados</a>
+            <a href="mascotas.html">Mascotas</a>
+            <a href="citas.html">Citas</a>
+        </nav>
+
+        <div class="usuario-header">
+            <span id="usuarioActual">Cargando...</span>
+
+            <button
+                id="btnLogout"
+                type="button"
+                class="btn-header"
+            >
+                Cerrar sesión
+            </button>
+        </div>
+
+    </header>
+
+    <main class="servicios-main">
+
+        <section class="form-container">
+
+            <div class="form-header">
+                <h1>Mis mascotas</h1>
+
+                <p>
+                    Administra las mascotas registradas en tu cuenta.
+                </p>
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- FORMULARIO DE MASCOTAS -->
+            <!-- ========================= -->
+
+            <section>
+
+                <h2>Registrar mascota</h2>
+
+                <form id="formCrearMascota">
+
+                    <input
+                        type="hidden"
+                        id="mascotaId"
+                        name="mascotaId"
+                    >
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="nombre">
+                                Nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="especie">
+                                Especie
+                            </label>
+
+                            <input
+                                type="text"
+                                id="especie"
+                                name="especie"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="raza">
+                                Raza
+                            </label>
+
+                            <input
+                                type="text"
+                                id="raza"
+                                name="raza"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="fecha_nacimiento">
+                                Fecha de nacimiento
+                            </label>
+
+                            <input
+                                type="date"
+                                id="fecha_nacimiento"
+                                name="fecha_nacimiento"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="btn-submit"
+                            id="btnGuardarMascota"
+                        >
+                            Agregar mascota
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ========================= -->
+            <!-- TABLA DE MASCOTAS -->
+            <!-- ========================= -->
+
+            <section>
+
+                <h2>Mascotas registradas</h2>
+
+                <table id="tablaMascotas">
+
+                    <thead>
+
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especie</th>
+                            <th>Raza</th>
+                            <th>Fecha de nacimiento</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>

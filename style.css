@@ -586,7 +586,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 2px solid var(--color-footer);
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
@@ -1601,4 +1601,148 @@ body {
         left: -35px;
         right: auto;
     }
+}
+/* ========================================
+   DASHBOARD - MASCOTAS
+======================================== */
+
+#tablaMascotas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#tablaMascotas th,
+#tablaMascotas td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+#tablaMascotas th {
+    font-weight: 700;
+    color: #243447;
+    background-color: #f7fafa;
+}
+
+#tablaMascotas tbody tr:hover {
+    background-color: #f5fbfb;
+}
+
+#tablaMascotas td:last-child {
+    white-space: nowrap;
+}
+
+
+/* BOTONES DE ACCIÓN */
+
+.btn-editar,
+.btn-eliminar {
+    border: none;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.btn-editar {
+    background-color: #5bc0be;
+    color: white;
+    margin-right: 6px;
+}
+
+.btn-eliminar {
+    background-color: #dc5c5c;
+    color: white;
+}
+
+.btn-editar:hover,
+.btn-eliminar:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-editar:focus,
+.btn-eliminar:focus {
+    outline: 2px solid #243447;
+    outline-offset: 2px;
+}
+
+
+/* FORMULARIO DASHBOARD */
+
+#formCrearMascota {
+    margin-bottom: 30px;
+}
+
+#formCrearMascota .form-actions {
+    margin-top: 18px;
+}
+
+
+/* SEPARACIÓN DE SECCIONES */
+
+.form-container section + section {
+    margin-top: 30px;
+}
+
+
+/* USUARIO LOGUEADO */
+
+.usuario-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#usuarioActual {
+    font-weight: 500;
+    color: #425466;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    #tablaMascotas {
+        font-size: 13px;
+    }
+
+    #tablaMascotas th,
+    #tablaMascotas td {
+        padding: 8px 6px;
+    }
+
+    .btn-editar,
+    .btn-eliminar {
+        padding: 6px 9px;
+        font-size: 12px;
+    }
+
+    .usuario-header {
+        gap: 8px;
+    }
+    
+    #tablaMascotas th:last-child,
+    #tablaMascotas td:last-child {
+        text-align: center;
+    }
+
+    #tablaMascotas td:last-child {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    #tablaMascotas .btn-editar,
+    #tablaMascotas .btn-eliminar {
+        min-width: 70px;
+    }
+
+    
 }
