@@ -5,27 +5,11 @@ const router = express.Router();
 
 
 // ========================================
-// VALIDAR SESIÓN
-// ========================================
-
-function verificarSesion(req, res, next) {
-
-    if (!req.session.userId) {
-        return res.status(401).json({
-            error: 'No hay sesión activa'
-        });
-    }
-
-    next();
-}
-
-
-// ========================================
 // CREATE
 // POST /api/mascotas
 // ========================================
 
-router.post('/', verificarSesion, async (req, res) => {
+router.post('/', async (req, res) => {
 
     try {
 
@@ -87,7 +71,7 @@ router.post('/', verificarSesion, async (req, res) => {
 // GET /api/mascotas
 // ========================================
 
-router.get('/', verificarSesion, async (req, res) => {
+router.get('/', async (req, res) => {
 
     try {
 
@@ -128,7 +112,7 @@ router.get('/', verificarSesion, async (req, res) => {
 // GET /api/mascotas/:id
 // ========================================
 
-router.get('/:id', verificarSesion, async (req, res) => {
+router.get('/:id', async (req, res) => {
 
     try {
 
@@ -174,7 +158,7 @@ router.get('/:id', verificarSesion, async (req, res) => {
 // PUT /api/mascotas/:id
 // ========================================
 
-router.put('/:id', verificarSesion, async (req, res) => {
+router.put('/:id', async (req, res) => {
 
     try {
 
@@ -258,7 +242,7 @@ router.put('/:id', verificarSesion, async (req, res) => {
 // DELETE /api/mascotas/:id
 // ========================================
 
-router.delete('/:id', verificarSesion, async (req, res) => {
+router.delete('/:id', async (req, res) => {
 
     try {
 
