@@ -11,67 +11,77 @@
             }
         );
 
-        // Si no está autenticado, enviar al login
+        // Si no está autenticado, recordar la página
+        // que intentaba visitar
         if (!respuesta.ok) {
-            window.location.replace('login.html');
+
+            const paginaActual =
+                window.location.pathname.split('/').pop();
+
+            window.location.replace(
+                `login.html?redirect=${encodeURIComponent(paginaActual)}`
+            );
+
             return;
         }
 
         // Obtener información del usuario
-        const usuario = await respuesta.json();
+        const datos = await respuesta.json();
+        const usuario = datos.usuario;
 
-        // Función para configurar la información del usuario
-        // y el botón de cerrar sesión
         const inicializarUsuario = () => {
 
+            // Algunas páginas utilizan usuarioActual
+            // y citas.html utiliza nombreUsuario
             const nombreUsuario =
-                document.getElementById('usuarioActual');
+                document.getElementById('usuarioActual') ||
+                document.getElementById('nombreUsuario');
 
             const btnLogout =
                 document.getElementById('btnLogout');
 
-            // Mostrar nombre del usuario
+            // Mostrar nombre
             if (nombreUsuario) {
                 nombreUsuario.textContent =
                     `Hola, ${usuario.nombre}`;
             }
 
-            // Configurar cierre de sesión
+            // Cerrar sesión
             if (btnLogout) {
 
-                btnLogout.addEventListener('click', async () => {
+                btnLogout.addEventListener(
+                    'click',
+                    async () => {
 
-                    try {
+                        try {
 
-                        const respuestaLogout = await fetch(
-                            'http://localhost:3000/api/auth/logout',
-                            {
-                                method: 'POST',
-                                credentials: 'include'
+                            const respuestaLogout =
+                                await fetch(
+                                    'http://localhost:3000/api/auth/logout',
+                                    {
+                                        method: 'POST',
+                                        credentials: 'include'
+                                    }
+                                );
+
+                            if (respuestaLogout.ok) {
+                                window.location.replace(
+                                    'login.html'
+                                );
                             }
-                        );
 
-                        if (respuestaLogout.ok) {
-                            window.location.replace('login.html');
+                        } catch (error) {
+
+                            console.error(
+                                'Error al cerrar sesión:',
+                                error
+                            );
                         }
-
-                    } catch (error) {
-
-                        console.error(
-                            'Error al cerrar sesión:',
-                            error
-                        );
-
                     }
-
-                });
-
+                );
             }
-
         };
 
-        // Si el documento todavía está cargando,
-        // esperar a que termine de cargar.
         if (document.readyState === 'loading') {
 
             document.addEventListener(
@@ -82,7 +92,6 @@
         } else {
 
             inicializarUsuario();
-
         }
 
     } catch (error) {
@@ -92,10 +101,12 @@
             error
         );
 
-        // Si ocurre un error al verificar la sesión,
-        // enviar al usuario al login.
-        window.location.replace('login.html');
+        const paginaActual =
+            window.location.pathname.split('/').pop();
 
+        window.location.replace(
+            `login.html?redirect=${encodeURIComponent(paginaActual)}`
+        );
     }
 
 })();

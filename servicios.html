@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <script src="js/auth-guard.js"></script>
     <script src="js/app.js" defer></script>
 </head>
 
@@ -27,7 +26,22 @@
             <a href="presentacion.html#contacto">Contacto</a>
         </nav>
 
-        <a href="citas.html" class="btn-header">Reservar cita</a>
+        <div class="header-actions">
+
+            <a href="login.html?redirect=citas.html"
+            id="btnReservar"
+            class="btn-header">
+                Reservar cita
+            </a>
+
+            <a href="login.html"
+            id="btnSesion"
+            class="btn-login">
+                Iniciar sesión
+            </a>
+
+        </div>
+                
     </header>
 
     <main class="servicios-main">
@@ -237,6 +251,6 @@
         </div>
 
     </footer>
-
+<script src="js/session-nav.js"></script>
 </body>
 </html>

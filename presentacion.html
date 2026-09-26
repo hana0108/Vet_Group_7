@@ -8,8 +8,6 @@
 
     <link rel="stylesheet" href="style.css" />
 
-    <script src="js/auth-guard.js"></script>
-
     <style>
       .pagina-presentacion .hero-text span {
         font-weight: 700;
@@ -27,19 +25,26 @@
         <a href="servicios.html">Servicios</a>
         <a href="cuidados.html">Cuidados</a>
         <a href="mascotas.html">Mascotas</a>
-        <a href="Citas.html">Citas</a>
+        <a href="citas.html">Citas</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
-      <a href="Citas.html" class="btn-reserva">Reservar cita</a>
+    <div class="header-actions">
 
-      <a
-        href="login.html"
-        class="btn-logout"
-        onclick="cerrarSesion()"
-      >
-        Cerrar sesión
-      </a>
+    <a href="login.html?redirect=citas.html" 
+      id="btnReservar"  
+      class="btn-reserva">
+      Reservar cita
+    </a>
+
+        <a href="login.html"
+          id="btnSesion"
+          class="btn-login">
+          Iniciar sesión
+        </a>
+
+      </div>
+
     </header>
 
     <main>
@@ -352,6 +357,6 @@
       </div>
 
     </footer>
-
+    <script src="js/session-nav.js"></script>
   </body>
 </html>

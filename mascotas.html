@@ -8,7 +8,7 @@
     <title>Mascotas en Adopción | VetGroup7</title>
 
     <link rel="stylesheet" href="style.css" />
-    <script src="js/auth-guard.js"></script>
+   
   </head>
 
   <body class="pagina-mascotas">
@@ -30,7 +30,21 @@
         <a href="#contacto"> Contacto </a>
       </nav>
 
-     <a href="citas.html" class="btn-reserva"> Reservar cita </a>
+     <div class="header-actions">
+
+        <a href="login.html?redirect=citas.html"
+          id="btnReservar"
+          class="btn-reserva">
+            Reservar cita
+        </a>
+
+        <a href="login.html"
+          id="btnSesion"
+          class="btn-login">
+            Iniciar sesión
+        </a>
+
+    </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -159,5 +173,6 @@
 
     <!-- JAVASCRIPT GENERAL DEL PROYECTO -->
     <script src="js/app.js"></script>
+    <script src="js/session-nav.js"></script>
   </body>
 </html>

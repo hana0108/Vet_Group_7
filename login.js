@@ -236,8 +236,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
 
                 window.setTimeout(() => {
-                    window.location.href =
-                        'dashboard.html';
+
+                    const parametros =
+                        new URLSearchParams(window.location.search);
+
+                    const redirectSolicitado =
+                        parametros.get('redirect');
+
+                    const destinosPermitidos = [
+                        'citas.html',
+                        'dashboard.html'
+                    ];
+
+                    const destino =
+                        destinosPermitidos.includes(redirectSolicitado)
+                            ? redirectSolicitado
+                            : 'dashboard.html';
+
+                    window.location.href = destino;
+
                 }, 1500);
 
                 return;

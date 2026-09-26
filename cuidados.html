@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-<head <script src="js/app.js" defer></script>>
+<head <script src="js/app.js" defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VetGroup7 - Cuidados de Mascotas</title>
   <link rel="stylesheet" href="style.css">
-  <script src="js/auth-guard.js"></script>
+  
 </head>
 
 <body class="pagina-cuidados">
@@ -25,7 +25,21 @@
       <li><a href="presentacion.html#contacto">Contacto</a></li>
     </ul>
 
-    <a href="citas.html" class="btn-cita">Reservar cita</a>
+    <div class="header-actions">
+
+    <a href="login.html?redirect=citas.html"
+       id="btnReservar"
+       class="btn-cita">
+        Reservar cita
+    </a>
+
+    <a href="login.html"
+       id="btnSesion"
+       class="btn-login">
+        Iniciar sesión
+    </a>
+
+</div>
   </nav>
 
   <main>
@@ -371,6 +385,6 @@
     </div>
 
   </footer>
-
+<script src="js/session-nav.js"></script>
 </body>
 </html>
