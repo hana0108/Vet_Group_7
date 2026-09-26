@@ -9,9 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modo = authForm.dataset.mode || 'register';
     const esInicioSesion = modo === 'login';
 
+
+    // ==========================================
+    // Mostrar mensajes en el formulario
+    // ==========================================
     function mostrarMensaje(mensaje, tipo = 'error') {
 
-        const mensajeAnterior = authForm.querySelector('.mensaje-formulario');
+        const mensajeAnterior =
+            authForm.querySelector('.mensaje-formulario');
 
         if (mensajeAnterior) {
             mensajeAnterior.remove();
@@ -19,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const contenedor = document.createElement('div');
 
-        contenedor.className = `mensaje-formulario mensaje-${tipo}`;
+        contenedor.className =
+            `mensaje-formulario mensaje-${tipo}`;
+
         contenedor.setAttribute(
             'role',
             tipo === 'error' ? 'alert' : 'status'
@@ -30,31 +37,31 @@ document.addEventListener('DOMContentLoaded', () => {
         authForm.prepend(contenedor);
     }
 
-    function obtenerUsuariosRegistrados() {
 
-        try {
-            return JSON.parse(
-                localStorage.getItem('usuariosRegistrados')
-            ) || [];
-        } catch {
-            return [];
-        }
-    }
-
+    // ==========================================
+    // Validar formulario de registro
+    // ==========================================
     function validarRegistro() {
 
-        const contacto = document.getElementById('contacto').value.trim();
-        const nombre = document.getElementById('campoNombre').value.trim();
-        const password = document.getElementById('campoPassword').value;
+        const email =
+            document.getElementById('contacto')
+                .value
+                .trim();
+
+        const nombre =
+            document.getElementById('campoNombre')
+                .value
+                .trim();
+
+        const password =
+            document.getElementById('campoPassword')
+                .value;
 
         const correoValido =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contacto);
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-        const telefonoValido =
-            /^\d{10}$/.test(contacto);
-
-        if (!correoValido && !telefonoValido) {
-            return 'Introduce un correo electrónico válido o un teléfono de 10 dígitos.';
+        if (!correoValido) {
+            return 'Introduce un correo electrónico válido.';
         }
 
         if (
@@ -76,16 +83,80 @@ document.addEventListener('DOMContentLoaded', () => {
         return '';
     }
 
-    async function iniciarSesion() {
 
-        const correo = document
-            .getElementById('correoLogin')
-            .value
-            .trim()
-            .toLowerCase();
+    // ==========================================
+    // Registrar usuario en MySQL
+    // ==========================================
+    async function registrarUsuario() {
+
+        const email =
+            document.getElementById('contacto')
+                .value
+                .trim()
+                .toLowerCase();
+
+        const nombre =
+            document.getElementById('campoNombre')
+                .value
+                .trim();
 
         const password =
-            document.getElementById('passwordLogin').value;
+            document.getElementById('campoPassword')
+                .value;
+
+        try {
+
+            const respuesta = await fetch(
+                'http://localhost:3000/api/auth/register',
+                {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            const datos = await respuesta.json();
+
+            if (!respuesta.ok) {
+                return datos.error ||
+                    'No se pudo registrar el usuario.';
+            }
+
+            return '';
+
+        } catch (error) {
+
+            console.error(
+                'Error al registrar usuario:',
+                error
+            );
+
+            return 'No se pudo conectar con el servidor.';
+        }
+    }
+
+
+    // ==========================================
+    // Iniciar sesión
+    // ==========================================
+    async function iniciarSesion() {
+
+        const correo =
+            document.getElementById('correoLogin')
+                .value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            document.getElementById('passwordLogin')
+                .value;
 
         const correoValido =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -135,15 +206,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    // ==========================================
+    // Envío del formulario
+    // ==========================================
     authForm.addEventListener(
         'submit',
         async (event) => {
 
             event.preventDefault();
 
+
+            // ==================================
+            // LOGIN
+            // ==================================
             if (esInicioSesion) {
 
-                const error = await iniciarSesion();
+                const error =
+                    await iniciarSesion();
 
                 if (error) {
                     mostrarMensaje(error);
@@ -151,60 +231,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 mostrarMensaje(
-                    '¡Bienvenido! Redirigiendo a tus citas...',
+                    '¡Bienvenido! Iniciando tu sesión...',
                     'exito'
                 );
 
-            } else {
+                window.setTimeout(() => {
+                    window.location.href =
+                        'dashboard.html';
+                }, 1500);
 
-                const error = validarRegistro();
-
-                if (error) {
-                    mostrarMensaje(error);
-                    return;
-                }
-
-                const contacto =
-                    document.getElementById('contacto').value.trim();
-
-                const nombre =
-                    document.getElementById('campoNombre').value.trim();
-
-                const password =
-                    document.getElementById('campoPassword').value;
-
-                const usuarios =
-                    obtenerUsuariosRegistrados();
-
-                usuarios.push({
-                    correo: contacto,
-                    password,
-                    nombre
-                });
-
-                localStorage.setItem(
-                    'usuariosRegistrados',
-                    JSON.stringify(usuarios)
-                );
-
-                sessionStorage.setItem(
-                    'usuarioSesion',
-                    'activa'
-                );
-
-                sessionStorage.setItem(
-                    'usuarioNombre',
-                    nombre
-                );
-
-                mostrarMensaje(
-                    '¡Registro exitoso! Redirigiendo a tus citas...',
-                    'exito'
-                );
+                return;
             }
 
+
+            // ==================================
+            // REGISTRO
+            // ==================================
+            const errorValidacion =
+                validarRegistro();
+
+            if (errorValidacion) {
+                mostrarMensaje(errorValidacion);
+                return;
+            }
+
+            const errorRegistro =
+                await registrarUsuario();
+
+            if (errorRegistro) {
+                mostrarMensaje(errorRegistro);
+                return;
+            }
+
+            mostrarMensaje(
+                '¡Registro exitoso! Redirigiendo al inicio de sesión...',
+                'exito'
+            );
+
             window.setTimeout(() => {
-                window.location.href = 'dashboard.html';
+                window.location.href =
+                    'login.html';
             }, 1500);
         }
     );

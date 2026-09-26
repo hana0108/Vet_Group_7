@@ -26,7 +26,8 @@ async function verificarSesionYMostrarUsuario() {
             throw new Error('No se pudo verificar la sesión');
         }
 
-        const usuario = await respuesta.json();
+        const datos = await respuesta.json();
+        const usuario = datos.usuario;
 
         const usuarioActual =
             document.getElementById('usuarioActual');

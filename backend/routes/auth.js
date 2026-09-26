@@ -24,10 +24,13 @@ router.post('/login', async (req, res) => {
             });
         }
 
+        // Limpiar y normalizar email
+        const emailLimpio = email.trim().toLowerCase();
+
         // Buscar usuario por email
         const [rows] = await pool.query(
             'SELECT * FROM usuarios WHERE email = ?',
-            [email]
+            [emailLimpio]
         );
 
         // Usuario no encontrado
@@ -153,5 +156,98 @@ router.get('/me', verificarSesion, async (req, res) => {
     }
 });
 
+// ==========================================
+// POST /api/auth/register
+// Registrar nuevo usuario
+// ==========================================
+router.post('/register', async (req, res) => {
+
+    try {
+
+        const {
+            nombre,
+            email,
+            password
+        } = req.body;
+
+        // Validar datos obligatorios
+        if (!nombre || !email || !password) {
+            return res.status(400).json({
+                error: 'Nombre, email y password son requeridos'
+            });
+        }
+
+        // Limpiar y normalizar datos
+        const nombreLimpio = nombre.trim();
+        const emailLimpio = email.trim().toLowerCase();
+
+        if (!nombreLimpio || !emailLimpio) {
+        return res.status(400).json({
+            error: 'Nombre y email no pueden estar vacíos'
+        });
+        }
+
+        // Validar contraseña mínima
+        if (password.length < 8) {
+            return res.status(400).json({
+                error: 'La contraseña debe tener al menos 8 caracteres'
+            });
+        }
+
+        // Verificar si el correo ya existe
+        const [usuariosExistentes] = await pool.query(
+            'SELECT id FROM usuarios WHERE email = ?',
+            [emailLimpio]
+        );
+
+        if (usuariosExistentes.length > 0) {
+            return res.status(409).json({
+                error: 'El correo ya está registrado'
+            });
+        }
+
+        // Generar hash seguro de la contraseña
+        const passwordHash = await bcrypt.hash(
+            password,
+            10
+        );
+
+        // Crear usuario en MySQL
+        const [resultado] = await pool.query(
+            `
+            INSERT INTO usuarios
+            (nombre, email, password, rol)
+            VALUES (?, ?, ?, ?)
+            `,
+            [
+                nombreLimpio,
+                emailLimpio,
+                passwordHash,
+                'cliente'
+            ]
+        );
+
+        res.status(201).json({
+            mensaje: 'Usuario registrado correctamente',
+            usuario: {
+                id: resultado.insertId,
+                nombre: nombreLimpio,
+                email: emailLimpio,
+                rol: 'cliente'
+            }
+        });
+
+    } catch (error) {
+
+        console.error(
+            'Error en registro:',
+            error
+        );
+
+        res.status(500).json({
+            error: 'Error al registrar el usuario'
+        });
+    }
+});
 
 module.exports = router;
