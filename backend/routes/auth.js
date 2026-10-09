@@ -3,26 +3,29 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const verificarSesion = require('../middleware/auth');
+const validateBody = require('../middleware/validate-body');
 
 const router = express.Router();
 const pool = require('../config/db');
+const validateLogin = validateBody({
+    email: { type: 'string', required: true, email: true },
+    password: { type: 'string', required: true }
+});
+const validateRegistration = validateBody({
+    nombre: { type: 'string', required: true, minLength: 1, maxLength: 100 },
+    email: { type: 'string', required: true, email: true, maxLength: 150 },
+    password: { type: 'string', required: true, minLength: 8 }
+});
 
 
 // ==========================================
 // POST /api/auth/login
 // Iniciar sesión
 // ==========================================
-router.post('/login', async (req, res) => {
+router.post('/login', validateLogin, async (req, res) => {
     try {
 
         const { email, password } = req.body;
-
-        // Validar datos
-        if (!email || !password) {
-            return res.status(400).json({
-                error: 'Email y password son requeridos'
-            });
-        }
 
         // Limpiar y normalizar email
         const emailLimpio = email.trim().toLowerCase();
@@ -160,7 +163,7 @@ router.get('/me', verificarSesion, async (req, res) => {
 // POST /api/auth/register
 // Registrar nuevo usuario
 // ==========================================
-router.post('/register', async (req, res) => {
+router.post('/register', validateRegistration, async (req, res) => {
 
     try {
 
@@ -170,29 +173,9 @@ router.post('/register', async (req, res) => {
             password
         } = req.body;
 
-        // Validar datos obligatorios
-        if (!nombre || !email || !password) {
-            return res.status(400).json({
-                error: 'Nombre, email y password son requeridos'
-            });
-        }
-
         // Limpiar y normalizar datos
         const nombreLimpio = nombre.trim();
         const emailLimpio = email.trim().toLowerCase();
-
-        if (!nombreLimpio || !emailLimpio) {
-        return res.status(400).json({
-            error: 'Nombre y email no pueden estar vacíos'
-        });
-        }
-
-        // Validar contraseña mínima
-        if (password.length < 8) {
-            return res.status(400).json({
-                error: 'La contraseña debe tener al menos 8 caracteres'
-            });
-        }
 
         // Verificar si el correo ya existe
         const [usuariosExistentes] = await pool.query(

@@ -48,6 +48,8 @@ CREATE TABLE citas (
     mascota_id INT NOT NULL,
     servicio_id INT NOT NULL,
     fecha_hora DATETIME NOT NULL,
+    telefono_contacto VARCHAR(10),
+    observaciones TEXT,
     estado ENUM(
         'pendiente',
         'confirmada',

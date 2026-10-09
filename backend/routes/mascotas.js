@@ -1,7 +1,14 @@
 const express = require('express');
 const pool = require('../config/db');
+const validateBody = require('../middleware/validate-body');
 
 const router = express.Router();
+const validatePetBody = validateBody({
+    nombre: { type: 'string', required: true, minLength: 1, maxLength: 100 },
+    especie: { type: 'string', required: true, minLength: 1, maxLength: 50 },
+    raza: { type: 'string', maxLength: 100 },
+    fecha_nacimiento: { type: 'date' }
+});
 
 
 // ========================================
@@ -9,7 +16,7 @@ const router = express.Router();
 // POST /api/mascotas
 // ========================================
 
-router.post('/', async (req, res) => {
+router.post('/', validatePetBody, async (req, res) => {
 
     try {
 
@@ -21,12 +28,6 @@ router.post('/', async (req, res) => {
             raza,
             fecha_nacimiento
         } = req.body;
-
-        if (!nombre || !especie) {
-            return res.status(400).json({
-                error: 'Nombre y especie son requeridos'
-            });
-        }
 
         const [resultado] = await pool.query(
             `
@@ -158,7 +159,7 @@ router.get('/:id', async (req, res) => {
 // PUT /api/mascotas/:id
 // ========================================
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validatePetBody, async (req, res) => {
 
     try {
 
@@ -171,12 +172,6 @@ router.put('/:id', async (req, res) => {
             raza,
             fecha_nacimiento
         } = req.body;
-
-        if (!nombre || !especie) {
-            return res.status(400).json({
-                error: 'Nombre y especie son requeridos'
-            });
-        }
 
         const [mascotas] = await pool.query(
             `
