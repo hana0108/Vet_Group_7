@@ -25,3 +25,6 @@ INSERT INTO citas
 (1, 1, '2026-09-20 10:00:00', 'pendiente'),
 (2, 2, '2026-09-21 11:30:00', 'confirmada'),
 (3, 3, '2026-09-22 09:00:00', 'pendiente');
+-- Usuario de demostracion para la Fase 4
+INSERT INTO usuarios (nombre, email, password, rol) VALUES
+('Usuario Demo', 'demo@vetgroup7.test', '$2b$10$I6oZr8d3qkEC.HF/tYISCOu5yQe.jIXvSiRlXWSdPemxD8FiU/rpi', 'cliente');

@@ -11,11 +11,16 @@ const app = express();
 // ==========================================
 // CONFIGURACIÓN DE CORS
 // ==========================================
+const origenesPermitidos = (
+  process.env.CORS_ORIGINS ||
+  'http://127.0.0.1:5500,http://localhost:5500'
+)
+  .split(',')
+  .map(origen => origen.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: [
-    'http://127.0.0.1:5500',
-    'http://localhost:5500'
-  ],
+  origin: origenesPermitidos,
   credentials: true
 }));
 

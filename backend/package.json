@@ -4,7 +4,9 @@
   "description": "Repositorio del grupo 7 para uso académico de la materia: Desarrollo de Aplicaciones Web.",
   "main": "administración_citas.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:setup": "node scripts/db-setup.cjs",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
