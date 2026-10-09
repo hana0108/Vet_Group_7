@@ -567,6 +567,17 @@ function validarFormularioReserva(formData) {
         });
     }
 
+    if (formData.edad !== "") {
+        const edad = Number(formData.edad);
+
+        if (!Number.isInteger(edad) || edad < 0 || edad > 30) {
+            errores.push({
+                campo: "edad",
+                mensaje: "La edad debe ser un número entero entre 0 y 30 años."
+            });
+        }
+    }
+
     if (!formData.servicio) {
         errores.push({
             campo: "servicio",
@@ -648,6 +659,121 @@ function mostrarErrores(form, errores) {
     });
 }
 
+const API_BASE_URL = "http://localhost:3000/api";
+
+function mostrarErrorReserva(form, mensaje) {
+    const anterior = form.querySelector(".error-reserva");
+
+    if (anterior) {
+        anterior.remove();
+    }
+
+    const error = document.createElement("p");
+    error.className = "error-reserva";
+    error.setAttribute("role", "alert");
+    error.textContent = mensaje;
+    error.style.color = "#c62828";
+    form.prepend(error);
+}
+
+async function leerRespuestaApi(respuesta) {
+    const datos = await respuesta.json().catch(() => ({}));
+
+    if (!respuesta.ok) {
+        if (respuesta.status >= 500) {
+            throw new Error("El servidor no pudo completar la solicitud. Inténtalo nuevamente.");
+        }
+
+        if (respuesta.status === 401) {
+            throw new Error("Tu sesión expiró. Inicia sesión nuevamente.");
+        }
+
+        const detalles = Array.isArray(datos.detalles)
+            ? datos.detalles.join(" ")
+            : "";
+        throw new Error([datos.error, detalles].filter(Boolean).join(" ") ||
+            "No se pudo completar la solicitud.");
+    }
+
+    return datos;
+}
+
+function mensajeErrorParaUsuario(error) {
+    if (error instanceof TypeError) {
+        return "No se pudo conectar con el servidor. Comprueba que esté iniciado e inténtalo de nuevo.";
+    }
+
+    return error.message;
+}
+
+async function cargarOpcionesReserva(form) {
+    const [respuestaMascotas, respuestaServicios, respuestaUsuario] = await Promise.all([
+        fetch(`${API_BASE_URL}/mascotas`, { credentials: "include" }),
+        fetch(`${API_BASE_URL}/servicios`, { credentials: "include" }),
+        fetch(`${API_BASE_URL}/auth/me`, { credentials: "include" })
+    ]);
+    const [datosMascotas, datosServicios, datosUsuario] = await Promise.all([
+        leerRespuestaApi(respuestaMascotas),
+        leerRespuestaApi(respuestaServicios),
+        leerRespuestaApi(respuestaUsuario)
+    ]);
+    form.elements.dueno.value = datosUsuario.usuario.nombre;
+    form.elements.correo.value = datosUsuario.usuario.email;
+    const selectorServicio = form.elements.servicio;
+    selectorServicio.replaceChildren(new Option("Seleccione un servicio", ""));
+
+    datosServicios.resultados.forEach(function (servicio) {
+        const opcion = new Option(
+            `${servicio.nombre} - RD$ ${Number(servicio.precio).toFixed(2)}`,
+            String(servicio.id)
+        );
+        selectorServicio.add(opcion);
+    });
+
+    return datosMascotas.resultados;
+}
+
+function fechaNacimientoDesdeEdad(edad) {
+    if (edad === "") {
+        return null;
+    }
+
+    const fecha = new Date();
+    fecha.setFullYear(fecha.getFullYear() - Number(edad));
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const dia = String(fecha.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${dia}`;
+}
+
+async function obtenerOCrearMascotaReserva(datosFormulario, mascotas) {
+    const nombre = datosFormulario.mascota.trim();
+    const tipo = datosFormulario.tipo;
+    const mascotaExistente = mascotas.find(function (mascota) {
+        return mascota.nombre.trim().toLowerCase() === nombre.toLowerCase() &&
+            mascota.especie.toLowerCase() === tipo.toLowerCase();
+    });
+
+    if (mascotaExistente) {
+        return mascotaExistente;
+    }
+
+    const respuesta = await fetch(`${API_BASE_URL}/mascotas`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            nombre,
+            especie: tipo,
+            raza: datosFormulario.raza.trim() || null,
+            fecha_nacimiento: fechaNacimientoDesdeEdad(datosFormulario.edad)
+        })
+    });
+    const datos = await leerRespuestaApi(respuesta);
+    mascotas.push(datos.mascota);
+    return datos.mascota;
+}
+
 function mostrarConfirmacion(form, resultado) {
     const confirmacionAnterior =
         form.querySelector(".confirmacion-reserva");
@@ -662,15 +788,12 @@ function mostrarConfirmacion(form, resultado) {
     confirmacion.className =
         "confirmacion-reserva";
 
-    confirmacion.innerHTML = `
-        <strong>✅ Cita reservada correctamente</strong>
+    const titulo = document.createElement("strong");
+    titulo.textContent = "Cita reservada correctamente";
 
-        <p>
-            La cita para ${resultado.cita.mascota}
-            fue registrada para el ${resultado.cita.fecha}
-            a las ${resultado.cita.hora}.
-        </p>
-    `;
+    const detalle = document.createElement("p");
+    detalle.textContent = `La cita para ${resultado.mascota} fue registrada para el ${resultado.fecha} a las ${resultado.hora}.`;
+    confirmacion.append(titulo, detalle);
 
     confirmacion.style.backgroundColor =
         "#e8f5e9";
@@ -698,8 +821,32 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    formulario.addEventListener("submit", function (evento) {
+    const botonEnviar = formulario.querySelector('[type="submit"]');
+    let mascotasDisponibles = [];
+    let opcionesListas = false;
+    botonEnviar.disabled = true;
+
+    cargarOpcionesReserva(formulario)
+        .then(function (mascotas) {
+            mascotasDisponibles = mascotas;
+            opcionesListas = true;
+            botonEnviar.disabled = false;
+        })
+        .catch(function (error) {
+            mostrarErrorReserva(formulario, mensajeErrorParaUsuario(error));
+        });
+
+    formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
+
+        if (!opcionesListas) {
+            return;
+        }
+
+        const errorAnterior = formulario.querySelector(".error-reserva");
+        if (errorAnterior) {
+            errorAnterior.remove();
+        }
 
         formulario
             .querySelectorAll("[aria-invalid]")
@@ -724,21 +871,38 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const resultado = reservarCita({
-            nombre: datosFormulario.dueno.trim(),
-            mascota: datosFormulario.mascota.trim(),
-            fecha: datosFormulario.fecha,
-            hora: datosFormulario.hora,
-            servicio: datosFormulario.servicio
-        });
-
-        if (resultado.ok) {
+        botonEnviar.disabled = true;
+        try {
+            const mascota = await obtenerOCrearMascotaReserva(
+                datosFormulario,
+                mascotasDisponibles
+            );
+            const respuesta = await fetch(`${API_BASE_URL}/citas`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mascota_id: Number(mascota.id),
+                    servicio_id: Number(datosFormulario.servicio),
+                    fecha_hora: `${datosFormulario.fecha} ${datosFormulario.hora}`,
+                    telefono_contacto: datosFormulario.telefono.replace(/\D/g, ""),
+                    observaciones: datosFormulario.observaciones.trim() || null
+                })
+            });
+            await leerRespuestaApi(respuesta);
             mostrarConfirmacion(
                 formulario,
-                resultado
+                {
+                    mascota: mascota.nombre,
+                    fecha: datosFormulario.fecha,
+                    hora: datosFormulario.hora
+                }
             );
-
             formulario.reset();
+        } catch (error) {
+            mostrarErrorReserva(formulario, mensajeErrorParaUsuario(error));
+        } finally {
+            botonEnviar.disabled = false;
         }
     });
 });
