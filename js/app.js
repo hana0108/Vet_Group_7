@@ -679,7 +679,10 @@ async function cargarOpcionesReserva(form) {
         selectorServicio.add(opcion);
     });
 
-    return datosMascotas.resultados;
+    return {
+        mascotas: datosMascotas.resultados,
+        servicios: datosServicios.resultados
+    };
 }
 
 function fechaNacimientoDesdeEdad(edad) {
@@ -775,9 +778,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let opcionesListas = false;
     botonEnviar.disabled = true;
 
-    cargarOpcionesReserva(formulario)
-        .then(function (mascotas) {
-            mascotasDisponibles = mascotas;
+    window.opcionesReservaCita = cargarOpcionesReserva(formulario);
+    window.opcionesReservaCita
+        .then(function (opciones) {
+            mascotasDisponibles = opciones.mascotas;
             opcionesListas = true;
             botonEnviar.disabled = false;
         })
@@ -839,6 +843,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
             });
             await leerRespuestaApi(respuesta);
+            window.dispatchEvent(new CustomEvent('citas:actualizadas'));
             mostrarConfirmacion(
                 formulario,
                 {

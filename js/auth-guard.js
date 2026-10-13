@@ -28,6 +28,10 @@
         // Obtener información del usuario
         const datos = await respuesta.json();
         const usuario = datos.usuario;
+        window.usuarioSesion = usuario;
+        window.dispatchEvent(
+            new CustomEvent('sesion:verificada', { detail: usuario })
+        );
 
         const inicializarUsuario = () => {
 

@@ -12,6 +12,7 @@
     <script src="js/config.js" defer></script>
     <script src="js/auth-guard.js" defer></script>
     <script src="js/app.js" defer></script>
+    <script src="js/administracion_citas.js" defer></script>
 </head>
 <body>
 
@@ -142,6 +143,61 @@
           <button type="submit" class="btn-submit">Enviar cita</button>
         </div>
       </form>
+    </section>
+
+    <section class="form-container citas-container" aria-labelledby="tituloMisCitas">
+      <div class="form-header">
+        <h2 id="tituloMisCitas">Mis citas</h2>
+      </div>
+      <p id="mensajeAdministracion" aria-live="polite" hidden></p>
+      <div id="listaCitas" class="lista-citas" aria-live="polite">
+        <p>Cargando citas...</p>
+      </div>
+
+      <section id="seccionEdicionCita" class="form-edicion-cita" hidden>
+        <div class="form-section-title">
+          <h3>Editar cita</h3>
+        </div>
+        <p id="mensajeEdicionCita" role="alert" hidden></p>
+        <form id="formularioEdicionCita" novalidate>
+          <input type="hidden" name="cita_id">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edicionMascota">Mascota</label>
+              <select id="edicionMascota" name="mascota_id" required></select>
+            </div>
+            <div class="form-group">
+              <label for="edicionServicio">Servicio</label>
+              <select id="edicionServicio" name="servicio_id" required></select>
+            </div>
+            <div class="form-group">
+              <label for="edicionFecha">Fecha</label>
+              <input id="edicionFecha" name="fecha" type="date" required>
+            </div>
+            <div class="form-group">
+              <label for="edicionHora">Hora</label>
+              <input id="edicionHora" name="hora" type="time" required>
+            </div>
+            <div class="form-group">
+              <label for="edicionTelefono">Teléfono (10 dígitos)</label>
+              <input id="edicionTelefono" name="telefono_contacto" type="tel"
+                     inputmode="numeric" pattern="[0-9]{10}" minlength="10"
+                     maxlength="10" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="edicionObservaciones">Observaciones</label>
+              <textarea id="edicionObservaciones" name="observaciones"
+                        rows="4" maxlength="2000"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar cambios</button>
+            <button type="button" id="cancelarEdicionCita" class="btn-secundario">
+              Cerrar
+            </button>
+          </div>
+        </form>
+      </section>
     </section>
   </main>
 

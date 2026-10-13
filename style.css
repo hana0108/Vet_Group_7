@@ -623,6 +623,123 @@ body {
   width: 100%;
 }
 
+.citas-container {
+  margin-top: 30px;
+}
+
+.lista-citas {
+  display: grid;
+  gap: 16px;
+}
+
+.tarjeta-cita {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid #dcebe9;
+  border-radius: 10px;
+  background-color: #fbfdfc;
+}
+
+.tarjeta-cita h3 {
+  margin-bottom: 4px;
+  color: var(--color-texto-oscuro);
+}
+
+.estado-cita {
+  justify-self: start;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
+.estado-pendiente {
+  background-color: #fff3cd;
+  color: #765900;
+}
+
+.estado-confirmada {
+  background-color: #d7f0eb;
+  color: #17695f;
+}
+
+.estado-cancelada {
+  background-color: #fce1e1;
+  color: #982d2d;
+}
+
+.estado-completada {
+  background-color: #e5e9f5;
+  color: #394b7a;
+}
+
+.estado-desconocido {
+  background-color: #eeeeee;
+  color: #444444;
+}
+
+.btn-accion-cita,
+.btn-secundario {
+  justify-self: start;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 6px;
+  background-color: var(--color-boton);
+  color: var(--color-blanco);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-eliminar-cita {
+  background-color: #a63c3c;
+}
+
+.btn-secundario {
+  background-color: #667780;
+}
+
+.btn-accion-cita:disabled,
+.btn-secundario:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.confirmacion-cita {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.confirmacion-cita p {
+  flex-basis: 100%;
+  color: #8b2929;
+  font-weight: 600;
+}
+
+.mensaje-citas {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.mensaje-error {
+  background-color: #fff0f0;
+  color: #a12828;
+}
+
+.mensaje-status {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+}
+
+.form-edicion-cita {
+  margin-top: 28px;
+}
+
 .form-header {
   margin-bottom: 25px;
   padding-bottom: 15px;
