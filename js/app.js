@@ -15,7 +15,7 @@ const mascotas = [
         tipo: "Perro",
         raza: "Perro pug",
         edad: "1.5 años",
-        imagen: "img/Bigotes.jpg",
+        imagen: "img/bigotes.jpg",
         estado: "Disponible",
         descripcion:
             "Bigotes es un perrito muy alegre, cariñoso y carismático. Le encanta acurrucarse en casa y tomar largas siestas junto a la familia."
@@ -26,7 +26,7 @@ const mascotas = [
         tipo: "Conejo",
         raza: "Conejo doméstico",
         edad: "3 años",
-        imagen: "img/Crank.jpg",
+        imagen: "img/crank.jpg",
         estado: "Disponible",
         descripcion:
             "Crank es un conejito curioso, manso y muy tranquilo. Adora comer vegetales frescos y explorar espacios protegidos."
@@ -45,7 +45,7 @@ const mascotas = [
         id: 4,
         nombre: "Lady",
         edad: "2.5 años",
-        imagen: "img/Lady.jpg",
+        imagen: "img/lady.jpg",
         raza: "Perra beagle",
         tipo: "Perro",
         estado: "En Proceso",
@@ -58,7 +58,7 @@ const mascotas = [
         tipo: "Tortuga",
         raza: "Tortuga terrestre",
         edad: "1 año",
-        imagen: "img/Felipe.jpg",
+        imagen: "img/felipe.jpg",
         estado: "Adoptado",
         descripcion:
             "Felipe es una tortuguita serena y paciente. Le encanta tomar el sol por las mañanas y moverse despacio a su propio ritmo."
