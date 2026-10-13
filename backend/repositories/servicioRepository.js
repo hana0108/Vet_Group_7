@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+function createServicioRepository(pool) {
 
 async function listar() {
     const [rows] = await pool.query(
@@ -30,8 +30,11 @@ async function existe(id) {
     return rows.length > 0;
 }
 
-module.exports = {
+return {
     listar,
     obtenerPorId,
     existe
 };
+}
+
+module.exports = createServicioRepository;

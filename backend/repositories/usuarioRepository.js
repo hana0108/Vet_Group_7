@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+function createUsuarioRepository(pool) {
 
 async function buscarPorEmail(email) {
     const [rows] = await pool.query(
@@ -28,8 +28,11 @@ async function crearUsuario(nombre, email, passwordHash) {
     return resultado.insertId;
 }
 
-module.exports = {
+return {
     buscarPorEmail,
     buscarPorId,
     crearUsuario
 };
+}
+
+module.exports = createUsuarioRepository;

@@ -1,5 +1,4 @@
-const authService = require('../services/authService');
-
+function createAuthController(authService) {
 async function login(req, res, next) {
     try {
         const { email, password } = req.body;
@@ -64,7 +63,11 @@ async function logout(req, res, next) {
                 return next(error);
             }
 
-            res.clearCookie('connect.sid');
+            res.clearCookie('connect.sid', {
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV === 'production'
+            });
 
             return res.status(200).json({
                 mensaje: 'Sesión cerrada correctamente'
@@ -76,9 +79,12 @@ async function logout(req, res, next) {
     }
 }
 
-module.exports = {
+return {
     login,
     register,
     me,
     logout
 };
+}
+
+module.exports = createAuthController;

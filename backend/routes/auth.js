@@ -1,10 +1,9 @@
 // backend/routes/auth.js
 
 const express = require('express');
-const verificarSesion = require('../middleware/auth');
 const validateBody = require('../middleware/validate-body');
-const authController = require('../controllers/authController');
 
+function createAuthRouter({ authController, verificarSesion }) {
 const router = express.Router();
 
 const validateLogin = validateBody({
@@ -16,8 +15,10 @@ const validateRegistration = validateBody({
     nombre: {
         type: 'string',
         required: true,
-        minLength: 1,
-        maxLength: 100
+        minLength: 2,
+        maxLength: 100,
+        pattern: /^\s*[\p{L}][\p{L} '’.-]*\s*$/u,
+        patternMessage: 'debe ser un nombre válido.'
     },
     email: {
         type: 'string',
@@ -28,7 +29,9 @@ const validateRegistration = validateBody({
     password: {
         type: 'string',
         required: true,
-        minLength: 8
+        minLength: 8,
+        pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)/,
+        patternMessage: 'debe tener una mayúscula, una minúscula y un número.'
     }
 });
 
@@ -71,4 +74,7 @@ router.post(
     authController.register
 );
 
-module.exports = router;
+return router;
+}
+
+module.exports = createAuthRouter;

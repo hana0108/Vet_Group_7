@@ -1,4 +1,4 @@
-const citaService = require('../services/citaService');
+function createCitaController(citaService) {
 
 function manejarError(res, error, mensajeGenerico) {
     const statusCode = error.statusCode || 500;
@@ -76,10 +76,13 @@ async function cancelar(req, res) {
     }
 }
 
-module.exports = {
+return {
     crear,
     listar,
     obtenerPorId,
     actualizar,
     cancelar
 };
+}
+
+module.exports = createCitaController;

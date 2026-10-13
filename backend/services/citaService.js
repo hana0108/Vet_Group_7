@@ -1,5 +1,4 @@
-const citaRepository = require('../repositories/citaRepository');
-const servicioRepository = require('../repositories/servicioRepository');
+function createCitaService({ citaRepository, servicioRepository }) {
 
 const ESTADOS_VALIDOS = [
     'pendiente',
@@ -173,7 +172,7 @@ async function cancelar(id, usuarioId) {
     return citaRepository.obtenerPorId(citaId, usuario_id);
 }
 
-module.exports = {
+return {
     ESTADOS_VALIDOS,
     crear,
     listar,
@@ -181,3 +180,6 @@ module.exports = {
     actualizar,
     cancelar
 };
+}
+
+module.exports = createCitaService;

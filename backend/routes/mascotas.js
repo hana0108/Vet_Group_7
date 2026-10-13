@@ -1,7 +1,7 @@
 const express = require('express');
 const validateBody = require('../middleware/validate-body');
-const mascotaController = require('../controllers/mascotaController');
 
+function createMascotasRouter(mascotaController) {
 const router = express.Router();
 
 // ==========================================
@@ -76,4 +76,7 @@ router.delete(
     mascotaController.eliminar
 );
 
-module.exports = router;
+return router;
+}
+
+module.exports = createMascotasRouter;

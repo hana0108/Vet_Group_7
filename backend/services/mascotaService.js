@@ -1,4 +1,4 @@
-const mascotaRepository = require('../repositories/mascotaRepository');
+function createMascotaService(mascotaRepository) {
 
 // ==========================================
 // CREAR ERROR CON CÓDIGO HTTP
@@ -224,10 +224,13 @@ async function eliminar(id, usuarioId) {
     };
 }
 
-module.exports = {
+return {
     crear,
     listar,
     obtenerPorId,
     actualizar,
     eliminar
 };
+}
+
+module.exports = createMascotaService;
