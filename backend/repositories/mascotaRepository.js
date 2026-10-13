@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+function createMascotaRepository(pool) {
 
 // ==========================================
 // CREAR MASCOTA
@@ -109,10 +109,13 @@ async function eliminar(id, usuario_id) {
     return resultado.affectedRows > 0;
 }
 
-module.exports = {
+return {
     crear,
     listarPorUsuario,
     obtenerPorId,
     actualizar,
     eliminar
 };
+}
+
+module.exports = createMascotaRepository;

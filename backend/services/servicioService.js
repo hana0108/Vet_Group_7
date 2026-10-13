@@ -1,4 +1,4 @@
-const servicioRepository = require('../repositories/servicioRepository');
+function createServicioService(servicioRepository) {
 
 function validarId(valor) {
     const id = Number(valor);
@@ -28,7 +28,10 @@ async function obtenerPorId(id) {
     return servicio;
 }
 
-module.exports = {
+return {
     listar,
     obtenerPorId
 };
+}
+
+module.exports = createServicioService;

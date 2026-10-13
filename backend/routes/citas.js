@@ -1,7 +1,7 @@
 const express = require('express');
 const validateBody = require('../middleware/validate-body');
-const citaController = require('../controllers/citaController');
 
+function createCitasRouter(citaController) {
 const router = express.Router();
 const validateAppointment = validateBody({
     mascota_id: { type: 'integer', required: true, min: 1 },
@@ -28,4 +28,7 @@ router.get('/:id', citaController.obtenerPorId);
 router.put('/:id', validateAppointment, citaController.actualizar);
 router.delete('/:id', citaController.cancelar);
 
-module.exports = router;
+return router;
+}
+
+module.exports = createCitasRouter;

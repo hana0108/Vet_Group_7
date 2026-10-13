@@ -1,4 +1,4 @@
-const mascotaService = require('../services/mascotaService');
+function createMascotaController(mascotaService) {
 
 // ==========================================
 // MANEJO CENTRALIZADO DE ERRORES
@@ -134,10 +134,13 @@ async function eliminar(req, res) {
     }
 }
 
-module.exports = {
+return {
     crear,
     listar,
     obtenerPorId,
     actualizar,
     eliminar
 };
+}
+
+module.exports = createMascotaController;

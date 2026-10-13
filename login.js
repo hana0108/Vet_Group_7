@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (
-            !/^[\p{L}]+(?:[' -][\p{L}]+)+$/u.test(nombre) ||
-            nombre.length < 3
+            !/^[\p{L}][\p{L} '’.-]*$/u.test(nombre) ||
+            nombre.length < 2
         ) {
-            return 'Escribe tu nombre completo usando al menos 3 caracteres.';
+            return 'Escribe un nombre válido usando al menos 2 caracteres.';
         }
 
         if (

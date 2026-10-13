@@ -1,9 +1,12 @@
 const express = require('express');
-const servicioController = require('../controllers/servicioController');
 
+function createServiciosRouter(servicioController) {
 const router = express.Router();
 
 router.get('/', servicioController.listar);
 router.get('/:id', servicioController.obtenerPorId);
 
-module.exports = router;
+return router;
+}
+
+module.exports = createServiciosRouter;

@@ -1,4 +1,4 @@
-const servicioService = require('../services/servicioService');
+function createServicioController(servicioService) {
 
 function responderError(res, error) {
     const statusCode = error.statusCode || 500;
@@ -32,7 +32,10 @@ async function obtenerPorId(req, res) {
     }
 }
 
-module.exports = {
+return {
     listar,
     obtenerPorId
 };
+}
+
+module.exports = createServicioController;

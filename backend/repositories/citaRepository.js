@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+function createCitaRepository(pool) {
 
 const SELECT_CITA = `
     SELECT
@@ -110,7 +110,7 @@ async function cancelar(id, usuarioId) {
     return resultado.affectedRows > 0;
 }
 
-module.exports = {
+return {
     mascotaPerteneceAlUsuario,
     crear,
     listarPorUsuario,
@@ -118,3 +118,6 @@ module.exports = {
     actualizar,
     cancelar
 };
+}
+
+module.exports = createCitaRepository;

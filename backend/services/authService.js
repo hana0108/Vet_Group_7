@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const usuarioRepository = require('../repositories/usuarioRepository');
 
+function createAuthService(usuarioRepository) {
 async function login(email, password) {
     const usuario = await usuarioRepository.buscarPorEmail(email);
 
@@ -72,8 +72,11 @@ async function obtenerUsuarioPorId(id) {
     return usuario;
 }
 
-module.exports = {
+return {
     login,
     register,
     obtenerUsuarioPorId
 };
+}
+
+module.exports = createAuthService;
