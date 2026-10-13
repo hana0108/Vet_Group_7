@@ -4,6 +4,17 @@ Repositorio académico del grupo 7 para Desarrollo de Aplicaciones Web.
 
 La arquitectura del backend y las tareas T3/T4 se describen en [`backend/docs/T3-T4.md`](backend/docs/T3-T4.md).
 
+## Instalación y ejecución
+
+Desde la raíz del repositorio:
+
+1. Ejecuta `npm install`.
+2. Copia `backend/.env.example` a `backend/.env` y configura la conexión MySQL. Define `DB_SETUP_NAME` con el nombre de una base de datos nueva y vacía para la instalación inicial.
+3. Ejecuta `npm run db:setup`.
+4. Ejecuta `npm start`.
+
+Los comandos `npm run dev` y `npm test` también delegan al backend. El instalador rechaza bases protegidas o que ya contengan tablas.
+
 ## Seguridad y despliegue
 
 El backend solo sirve desde la raíz los archivos HTML, CSS y JavaScript autorizados, además de recursos bajo `img/` y scripts `.js` bajo `js/`. La política CSP de Helmet está desactivada porque las páginas existentes usan estilos y scripts inline; las demás cabeceras de seguridad de Helmet siguen activas.
