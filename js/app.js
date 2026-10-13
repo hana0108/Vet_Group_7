@@ -486,14 +486,10 @@ function validarFormularioReserva(formData) {
         });
     }
 
-    const telefonoLimpio =
-        (formData.telefono || "")
-            .replace(/\D/g, "");
-
-    if (telefonoLimpio.length !== 10) {
+    if (!/^\d{10}$/.test(formData.telefono || "")) {
         errores.push({
             campo: "telefono",
-            mensaje: "El teléfono debe contener 10 dígitos."
+            mensaje: "El teléfono solo puede contener exactamente 10 dígitos."
         });
     }
 
@@ -568,6 +564,36 @@ function validarFormularioReserva(formData) {
         ok: errores.length === 0,
         errores: errores
     };
+}
+
+function configurarCampoTelefono(campo) {
+    if (!campo) return;
+
+    campo.addEventListener("input", function () {
+        const valorNumerico = campo.value.replace(/\D/g, "");
+        if (campo.value !== valorNumerico) {
+            const posicion = campo.selectionStart;
+            campo.value = valorNumerico;
+            if (typeof posicion === "number") {
+                const nuevaPosicion = Math.min(posicion, valorNumerico.length);
+                campo.setSelectionRange(nuevaPosicion, nuevaPosicion);
+            }
+        }
+
+        const anterior = campo.parentElement.querySelector(".error-telefono");
+        if (anterior) anterior.remove();
+
+        if (valorNumerico.length > 10) {
+            const aviso = document.createElement("small");
+            aviso.className = "error-campo error-telefono";
+            aviso.setAttribute("role", "alert");
+            aviso.textContent = "El teléfono no es válido: debe tener exactamente 10 dígitos.";
+            campo.insertAdjacentElement("afterend", aviso);
+            campo.setAttribute("aria-invalid", "true");
+        } else {
+            campo.removeAttribute("aria-invalid");
+        }
+    });
 }
 
 function mostrarErrores(form, errores) {
@@ -774,6 +800,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const botonEnviar = formulario.querySelector('[type="submit"]');
+    configurarCampoTelefono(formulario.elements.telefono);
     let mascotasDisponibles = [];
     let opcionesListas = false;
     botonEnviar.disabled = true;
@@ -838,7 +865,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     mascota_id: Number(mascota.id),
                     servicio_id: Number(datosFormulario.servicio),
                     fecha_hora: `${datosFormulario.fecha} ${datosFormulario.hora}`,
-                    telefono_contacto: datosFormulario.telefono.replace(/\D/g, ""),
+                    telefono_contacto: datosFormulario.telefono,
                     observaciones: datosFormulario.observaciones.trim() || null
                 })
             });

@@ -175,6 +175,7 @@ async function iniciarAdministracionCitas() {
     }
 
     let opcionesEdicion;
+    configurarCampoTelefono(formulario.elements.namedItem('telefono_contacto'));
     try {
         opcionesEdicion = await window.opcionesReservaCita;
         prepararOpcionesEdicion(opcionesEdicion, formulario);

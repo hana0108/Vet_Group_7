@@ -70,7 +70,8 @@
 
           <div class="form-group">
             <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" required>
+            <input type="tel" id="telefono" name="telefono" inputmode="numeric"
+                   autocomplete="tel" pattern="[0-9]{10}" required>
           </div>
 
           <div class="form-group full-width">
@@ -182,7 +183,7 @@
               <label for="edicionTelefono">Teléfono (10 dígitos)</label>
               <input id="edicionTelefono" name="telefono_contacto" type="tel"
                      inputmode="numeric" pattern="[0-9]{10}" minlength="10"
-                     maxlength="10" required>
+                     required>
             </div>
             <div class="form-group full-width">
               <label for="edicionObservaciones">Observaciones</label>
