@@ -1,8 +1,6 @@
 
-const API_URL = 'http://localhost:3000/api';
-
 async function peticionAPI(ruta, opciones = {}) {
-    const respuesta = await fetch(`${API_URL}${ruta}`, {
+    const respuesta = await fetch(`${API_BASE}${ruta}`, {
         credentials: 'include',
         ...opciones,
         headers: {
@@ -18,6 +16,20 @@ async function peticionAPI(ruta, opciones = {}) {
     }
 
     return datos;
+}
+
+function mostrarMensajeAdministracion(mensaje, tipo = 'error') {
+    let aviso = document.getElementById('mensajeAdministracion');
+    if (!aviso) {
+        aviso = document.createElement('p');
+        aviso.id = 'mensajeAdministracion';
+        const destino = document.getElementById('listaCitas') ||
+            document.querySelector('main') ||
+            document.body;
+        destino.prepend(aviso);
+    }
+    aviso.textContent = mensaje;
+    aviso.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
 }
 
 // Obtener los servicios desde la API
@@ -36,7 +48,7 @@ async function cargarServicios(select) {
         });
     } catch (error) {
         console.error('Error al cargar servicios:', error);
-        alert(error.message);
+        mostrarMensajeAdministracion(error.message);
     }
 }
 
@@ -51,11 +63,13 @@ async function mostrarCitas() {
     const lista = document.getElementById('listaCitas');
     if (!lista) return;
 
-    lista.innerHTML = '<p>Cargando citas...</p>';
+    const indicadorCarga = document.createElement('p');
+    indicadorCarga.textContent = 'Cargando citas...';
+    lista.replaceChildren(indicadorCarga);
 
     try {
         const citas = await listarCitas();
-        lista.innerHTML = '';
+        lista.replaceChildren();
 
         if (citas.length === 0) {
             lista.textContent = 'No tienes citas registradas.';
@@ -112,7 +126,8 @@ async function editarCita(id, datos) {
 
 // Cancelar una cita
 async function cancelarCita(id) {
-    if (!confirm('¿Deseas cancelar esta cita?')) return false;
+    const confirmado = await confirmarCancelacion();
+    if (!confirmado) return false;
 
     try {
         await peticionAPI(`/citas/${id}`, {
@@ -120,12 +135,46 @@ async function cancelarCita(id) {
         });
 
         await mostrarCitas();
-        alert('Cita cancelada correctamente.');
+        mostrarMensajeAdministracion('Cita cancelada correctamente.', 'success');
         return true;
     } catch (error) {
-        alert(error.message);
+        mostrarMensajeAdministracion(error.message);
         return false;
     }
+}
+
+function confirmarCancelacion() {
+    const lista = document.getElementById('listaCitas');
+    if (!lista) return Promise.resolve(false);
+
+    const confirmacion = document.createElement('div');
+    confirmacion.setAttribute('role', 'group');
+    confirmacion.setAttribute('aria-label', 'Confirmar cancelación de cita');
+
+    const mensaje = document.createElement('span');
+    mensaje.textContent = '¿Deseas cancelar esta cita? ';
+
+    const aceptar = document.createElement('button');
+    aceptar.type = 'button';
+    aceptar.textContent = 'Sí, cancelar';
+
+    const rechazar = document.createElement('button');
+    rechazar.type = 'button';
+    rechazar.textContent = 'No';
+
+    confirmacion.append(mensaje, aceptar, rechazar);
+    lista.prepend(confirmacion);
+
+    return new Promise(resolve => {
+        aceptar.addEventListener('click', () => {
+            confirmacion.remove();
+            resolve(true);
+        });
+        rechazar.addEventListener('click', () => {
+            confirmacion.remove();
+            resolve(false);
+        });
+    });
 }
 
 // Preparar los datos para editar una cita
@@ -133,7 +182,9 @@ function prepararEdicion(cita) {
     const formulario = document.getElementById('formularioEdicionCita');
 
     if (!formulario) {
-        alert('Agrega el formulario de edición para modificar citas.');
+        mostrarMensajeAdministracion(
+            'No se encontró el formulario de edición de citas.'
+        );
         return;
     }
 
@@ -171,10 +222,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             try {
                 await editarCita(id, datos);
-                alert('Cita actualizada correctamente.');
+                mostrarMensajeAdministracion(
+                    'Cita actualizada correctamente.',
+                    'success'
+                );
                 formulario.reset();
             } catch (error) {
-                alert(error.message);
+                mostrarMensajeAdministracion(error.message);
             }
         });
     }

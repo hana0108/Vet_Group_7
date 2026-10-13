@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:3000/api/auth/register',
+                `${API_BASE}/auth/register`,
                 {
                     method: 'POST',
                     credentials: 'include',
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:3000/api/auth/login',
+                `${API_BASE}/auth/login`,
                 {
                     method: 'POST',
                     credentials: 'include',

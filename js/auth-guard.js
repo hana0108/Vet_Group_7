@@ -4,7 +4,7 @@
 
         // Verificar si el usuario tiene una sesión válida
         const respuesta = await fetch(
-            'http://localhost:3000/api/auth/me',
+            `${API_BASE}/auth/me`,
             {
                 method: 'GET',
                 credentials: 'include'
@@ -57,7 +57,7 @@
 
                             const respuestaLogout =
                                 await fetch(
-                                    'http://localhost:3000/api/auth/logout',
+                                    `${API_BASE}/auth/logout`,
                                     {
                                         method: 'POST',
                                         credentials: 'include'
@@ -68,13 +68,17 @@
                                 window.location.replace(
                                     'login.html'
                                 );
+                            } else {
+                                mostrarMensajeSesion(
+                                    'No se pudo cerrar la sesión. Inténtalo de nuevo.'
+                                );
                             }
 
                         } catch (error) {
 
-                            console.error(
-                                'Error al cerrar sesión:',
-                                error
+                            console.error('Error al cerrar sesión:', error);
+                            mostrarMensajeSesion(
+                                'No se pudo conectar con el servidor para cerrar sesión.'
                             );
                         }
                     }
@@ -110,3 +114,15 @@
     }
 
 })();
+
+function mostrarMensajeSesion(mensaje) {
+    let aviso = document.getElementById('mensajeSesion');
+    if (!aviso) {
+        aviso = document.createElement('p');
+        aviso.id = 'mensajeSesion';
+        aviso.setAttribute('role', 'alert');
+        const destino = document.querySelector('header') || document.body;
+        destino.prepend(aviso);
+    }
+    aviso.textContent = mensaje;
+}

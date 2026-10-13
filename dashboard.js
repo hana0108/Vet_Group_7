@@ -1,4 +1,17 @@
-const API = '/api';
+const API = API_BASE;
+
+function mostrarMensajeDashboard(mensaje, tipo = 'error') {
+    let contenedor = document.getElementById('mensajeDashboard');
+    if (!contenedor) {
+        contenedor = document.createElement('p');
+        contenedor.id = 'mensajeDashboard';
+        contenedor.setAttribute('aria-live', 'polite');
+        document.querySelector('main').prepend(contenedor);
+    }
+    contenedor.textContent = mensaje;
+    contenedor.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
+    contenedor.className = `mensaje-dashboard mensaje-${tipo}`;
+}
 
 // ========================================
 // LEER RESPUESTAS Y MANEJAR ERRORES HTTP
@@ -22,7 +35,6 @@ async function leerRespuesta(respuesta, mensajeGenerico) {
 
         error.authRedirect = true;
 
-        alert(error.message);
         window.location.replace('login.html');
 
         throw error;
@@ -74,7 +86,7 @@ function mostrarError(error, mensajeGenerico) {
         return;
     }
 
-    alert(error.message || mensajeGenerico);
+    mostrarMensajeDashboard(error.message || mensajeGenerico);
 }
 
 // ========================================
@@ -227,7 +239,7 @@ async function guardarMascota(evento) {
     const boton = document.getElementById('btnGuardarMascota');
 
     if (!formulario || !campoId || !boton) {
-        alert('No se encontró el formulario de mascotas completo.');
+        mostrarMensajeDashboard('No se encontró el formulario de mascotas completo.');
         return;
     }
 
@@ -272,9 +284,10 @@ async function guardarMascota(evento) {
 
         await cargarMascotas();
 
-        alert(
+        mostrarMensajeDashboard(
             resultado.mensaje ||
-            'Mascota guardada correctamente.'
+            'Mascota guardada correctamente.',
+            'success'
         );
 
     } catch (error) {
@@ -343,14 +356,6 @@ async function editarMascota(id) {
 // ========================================
 
 async function eliminarMascota(id) {
-    const confirmar = confirm(
-        '¿Seguro que deseas eliminar esta mascota?'
-    );
-
-    if (!confirmar) {
-        return;
-    }
-
     try {
         const respuesta = await fetch(
             `${API}/mascotas/${id}`,
@@ -365,9 +370,10 @@ async function eliminarMascota(id) {
             'No se pudo eliminar la mascota.'
         );
 
-        alert(
+        mostrarMensajeDashboard(
             resultado.mensaje ||
-            'Mascota eliminada correctamente.'
+            'Mascota eliminada correctamente.',
+            'success'
         );
 
         await cargarMascotas();
@@ -396,7 +402,33 @@ function asignarEventosEditar() {
 function asignarEventosEliminar() {
     document.querySelectorAll('.btn-eliminar').forEach(boton => {
         boton.addEventListener('click', () => {
-            eliminarMascota(boton.dataset.id);
+            const celda = boton.parentElement;
+            if (celda.querySelector('.confirmar-eliminacion')) {
+                return;
+            }
+
+            const controles = document.createElement('span');
+            controles.className = 'confirmar-eliminacion';
+            controles.setAttribute('role', 'group');
+            controles.setAttribute('aria-label', 'Confirmar eliminación');
+
+            const pregunta = document.createElement('span');
+            pregunta.textContent = '¿Eliminar? ';
+
+            const confirmar = document.createElement('button');
+            confirmar.type = 'button';
+            confirmar.textContent = 'Sí';
+            confirmar.addEventListener('click', () => {
+                eliminarMascota(boton.dataset.id);
+            });
+
+            const cancelar = document.createElement('button');
+            cancelar.type = 'button';
+            cancelar.textContent = 'No';
+            cancelar.addEventListener('click', () => controles.remove());
+
+            controles.append(pregunta, confirmar, cancelar);
+            boton.after(controles);
         });
     });
 }

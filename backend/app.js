@@ -30,7 +30,7 @@ function createApp(config, options = {}) {
         app.set('trust proxy', 1);
     }
 
-    app.use(cors({
+    const corsMiddleware = cors({
         origin(origin, callback) {
             if (!origin || config.CORS_ORIGINS.includes(origin)) {
                 return callback(null, true);
@@ -41,7 +41,15 @@ function createApp(config, options = {}) {
             return callback(error);
         },
         credentials: true
-    }));
+    });
+    app.use((req, res, next) => {
+        const sameOrigin = req.get('Origin') === `${req.protocol}://${req.get('host')}`;
+        if (sameOrigin) {
+            return next();
+        }
+
+        return corsMiddleware(req, res, next);
+    });
 
     app.use(helmet({
         contentSecurityPolicy: false

@@ -74,6 +74,23 @@ test('responde JSON 404 y permite CORS solo para orígenes configurados', async 
     assert.equal((await blocked.json()).error, 'Origen no permitido por CORS.');
 });
 
+test('permite solicitudes del mismo origen al backend que también sirve el frontend', async t => {
+    const pool = {
+        async query() {
+            return [[{ resultado: 2 }]];
+        }
+    };
+    const { baseUrl } = await startTestServer(t, pool);
+
+    const response = await fetch(`${baseUrl}/api/health`, {
+        headers: { Origin: baseUrl }
+    });
+
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).dbTest, 2);
+    assert.equal(response.headers.get('access-control-allow-origin'), null);
+});
+
 test('health reporta fallo de base de datos sin exponer detalles internos', async t => {
     const pool = {
         async query() {

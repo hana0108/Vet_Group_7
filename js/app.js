@@ -610,8 +610,6 @@ function mostrarErrores(form, errores) {
     });
 }
 
-const API_BASE_URL = "http://localhost:3000/api";
-
 function mostrarErrorReserva(form, mensaje) {
     const anterior = form.querySelector(".error-reserva");
 
@@ -659,9 +657,9 @@ function mensajeErrorParaUsuario(error) {
 
 async function cargarOpcionesReserva(form) {
     const [respuestaMascotas, respuestaServicios, respuestaUsuario] = await Promise.all([
-        fetch(`${API_BASE_URL}/mascotas`, { credentials: "include" }),
-        fetch(`${API_BASE_URL}/servicios`, { credentials: "include" }),
-        fetch(`${API_BASE_URL}/auth/me`, { credentials: "include" })
+        fetch(`${API_BASE}/mascotas`, { credentials: "include" }),
+        fetch(`${API_BASE}/servicios`, { credentials: "include" }),
+        fetch(`${API_BASE}/auth/me`, { credentials: "include" })
     ]);
     const [datosMascotas, datosServicios, datosUsuario] = await Promise.all([
         leerRespuestaApi(respuestaMascotas),
@@ -709,7 +707,7 @@ async function obtenerOCrearMascotaReserva(datosFormulario, mascotas) {
         return mascotaExistente;
     }
 
-    const respuesta = await fetch(`${API_BASE_URL}/mascotas`, {
+    const respuesta = await fetch(`${API_BASE}/mascotas`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -828,7 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 datosFormulario,
                 mascotasDisponibles
             );
-            const respuesta = await fetch(`${API_BASE_URL}/citas`, {
+            const respuesta = await fetch(`${API_BASE}/citas`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
