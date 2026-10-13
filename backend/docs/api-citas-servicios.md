@@ -2,9 +2,19 @@
 
 Base local: `http://localhost:3000/api`
 
-Todas las rutas descritas requieren una sesión iniciada y utilizan JSON. Las
-citas solo pueden consultarse o modificarse si su mascota pertenece al usuario
-de la sesión.
+Las rutas privadas requieren sesión y las solicitudes con cuerpo usan JSON.
+Las operaciones de clientes sobre citas se limitan a mascotas de su cuenta;
+veterinarios y administradores tienen permisos profesionales donde se indica.
+`/api/health`, registro e inicio de sesión no requieren una sesión existente.
+
+## Autenticación
+
+| Método y ruta | Descripción | Límite |
+| --- | --- | --- |
+| `POST /api/auth/register` | Registrar cliente mediante `nombre`, `email` y `password`. | 5 intentos por IP cada 15 minutos; al excederlo responde `429`. |
+| `POST /api/auth/login` | Iniciar sesión mediante `email` y `password`. | 10 intentos por IP cada 15 minutos; al excederlo responde `429`. |
+| `GET /api/auth/me` | Consultar la sesión actual. | Requiere sesión (`401` si no existe). |
+| `POST /api/auth/logout` | Cerrar la sesión actual. | Requiere sesión. |
 
 ## Citas
 
@@ -22,13 +32,17 @@ de la sesión.
 
 Respuesta `201`: `{ "mensaje": "...", "cita": { ... } }`.
 
+El rol `cliente` siempre crea citas como `pendiente`, aunque envíe otro estado.
+Los roles `veterinario` y `admin` pueden especificar un estado permitido.
+
 ### GET `/api/citas`
 
 Respuesta `200`: `{ "resultados": [ ... ] }` con las citas del usuario.
 
 ### GET `/api/citas/:id`
 
-Respuesta `200`: `{ "cita": { ... } }`.
+Respuesta `200`: `{ "cita": { ... } }`. El usuario debe ser propietario de la
+mascota asociada.
 
 ### PUT `/api/citas/:id`
 
@@ -49,6 +63,9 @@ en el horario indicado.
 No lleva cuerpo. Cambia el estado de la cita a `cancelada` y conserva el
 registro. El usuario solo puede cancelar una cita propia; una cita ya cancelada
 o completada no se puede cancelar.
+
+La operación conserva la cita para todos los roles; también los usuarios
+profesionales deben ser propietarios para cancelarla.
 
 Respuesta `200`: `{ "mensaje": "Cita cancelada correctamente.", "cita": { ... } }`.
 
@@ -81,6 +98,9 @@ Respuesta `200`: `{ "servicio": { ... } }`.
 - `400`: datos o identificadores inválidos.
 - `401`: sesión no iniciada.
 - `403`: rol no autorizado para cambiar el estado o eliminar la cita.
+- `429`: se excedió el límite de intentos de inicio de sesión o registro.
 - `404`: cita, mascota o servicio inexistente o ajeno al usuario.
-- `409`: conflicto con el estado actual de la cita o doble reserva.
+- `409`: conflicto con el estado actual de la cita, o la misma mascota ya tiene
+  otra cita no cancelada para esa fecha y hora. La cita editada se excluye de
+  esta comprobación.
 - `500`: error interno o de base de datos.

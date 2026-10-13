@@ -1,22 +1,160 @@
-# Vet_Group_7
+# VetGroup7
 
-Repositorio académico del grupo 7 para Desarrollo de Aplicaciones Web.
+## Descripción del proyecto
 
-La arquitectura del backend y las tareas T3/T4 se describen en [`backend/docs/T3-T4.md`](backend/docs/T3-T4.md).
+VetGroup7 es una aplicación web académica para una clínica veterinaria. Permite
+gestionar usuarios, mascotas, servicios y citas. El proyecto fue desarrollado
+por el grupo 7 para la materia **Desarrollo de Aplicaciones Web**.
 
-## Instalación y ejecución
+## Requisitos
 
-Desde la raíz del repositorio:
+- **Node.js 18 o posterior** (Express 5 requiere como mínimo Node.js 18).
+- **MySQL** y una cuenta con permisos para crear una base de datos y sus tablas
+  durante la instalación inicial.
 
-1. Ejecuta `npm install`.
-2. Copia `backend/.env.example` a `backend/.env` y configura la conexión MySQL. Define `DB_SETUP_NAME` con el nombre de una base de datos nueva y vacía para la instalación inicial.
-3. Ejecuta `npm run db:setup`.
-4. Ejecuta `npm start`.
+## Instalación
 
-Los comandos `npm run dev` y `npm test` también delegan al backend. El instalador rechaza bases protegidas o que ya contengan tablas.
+Desde la raíz del repositorio, instala las dependencias del backend:
 
-## Seguridad y despliegue
+```sh
+cd backend && npm ci
+```
 
-El backend solo sirve desde la raíz los archivos HTML, CSS y JavaScript autorizados, además de recursos bajo `img/` y scripts `.js` bajo `js/`. La política CSP de Helmet está desactivada porque las páginas existentes usan estilos y scripts inline; las demás cabeceras de seguridad de Helmet siguen activas.
+Los siguientes comandos se ejecutan desde `backend/`, salvo que se indique lo
+contrario.
 
-En producción, el backend confía en un proxy inmediato y persiste sesiones en la tabla `express_sessions` de la base de datos configurada. La tabla se crea automáticamente al usar el store de MySQL. El limitador de inicio de sesión y registro guarda contadores en memoria por proceso; en despliegues con varias instancias debe configurarse un almacén compartido de rate limiting.
+## Configuración
+
+Copia `backend/.env.example` como `backend/.env` y completa los valores para tu
+instancia de MySQL. Si estás situado en `backend/`, puedes copiarlo con:
+
+```sh
+cp .env.example .env
+```
+
+En Windows PowerShell puedes usar `Copy-Item .env.example .env`. Configura:
+
+| Variable | Descripción |
+| --- | --- |
+| `DB_HOST` | Host o dirección del servidor MySQL, normalmente `localhost`. |
+| `DB_USER` | Usuario de MySQL que utilizará la aplicación y ejecutará la instalación. |
+| `DB_PASSWORD` | Contraseña de ese usuario. Debe estar definida; puede quedar vacía si MySQL local no usa contraseña. |
+| `DB_NAME` | Base de datos que utilizará la aplicación al ejecutarse. |
+| `DB_SETUP_NAME` | Nombre de la base de datos destino del instalador inicial. Debe ser una base nueva y vacía; normalmente se configura igual que `DB_NAME`. |
+| `PORT` | Puerto HTTP del servidor, normalmente `3000`. |
+| `SESSION_SECRET` | Secreto privado para firmar sesiones. Sustituye el valor de ejemplo por uno largo y aleatorio; en producción debe tener al menos 32 caracteres y no ser repetitivo. |
+| `CORS_ORIGINS` | Orígenes web permitidos, separados por comas y sin rutas; el ejemplo permite Live Server en `localhost` y `127.0.0.1`, puerto `5500`. |
+
+No compartas ni subas `backend/.env` al repositorio.
+
+## Base de datos
+
+Con la configuración lista, ejecuta desde `backend/`:
+
+```sh
+npm run db:setup
+```
+
+El instalador crea y configura la base indicada por `DB_SETUP_NAME`, ejecutando
+el esquema y los datos de demostración. **Solo instala sobre una base vacía**:
+si ya contiene tablas cancela la instalación y no las modifica. Algunas bases
+están protegidas explícitamente contra este proceso. Verifica cuidadosamente el
+nombre de destino antes de ejecutar el comando.
+
+`database/migrations/001_cita_contact_fields.sql` es una migración idempotente
+para esquemas existentes: agrega `telefono_contacto` y `observaciones` a
+`citas` únicamente si cada columna todavía no existe. No es necesaria para una
+instalación nueva, porque ambas columnas ya forman parte del esquema. `db:setup`
+no ejecuta esa migración; para una base existente debe aplicarse manualmente
+contra la base correcta con un cliente MySQL. El instalador inicial no migra
+bases existentes y rechazará una base que ya tenga tablas.
+
+## Ejecución
+
+Desde `backend/`, inicia el servidor normal o el modo de desarrollo con recarga:
+
+```sh
+npm start
+npm run dev
+```
+
+Abre <http://localhost:3000>. La ruta <http://localhost:3000/api/health>
+comprueba que el servidor puede consultar MySQL.
+
+## Tests
+
+Desde `backend/`, ejecuta:
+
+```sh
+npm test
+```
+
+## Usuarios de demostración
+
+El seeder `database/seeders.sql` contiene estos usuarios y roles:
+
+| Correo | Rol |
+| --- | --- |
+| `ana@example.com` | Cliente |
+| `luis@example.com` | Veterinario |
+| `admin@vetgroup7.com` | Administrador |
+| `demo@vetgroup7.test` | Cliente |
+
+El seeder almacena hashes de contraseña. Este README no publica contraseñas
+porque no se han verificado aquí como credenciales válidas para cada cuenta.
+
+## Estructura del repositorio
+
+```text
+backend/
+  routes/         Rutas HTTP y validación de entrada
+  controllers/    Adaptación entre HTTP y servicios
+  services/       Reglas de negocio
+  repositories/   Consultas y persistencia MySQL
+  middleware/     Sesiones, roles, seguridad y manejo de errores
+  container/      Composition root e inyección de dependencias
+  config/         Configuración de base de datos y entorno
+  test/           Pruebas automatizadas
+  docs/           Documentación técnica y contrato de API
+database/
+  schema.sql      Esquema para instalación nueva
+  seeders.sql     Datos de demostración
+  migrations/     Migraciones para esquemas existentes
+js/               Scripts del frontend
+img/              Imágenes y recursos gráficos
+*.html            Páginas del frontend
+```
+
+El backend conserva una arquitectura por capas:
+`routes → controllers → services → repositories`, ensamblada desde
+`container/compositionRoot.js`.
+
+## Resumen de la API
+
+La API se sirve bajo `/api`:
+
+- `/api/auth`: registro, inicio/cierre de sesión e información de la sesión.
+- `/api/mascotas`: operaciones de mascotas autenticadas.
+- `/api/citas`: creación, consulta, edición, cancelación y eliminación de citas.
+- `/api/servicios`: consulta de servicios autenticada.
+- `/api/health`: estado del servidor y conexión con MySQL.
+
+El contrato detallado de citas y servicios está en
+[`backend/docs/api-citas-servicios.md`](backend/docs/api-citas-servicios.md).
+La explicación de la arquitectura y configuración está en
+[`backend/docs/T3-T4.md`](backend/docs/T3-T4.md).
+
+## Seguridad y límites conocidos
+
+- Las sesiones se guardan en MySQL en producción; en desarrollo y pruebas se
+  usa el `MemoryStore` predeterminado de `express-session`, que no está pensado
+  para producción.
+- Los contadores de límite de intentos de inicio de sesión y registro residen en
+  memoria por proceso. En despliegues con varias instancias se necesita un
+  almacén compartido para aplicar límites globales.
+- El estático del backend se restringe a los recursos públicos previstos; las
+  rutas internas y archivos de configuración no se sirven como contenido web.
+- Helmet aplica cabeceras de seguridad, pero la política CSP está desactivada
+  mientras las páginas existentes requieran scripts o estilos inline.
+- En producción configura `SESSION_SECRET` aleatorio, HTTPS y el proxy de
+  confianza apropiado para el despliegue.
