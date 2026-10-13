@@ -41,7 +41,8 @@ router.put(
     authorizeStatusChange,
     citaController.actualizar
 );
-router.delete('/:id', citaController.cancelar);
+router.patch('/:id/cancelar', citaController.cancelar);
+router.delete('/:id', citaController.eliminar);
 
 return router;
 }

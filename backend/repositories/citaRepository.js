@@ -87,6 +87,16 @@ async function obtenerPorId(id, usuarioId) {
     return rows[0] || null;
 }
 
+async function obtenerPorIdParaProfesional(id) {
+    const [rows] = await pool.query(
+        `${SELECT_CITA}
+         WHERE c.id = ?`,
+        [id]
+    );
+
+    return rows[0] || null;
+}
+
 async function actualizar(id, usuarioId, cita) {
     const [resultado] = await pool.query(
         `UPDATE citas c
@@ -132,14 +142,32 @@ async function cancelar(id, usuarioId) {
     return resultado.affectedRows > 0;
 }
 
+async function eliminar(id, usuarioId, esProfesional = false) {
+    const condicionPropietario = esProfesional
+        ? ''
+        : ' AND m.usuario_id = ?';
+    const parametros = esProfesional ? [id] : [id, usuarioId];
+    const [resultado] = await pool.query(
+        `DELETE c
+         FROM citas c
+         INNER JOIN mascotas m ON m.id = c.mascota_id
+         WHERE c.id = ?${condicionPropietario}`,
+        parametros
+    );
+
+    return resultado.affectedRows > 0;
+}
+
 return {
     mascotaPerteneceAlUsuario,
     existeCitaActivaEnHorario,
     crear,
     listarPorUsuario,
     obtenerPorId,
+    obtenerPorIdParaProfesional,
     actualizar,
-    cancelar
+    cancelar,
+    eliminar
 };
 }
 

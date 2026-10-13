@@ -32,16 +32,39 @@ Respuesta `200`: `{ "cita": { ... } }`.
 
 ### PUT `/api/citas/:id`
 
-Acepta el mismo cuerpo de `POST` y, opcionalmente, `estado` con uno de estos
-valores: `pendiente`, `confirmada`, `cancelada` o `completada`.
+Acepta el mismo cuerpo de `POST` y, para veterinario o admin, opcionalmente
+`estado` con uno de estos valores: `pendiente`, `confirmada`, `cancelada` o
+`completada`. Los clientes no pueden cambiar el estado. Las citas canceladas o
+completadas no se pueden editar.
 
 Respuesta `200`: `{ "mensaje": "...", "cita": { ... } }`.
+
+Errores: `400` para datos inválidos, `403` si el cliente intenta cambiar el
+estado, `404` si la cita no existe o no pertenece al usuario y `409` si la cita
+ya está cancelada o completada, o existe otra reserva activa para esa mascota
+en el horario indicado.
+
+### PATCH `/api/citas/:id/cancelar`
+
+No lleva cuerpo. Cambia el estado de la cita a `cancelada` y conserva el
+registro. El usuario solo puede cancelar una cita propia; una cita ya cancelada
+o completada no se puede cancelar.
+
+Respuesta `200`: `{ "mensaje": "Cita cancelada correctamente.", "cita": { ... } }`.
+
+Errores: `401` si no hay sesión, `404` si la cita no existe o no pertenece al
+usuario y `409` si ya está cancelada o está completada.
 
 ### DELETE `/api/citas/:id`
 
-Cancela la cita de forma lógica cambiando su estado a `cancelada`.
+Elimina definitivamente la cita. Un cliente solo puede eliminar sus citas en
+estado `pendiente` o `cancelada`; veterinarios y administradores pueden
+eliminar citas de cualquier propietario y en cualquier estado.
 
-Respuesta `200`: `{ "mensaje": "...", "cita": { ... } }`.
+Respuesta `200`: `{ "mensaje": "Cita eliminada correctamente.", "id": 1 }`.
+
+Errores: `401` si no hay sesión, `403` si el cliente intenta eliminar una cita
+confirmada o completada y `404` si la cita no existe o no pertenece al cliente.
 
 ## Servicios
 
@@ -57,5 +80,7 @@ Respuesta `200`: `{ "servicio": { ... } }`.
 
 - `400`: datos o identificadores inválidos.
 - `401`: sesión no iniciada.
+- `403`: rol no autorizado para cambiar el estado o eliminar la cita.
 - `404`: cita, mascota o servicio inexistente o ajeno al usuario.
+- `409`: conflicto con el estado actual de la cita o doble reserva.
 - `500`: error interno o de base de datos.

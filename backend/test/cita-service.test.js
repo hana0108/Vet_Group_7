@@ -14,8 +14,9 @@ function crearServicioCitas(citaInicial = {
     let cita = { ...citaInicial };
     const cambios = [];
     const chequeosConflicto = [];
+    const perteneceAlUsuario = opciones.perteneceAlUsuario !== false;
     const citaRepository = {
-        async mascotaPerteneceAlUsuario() { return true; },
+        async mascotaPerteneceAlUsuario() { return perteneceAlUsuario; },
         async existeCitaActivaEnHorario(...argumentos) {
             chequeosConflicto.push(argumentos);
             return Boolean(opciones.conflicto);
@@ -25,7 +26,12 @@ function crearServicioCitas(citaInicial = {
             cambios.push({ tipo: 'crear', cita: { ...datos } });
             return cita.id;
         },
-        async obtenerPorId() { return { ...cita }; },
+        async obtenerPorId() {
+            return perteneceAlUsuario ? { ...cita } : null;
+        },
+        async obtenerPorIdParaProfesional() {
+            return opciones.citaProfesionalAusente ? null : { ...cita };
+        },
         async actualizar(id, usuarioId, datos) {
             cita = { ...cita, ...datos };
             cambios.push({ tipo: 'actualizar', cita: { ...datos } });
@@ -34,6 +40,10 @@ function crearServicioCitas(citaInicial = {
         async cancelar() {
             cita.estado = 'cancelada';
             cambios.push({ tipo: 'cancelar' });
+            return true;
+        },
+        async eliminar(id, usuarioId, esProfesional) {
+            cambios.push({ tipo: 'eliminar', id, usuarioId, esProfesional });
             return true;
         }
     };
@@ -118,11 +128,97 @@ test('una cita cancelada o completada no se puede editar ni cancelar', async () 
             { statusCode: 409 }
         );
         await assert.rejects(
-            servicio.cancelar(7, 12),
+            servicio.cancelar(7, 12, 'cliente'),
             { statusCode: 409 }
         );
         assert.equal(cambios.length, 0);
     }
+});
+
+test('cancela una cita pendiente sin eliminarla', async () => {
+    const { servicio, cambios } = crearServicioCitas();
+
+    const cita = await servicio.cancelar(7, 12, 'cliente');
+
+    assert.equal(cita.estado, 'cancelada');
+    assert.deepEqual(cambios, [{ tipo: 'cancelar' }]);
+});
+
+test('rechaza cancelar citas ya canceladas o completadas con errores específicos', async () => {
+    const yaCancelada = crearServicioCitas({ id: 7, estado: 'cancelada' });
+    await assert.rejects(
+        yaCancelada.servicio.cancelar(7, 12, 'cliente'),
+        { statusCode: 409, message: 'La cita ya está cancelada' }
+    );
+
+    const completada = crearServicioCitas({ id: 7, estado: 'completada' });
+    await assert.rejects(
+        completada.servicio.cancelar(7, 12, 'cliente'),
+        { statusCode: 409, message: 'No se puede cancelar una cita completada' }
+    );
+});
+
+test('no permite cancelar una cita ajena', async () => {
+    const { servicio, cambios } = crearServicioCitas(undefined, {
+        perteneceAlUsuario: false
+    });
+    await assert.rejects(
+        servicio.cancelar(7, 12, 'cliente'),
+        { statusCode: 404 }
+    );
+    assert.equal(cambios.length, 0);
+});
+
+test('un cliente puede eliminar una cita pendiente o cancelada', async () => {
+    for (const estado of ['pendiente', 'cancelada']) {
+        const { servicio, cambios } = crearServicioCitas({ id: 7, estado });
+        assert.deepEqual(await servicio.eliminar(7, 12, 'cliente'), { id: 7 });
+        assert.deepEqual(cambios, [{
+            tipo: 'eliminar',
+            id: 7,
+            usuarioId: 12,
+            esProfesional: false
+        }]);
+    }
+});
+
+test('un cliente no puede eliminar citas confirmadas ni completadas', async () => {
+    for (const estado of ['confirmada', 'completada']) {
+        const { servicio, cambios } = crearServicioCitas({ id: 7, estado });
+        await assert.rejects(
+            servicio.eliminar(7, 12, 'cliente'),
+            {
+                statusCode: 403,
+                message: 'Los clientes solo pueden eliminar citas pendientes o canceladas.'
+            }
+        );
+        assert.equal(cambios.length, 0);
+    }
+});
+
+test('veterinario y admin pueden eliminar citas confirmadas de cualquier propietario', async () => {
+    for (const rol of ['veterinario', 'admin']) {
+        const { servicio, cambios } = crearServicioCitas(
+            { id: 7, estado: 'confirmada' },
+            { perteneceAlUsuario: false }
+        );
+        assert.deepEqual(await servicio.eliminar(7, 99, rol), { id: 7 });
+        assert.equal(cambios[0].esProfesional, true);
+    }
+});
+
+test('no permite eliminar citas ajenas a clientes ni citas profesionales inexistentes', async () => {
+    const cliente = crearServicioCitas(undefined, { perteneceAlUsuario: false });
+    await assert.rejects(
+        cliente.servicio.eliminar(7, 12, 'cliente'),
+        { statusCode: 404 }
+    );
+
+    const profesional = crearServicioCitas(undefined, { citaProfesionalAusente: true });
+    await assert.rejects(
+        profesional.servicio.eliminar(7, 12, 'admin'),
+        { statusCode: 404 }
+    );
 });
 
 test('interpreta citas en hora local de Santo Domingo como UTC-4 al validar futuro', async () => {

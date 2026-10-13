@@ -12,7 +12,8 @@ test('mascota, cita y servicio controllers forward errors to next', async () => 
         listar: reject,
         obtenerPorId: reject,
         actualizar: reject,
-        cancelar: reject
+        cancelar: reject,
+        eliminar: reject
     });
     const mascotaController = createMascotaController({
         crear: reject,
@@ -45,4 +46,58 @@ test('mascota, cita y servicio controllers forward errors to next', async () => 
         await handler(req, res, received => { forwarded = received; });
         assert.equal(forwarded, error);
     }
+});
+
+test('cita controller separates cancellation from permanent deletion', async () => {
+    const calls = [];
+    const cita = { id: 7, estado: 'cancelada' };
+    const controller = createCitaController({
+        async cancelar(...args) {
+            calls.push(['cancelar', ...args]);
+            return cita;
+        },
+        async eliminar(...args) {
+            calls.push(['eliminar', ...args]);
+            return { id: 7 };
+        }
+    });
+    const req = {
+        params: { id: '7' },
+        session: { userId: 12, usuario: { rol: 'cliente' } }
+    };
+
+    function crearResponse() {
+        return {
+            statusCode: 200,
+            body: null,
+            status(code) {
+                this.statusCode = code;
+                return this;
+            },
+            json(body) {
+                this.body = body;
+                return this;
+            }
+        };
+    }
+
+    const cancelResponse = crearResponse();
+    await controller.cancelar(req, cancelResponse, error => { throw error; });
+    assert.equal(cancelResponse.statusCode, 200);
+    assert.deepEqual(cancelResponse.body, {
+        mensaje: 'Cita cancelada correctamente.',
+        cita
+    });
+
+    const deleteResponse = crearResponse();
+    await controller.eliminar(req, deleteResponse, error => { throw error; });
+    assert.equal(deleteResponse.statusCode, 200);
+    assert.deepEqual(deleteResponse.body, {
+        mensaje: 'Cita eliminada correctamente.',
+        id: 7
+    });
+    assert.deepEqual(calls, [
+        ['cancelar', '7', 12, 'cliente'],
+        ['eliminar', '7', 12, 'cliente']
+    ]);
 });

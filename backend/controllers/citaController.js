@@ -58,11 +58,28 @@ async function cancelar(req, res, next) {
     try {
         const cita = await citaService.cancelar(
             req.params.id,
-            req.session.userId
+            req.session.userId,
+            req.session.usuario.rol
         );
-        return res.json({
+        return res.status(200).json({
             mensaje: 'Cita cancelada correctamente.',
             cita
+        });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+async function eliminar(req, res, next) {
+    try {
+        const resultado = await citaService.eliminar(
+            req.params.id,
+            req.session.userId,
+            req.session.usuario.rol
+        );
+        return res.status(200).json({
+            mensaje: 'Cita eliminada correctamente.',
+            id: resultado.id
         });
     } catch (error) {
         return next(error);
@@ -74,7 +91,8 @@ return {
     listar,
     obtenerPorId,
     actualizar,
-    cancelar
+    cancelar,
+    eliminar
 };
 }
 

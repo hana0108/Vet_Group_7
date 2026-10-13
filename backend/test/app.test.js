@@ -91,6 +91,26 @@ test('permite solicitudes del mismo origen al backend que también sirve el fron
     assert.equal(response.headers.get('access-control-allow-origin'), null);
 });
 
+test('las rutas de editar, cancelar y eliminar cita requieren sesión', async t => {
+    const pool = { async query() { return [[], []]; } };
+    const { baseUrl } = await startTestServer(t, pool);
+    const requests = [
+        ['PUT', '/api/citas/7'],
+        ['PATCH', '/api/citas/7/cancelar'],
+        ['DELETE', '/api/citas/7']
+    ];
+
+    for (const [method, route] of requests) {
+        const response = await fetch(`${baseUrl}${route}`, {
+            method,
+            ...(method === 'PUT'
+                ? { headers: { 'Content-Type': 'application/json' }, body: '{}' }
+                : {})
+        });
+        assert.equal(response.status, 401, `${method} ${route}`);
+    }
+});
+
 test('health reporta fallo de base de datos sin exponer detalles internos', async t => {
     const pool = {
         async query() {

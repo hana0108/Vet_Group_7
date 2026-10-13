@@ -212,16 +212,57 @@ async function actualizar(id, usuarioId, rol, datos) {
     return citaRepository.obtenerPorId(citaId, usuario_id);
 }
 
-async function cancelar(id, usuarioId) {
+async function cancelar(id, usuarioId, rol) {
     const citaId = validarId(id, 'la cita');
     const usuario_id = validarId(usuarioId, 'usuario');
     const existente = await obtenerPorId(citaId, usuario_id);
-    if (['cancelada', 'completada'].includes(existente.estado)) {
-        throw crearError('Una cita cancelada o completada no se puede modificar.', 409);
+    if (existente.estado === 'cancelada') {
+        throw crearError('La cita ya está cancelada', 409);
+    }
+    if (existente.estado === 'completada') {
+        throw crearError('No se puede cancelar una cita completada', 409);
     }
 
-    await citaRepository.cancelar(citaId, usuario_id);
+    const actualizada = await citaRepository.cancelar(citaId, usuario_id);
+    if (!actualizada) {
+        throw crearError('Cita no encontrada.', 404);
+    }
+
     return citaRepository.obtenerPorId(citaId, usuario_id);
+}
+
+async function eliminar(id, usuarioId, rol) {
+    const citaId = validarId(id, 'la cita');
+    const usuario_id = validarId(usuarioId, 'usuario');
+    const esProfesional = ROLES_PROFESIONALES.includes(rol);
+    const existente = esProfesional
+        ? await citaRepository.obtenerPorIdParaProfesional(citaId)
+        : await citaRepository.obtenerPorId(citaId, usuario_id);
+
+    if (!existente) {
+        throw crearError('Cita no encontrada.', 404);
+    }
+
+    if (
+        !esProfesional &&
+        !['cancelada', 'pendiente'].includes(existente.estado)
+    ) {
+        throw crearError(
+            'Los clientes solo pueden eliminar citas pendientes o canceladas.',
+            403
+        );
+    }
+
+    const eliminada = await citaRepository.eliminar(
+        citaId,
+        usuario_id,
+        esProfesional
+    );
+    if (!eliminada) {
+        throw crearError('Cita no encontrada.', 404);
+    }
+
+    return { id: citaId };
 }
 
 return {
@@ -230,7 +271,8 @@ return {
     listar,
     obtenerPorId,
     actualizar,
-    cancelar
+    cancelar,
+    eliminar
 };
 }
 
