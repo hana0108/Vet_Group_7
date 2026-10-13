@@ -1,25 +1,10 @@
 function createMascotaController(mascotaService) {
 
 // ==========================================
-// MANEJO CENTRALIZADO DE ERRORES
-// ==========================================
-function manejarError(res, error, mensajeGenerico) {
-    const statusCode = error.statusCode || 500;
-
-    console.error(mensajeGenerico, error);
-
-    return res.status(statusCode).json({
-        error: statusCode === 500
-            ? mensajeGenerico
-            : error.message
-    });
-}
-
-// ==========================================
 // CREAR MASCOTA
 // POST /api/mascotas
 // ==========================================
-async function crear(req, res) {
+async function crear(req, res, next) {
     try {
         const mascota = await mascotaService.crear(
             req.session.userId,
@@ -32,11 +17,7 @@ async function crear(req, res) {
         });
 
     } catch (error) {
-        return manejarError(
-            res,
-            error,
-            'No se pudo registrar la mascota'
-        );
+        return next(error);
     }
 }
 
@@ -44,7 +25,7 @@ async function crear(req, res) {
 // LISTAR MASCOTAS DEL USUARIO
 // GET /api/mascotas
 // ==========================================
-async function listar(req, res) {
+async function listar(req, res, next) {
     try {
         const resultados = await mascotaService.listar(
             req.session.userId
@@ -53,11 +34,7 @@ async function listar(req, res) {
         return res.json({ resultados });
 
     } catch (error) {
-        return manejarError(
-            res,
-            error,
-            'No se pudieron obtener las mascotas'
-        );
+        return next(error);
     }
 }
 
@@ -65,7 +42,7 @@ async function listar(req, res) {
 // OBTENER UNA MASCOTA
 // GET /api/mascotas/:id
 // ==========================================
-async function obtenerPorId(req, res) {
+async function obtenerPorId(req, res, next) {
     try {
         const mascota = await mascotaService.obtenerPorId(
             req.params.id,
@@ -75,11 +52,7 @@ async function obtenerPorId(req, res) {
         return res.json(mascota);
 
     } catch (error) {
-        return manejarError(
-            res,
-            error,
-            'No se pudo obtener la mascota'
-        );
+        return next(error);
     }
 }
 
@@ -87,7 +60,7 @@ async function obtenerPorId(req, res) {
 // ACTUALIZAR MASCOTA
 // PUT /api/mascotas/:id
 // ==========================================
-async function actualizar(req, res) {
+async function actualizar(req, res, next) {
     try {
         const mascota = await mascotaService.actualizar(
             req.params.id,
@@ -101,11 +74,7 @@ async function actualizar(req, res) {
         });
 
     } catch (error) {
-        return manejarError(
-            res,
-            error,
-            'No se pudo actualizar la mascota'
-        );
+        return next(error);
     }
 }
 
@@ -113,7 +82,7 @@ async function actualizar(req, res) {
 // ELIMINAR MASCOTA
 // DELETE /api/mascotas/:id
 // ==========================================
-async function eliminar(req, res) {
+async function eliminar(req, res, next) {
     try {
         const resultado = await mascotaService.eliminar(
             req.params.id,
@@ -126,11 +95,7 @@ async function eliminar(req, res) {
         });
 
     } catch (error) {
-        return manejarError(
-            res,
-            error,
-            'No se pudo eliminar la mascota'
-        );
+        return next(error);
     }
 }
 

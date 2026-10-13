@@ -2,7 +2,7 @@ function createUsuarioRepository(pool) {
 
 async function buscarPorEmail(email) {
     const [rows] = await pool.query(
-        'SELECT * FROM usuarios WHERE email = ?',
+        'SELECT id, nombre, email, password, rol FROM usuarios WHERE email = ?',
         [email]
     );
 

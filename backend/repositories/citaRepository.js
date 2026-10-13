@@ -26,6 +26,28 @@ async function mascotaPerteneceAlUsuario(mascotaId, usuarioId) {
     return rows.length > 0;
 }
 
+async function existeCitaActivaEnHorario(mascotaId, fechaHora, excluirId) {
+    const parametros = [mascotaId, fechaHora];
+    let condicionExclusion = '';
+
+    if (excluirId !== undefined) {
+        condicionExclusion = ' AND id <> ?';
+        parametros.push(excluirId);
+    }
+
+    const [rows] = await pool.query(
+        `SELECT id
+         FROM citas
+         WHERE mascota_id = ?
+           AND fecha_hora = ?
+           AND estado <> 'cancelada'${condicionExclusion}
+         LIMIT 1`,
+        parametros
+    );
+
+    return rows.length > 0;
+}
+
 async function crear(cita) {
     const [resultado] = await pool.query(
         `INSERT INTO citas
@@ -112,6 +134,7 @@ async function cancelar(id, usuarioId) {
 
 return {
     mascotaPerteneceAlUsuario,
+    existeCitaActivaEnHorario,
     crear,
     listarPorUsuario,
     obtenerPorId,

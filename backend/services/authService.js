@@ -5,10 +5,9 @@ async function login(email, password) {
     const usuario = await usuarioRepository.buscarPorEmail(email);
 
     if (!usuario) {
-        throw {
-            status: 401,
-            message: 'Credenciales inválidas'
-        };
+        const error = new Error('Credenciales inválidas');
+        error.statusCode = 401;
+        throw error;
     }
 
     const passwordValido = await bcrypt.compare(
@@ -17,10 +16,9 @@ async function login(email, password) {
     );
 
     if (!passwordValido) {
-        throw {
-            status: 401,
-            message: 'Credenciales inválidas'
-        };
+        const error = new Error('Credenciales inválidas');
+        error.statusCode = 401;
+        throw error;
     }
 
     return {
@@ -36,10 +34,9 @@ async function register(nombre, email, password) {
         await usuarioRepository.buscarPorEmail(email);
 
     if (usuarioExistente) {
-        throw {
-            status: 409,
-            message: 'El correo ya está registrado'
-        };
+        const error = new Error('El correo ya está registrado');
+        error.statusCode = 409;
+        throw error;
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
@@ -63,10 +60,9 @@ async function obtenerUsuarioPorId(id) {
     const usuario = await usuarioRepository.buscarPorId(id);
 
     if (!usuario) {
-        throw {
-            status: 404,
-            message: 'Usuario no encontrado'
-        };
+        const error = new Error('Usuario no encontrado');
+        error.statusCode = 404;
+        throw error;
     }
 
     return usuario;

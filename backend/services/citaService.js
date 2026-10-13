@@ -1,4 +1,8 @@
-function createCitaService({ citaRepository, servicioRepository }) {
+function createCitaService({
+    citaRepository,
+    servicioRepository,
+    now = () => Date.now()
+}) {
 
 const ESTADOS_VALIDOS = [
     'pendiente',
@@ -7,6 +11,7 @@ const ESTADOS_VALIDOS = [
     'completada'
 ];
 const ROLES_PROFESIONALES = ['veterinario', 'admin'];
+const OFFSET_SANTO_DOMINGO_MS = 4 * 60 * 60 * 1000;
 
 function crearError(mensaje, statusCode) {
     const error = new Error(mensaje);
@@ -39,14 +44,15 @@ function normalizarFechaHora(valor) {
     }
 
     const [, anio, mes, dia, hora, minuto, segundo = '00'] = coincidencia;
-    const fecha = new Date(Date.UTC(
+    const fechaUtc = Date.UTC(
         Number(anio),
         Number(mes) - 1,
         Number(dia),
         Number(hora),
         Number(minuto),
         Number(segundo)
-    ));
+    );
+    const fecha = new Date(fechaUtc);
 
     const esValida =
         fecha.getUTCFullYear() === Number(anio) &&
@@ -60,7 +66,8 @@ function normalizarFechaHora(valor) {
         throw crearError('La fecha y hora indicadas no son válidas.', 400);
     }
 
-    if (fecha.getTime() <= Date.now()) {
+    const instanteCita = fechaUtc + OFFSET_SANTO_DOMINGO_MS;
+    if (instanteCita <= now()) {
         throw crearError('La fecha de la cita debe ser futura.', 400);
     }
 
@@ -126,6 +133,21 @@ async function validarRelaciones(cita, usuarioId) {
     }
 }
 
+async function validarSinConflicto(cita, excluirId) {
+    const existeConflicto = await citaRepository.existeCitaActivaEnHorario(
+        cita.mascota_id,
+        cita.fecha_hora,
+        excluirId
+    );
+
+    if (existeConflicto) {
+        throw crearError(
+            'La mascota ya tiene una cita activa en esa fecha y hora.',
+            409
+        );
+    }
+}
+
 async function crear(usuarioId, rol, datos) {
     const usuario_id = validarId(usuarioId, 'usuario');
     const cita = normalizarDatos(
@@ -134,6 +156,7 @@ async function crear(usuarioId, rol, datos) {
             : { ...datos, estado: 'pendiente' }
     );
     await validarRelaciones(cita, usuario_id);
+    await validarSinConflicto(cita);
 
     const id = await citaRepository.crear(cita);
     return citaRepository.obtenerPorId(id, usuario_id);
@@ -182,6 +205,7 @@ async function actualizar(id, usuarioId, rol, datos) {
     );
 
     await validarRelaciones(cita, usuario_id);
+    await validarSinConflicto(cita, citaId);
 
     await citaRepository.actualizar(citaId, usuario_id, cita);
 

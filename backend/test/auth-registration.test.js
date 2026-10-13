@@ -28,7 +28,7 @@ function createRegistrationPool() {
         calls,
         async query(sql, values) {
             calls.push({ sql, values });
-            if (sql.includes('SELECT * FROM usuarios')) {
+            if (sql.includes('SELECT id, nombre, email, password, rol FROM usuarios')) {
                 return [[], []];
             }
             if (sql.includes('INSERT INTO usuarios')) {
@@ -101,7 +101,7 @@ test('login emite una cookie de sesión HttpOnly y SameSite=Lax', async t => {
     const passwordHash = await bcrypt.hash('VetGroup7!', 10);
     const pool = {
         async query(sql) {
-            if (sql.includes('SELECT * FROM usuarios')) {
+            if (sql.includes('SELECT id, nombre, email, password, rol FROM usuarios')) {
                 return [[{
                     id: 23,
                     nombre: 'Ana María',
@@ -134,7 +134,7 @@ test('producción guarda sesiones en MySQL y emite cookie Secure detrás de prox
     const pool = {
         async query(sql) {
             calls.push(sql);
-            if (sql.includes('SELECT * FROM usuarios')) {
+            if (sql.includes('SELECT id, nombre, email, password, rol FROM usuarios')) {
                 return [[{
                     id: 23,
                     nombre: 'Ana María',
