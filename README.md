@@ -8,31 +8,41 @@ por el grupo 7 para la materia **Desarrollo de Aplicaciones Web**.
 
 ## Requisitos
 
-- **Node.js 18 o posterior** (Express 5 requiere como mínimo Node.js 18).
-- **MySQL** y una cuenta con permisos para crear una base de datos y sus tablas
-  durante la instalación inicial.
+- **Node.js v22.0.0** con **npm 10.5.1** (versiones de desarrollo y prueba).
+  Mínimo compatible verificado: **Node.js 18**.
+- **MySQL Community Server 8.0.45** (versión probada) y una cuenta con permisos
+  para crear una base de datos y sus tablas durante la instalación inicial.
+
+## Tecnologías
+
+- Node.js v22.0.0 y npm 10.5.1; el mínimo compatible es Node.js 18.
+- Express 5.2.1 para el servidor y las rutas HTTP.
+- MySQL Community Server 8.0.45 y `mysql2` 3.24.4 para la persistencia.
+- `express-session` 1.19.0 para sesiones, Helmet 8.3.0 para cabeceras y
+  `express-rate-limit` 8.7.1 para limitar intentos de autenticación.
+- Frontend en HTML, CSS y JavaScript sin framework.
+
+Las versiones de los paquetes corresponden al lockfile del backend.
 
 ## Instalación
 
-Desde la raíz del repositorio, instala las dependencias del backend:
+Desde la raíz del repositorio, instala las dependencias:
 
 ```sh
-cd backend && npm ci
+npm install
 ```
-
-Los siguientes comandos se ejecutan desde `backend/`, salvo que se indique lo
-contrario.
 
 ## Configuración
 
 Copia `backend/.env.example` como `backend/.env` y completa los valores para tu
-instancia de MySQL. Si estás situado en `backend/`, puedes copiarlo con:
+instancia de MySQL. Desde la raíz del repositorio:
 
 ```sh
-cp .env.example .env
+cp backend/.env.example backend/.env
 ```
 
-En Windows PowerShell puedes usar `Copy-Item .env.example .env`. Configura:
+En Windows PowerShell puedes usar
+`Copy-Item backend/.env.example backend/.env`. Configura:
 
 | Variable | Descripción |
 | --- | --- |
@@ -43,13 +53,13 @@ En Windows PowerShell puedes usar `Copy-Item .env.example .env`. Configura:
 | `DB_SETUP_NAME` | Nombre de la base de datos destino del instalador inicial. Debe ser una base nueva y vacía; normalmente se configura igual que `DB_NAME`. |
 | `PORT` | Puerto HTTP del servidor, normalmente `3000`. |
 | `SESSION_SECRET` | Secreto privado para firmar sesiones. Sustituye el valor de ejemplo por uno largo y aleatorio; en producción debe tener al menos 32 caracteres y no ser repetitivo. |
-| `CORS_ORIGINS` | Orígenes web permitidos, separados por comas y sin rutas; el ejemplo permite Live Server en `localhost` y `127.0.0.1`, puerto `5500`. |
+| `CORS_ORIGINS` | Orígenes web permitidos, separados por comas y sin rutas. La aplicación servida en `http://localhost:3000` usa el mismo origen y no requiere CORS; los puertos `5500` (`localhost` y `127.0.0.1`) solo se necesitan si usas Live Server. |
 
 No compartas ni subas `backend/.env` al repositorio.
 
 ## Base de datos
 
-Con la configuración lista, ejecuta desde `backend/`:
+Con la configuración lista, ejecuta desde la raíz:
 
 ```sh
 npm run db:setup
@@ -71,7 +81,7 @@ bases existentes y rechazará una base que ya tenga tablas.
 
 ## Ejecución
 
-Desde `backend/`, inicia el servidor normal o el modo de desarrollo con recarga:
+Desde la raíz, inicia el servidor normal o el modo de desarrollo con recarga:
 
 ```sh
 npm start
@@ -83,7 +93,7 @@ comprueba que el servidor puede consultar MySQL.
 
 ## Tests
 
-Desde `backend/`, ejecuta:
+Desde la raíz, ejecuta:
 
 ```sh
 npm test
@@ -100,8 +110,25 @@ El seeder `database/seeders.sql` contiene estos usuarios y roles:
 | `admin@vetgroup7.com` | Administrador |
 | `demo@vetgroup7.test` | Cliente |
 
-El seeder almacena hashes de contraseña. Este README no publica contraseñas
-porque no se han verificado aquí como credenciales válidas para cada cuenta.
+Credenciales verificadas para la cuenta demo:
+
+- **Correo:** `demo@vetgroup7.test`
+- **Contraseña:** `VetDemo2026!`
+- **Rol:** Cliente
+
+La contraseña se contrastó con el hash bcrypt de la cuenta en el seeder. No se
+han confirmado contraseñas para las otras cuentas, por lo que no se publican.
+
+## Integrantes del equipo
+
+- Génesis Milagros Quezada
+- Adoris Manuel Jiménez
+- Francisco Junior Morfe
+- Junnior Pérez Gómez
+- Miguel Arístides Rosario Labour
+- Adén Luis Sánchez Félix
+- Enmanuel Sánchez
+- Rafael Alberto Salado Luciano
 
 ## Estructura del repositorio
 
