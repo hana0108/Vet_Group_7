@@ -145,65 +145,78 @@ function crearBoton(texto, clases, handler, ariaLabel = "") {
 // ===============================
 
 function renderGaleria(contenedor, lista) {
-    contenedor.innerHTML = "";
+    contenedor.replaceChildren();
 
     if (lista.length === 0) {
-        contenedor.innerHTML = `
-            <p class="sin-resultados">
-                No se encontraron mascotas con ese criterio.
-            </p>
-        `;
+        const mensaje = document.createElement("p");
+        mensaje.className = "sin-resultados";
+        mensaje.textContent = "No se encontraron mascotas con ese criterio.";
+        contenedor.appendChild(mensaje);
 
         return 0;
     }
 
     lista.forEach(function (mascota) {
         const tarjeta = document.createElement("article");
-
         tarjeta.classList.add("tarjeta-mascota");
 
-        const claseEstado =
-            mascota.estado === "En Proceso" ? "proceso" : "";
+        const contenedorImagen = document.createElement("div");
+        contenedorImagen.className = "contenedor-img";
 
-        tarjeta.innerHTML = `
-            <div class="contenedor-img">
-                <div class="corona-badge ${claseEstado}">
-                    <span>🐾</span>
-                </div>
+        const corona = document.createElement("div");
+        corona.className = "corona-badge";
+        if (mascota.estado === "En Proceso") {
+            corona.classList.add("proceso");
+        }
 
-                <img
-                    src="${mascota.imagen}"
-                    alt="${mascota.nombre}"
-                >
-            </div>
+        const icono = document.createElement("span");
+        icono.textContent = "🐾";
+        corona.appendChild(icono);
 
-            <div class="info-mascota">
-                <span class="badge-tag ${claseEstado}">
-                    ${mascota.estado}
-                </span>
+        const imagen = document.createElement("img");
+        imagen.src = mascota.imagen ?? "";
+        imagen.alt = mascota.nombre ?? "";
+        contenedorImagen.append(corona, imagen);
 
-                <h2>${mascota.nombre}</h2>
+        const infoMascota = document.createElement("div");
+        infoMascota.className = "info-mascota";
 
-                <p class="descripcion">
-                    ${mascota.descripcion}
-                </p>
+        const etiquetaEstado = document.createElement("span");
+        etiquetaEstado.className = "badge-tag";
+        if (mascota.estado === "En Proceso") {
+            etiquetaEstado.classList.add("proceso");
+        }
+        etiquetaEstado.textContent = mascota.estado ?? "";
 
-                <div class="detalles-grid">
-                    <div class="detalle-item">
-                        <strong>Edad:</strong>
-                        ${mascota.edad}
-                    </div>
+        const nombre = document.createElement("h2");
+        nombre.textContent = mascota.nombre ?? "";
 
-                    <div class="detalle-item">
-                        <strong>Raza:</strong>
-                        ${mascota.raza}
-                    </div>
-                </div>
-            </div>
-        `;
+        const descripcion = document.createElement("p");
+        descripcion.className = "descripcion";
+        descripcion.textContent = mascota.descripcion ?? "";
 
-        const infoMascota =
-            tarjeta.querySelector(".info-mascota");
+        const detalles = document.createElement("div");
+        detalles.className = "detalles-grid";
+
+        const detalleEdad = document.createElement("div");
+        detalleEdad.className = "detalle-item";
+        const etiquetaEdad = document.createElement("strong");
+        etiquetaEdad.textContent = "Edad:";
+        detalleEdad.append(etiquetaEdad, document.createTextNode(
+            ` ${mascota.edad ?? ""}`
+        ));
+
+        const detalleRaza = document.createElement("div");
+        detalleRaza.className = "detalle-item";
+        const etiquetaRaza = document.createElement("strong");
+        etiquetaRaza.textContent = "Raza:";
+        detalleRaza.append(etiquetaRaza, document.createTextNode(
+            ` ${mascota.raza ?? ""}`
+        ));
+
+        detalles.append(detalleEdad, detalleRaza);
+        infoMascota.append(etiquetaEstado, nombre, descripcion, detalles);
+        tarjeta.append(contenedorImagen, infoMascota);
 
         const botonMasInfo = crearBoton(
             "Más información",
@@ -215,7 +228,6 @@ function renderGaleria(contenedor, lista) {
         );
 
         infoMascota.appendChild(botonMasInfo);
-
         contenedor.appendChild(tarjeta);
     });
 

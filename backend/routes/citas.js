@@ -1,5 +1,6 @@
 const express = require('express');
 const validateBody = require('../middleware/validate-body');
+const requireRole = require('../middleware/require-role');
 
 function createCitasRouter(citaController) {
 const router = express.Router();
@@ -25,7 +26,21 @@ const validateAppointment = validateBody({
 router.post('/', validateAppointment, citaController.crear);
 router.get('/', citaController.listar);
 router.get('/:id', citaController.obtenerPorId);
-router.put('/:id', validateAppointment, citaController.actualizar);
+const requireProfessionalForStatusChange = requireRole('veterinario', 'admin');
+function authorizeStatusChange(req, res, next) {
+    if (['confirmada', 'completada'].includes(req.body.estado)) {
+        return requireProfessionalForStatusChange(req, res, next);
+    }
+
+    return next();
+}
+
+router.put(
+    '/:id',
+    validateAppointment,
+    authorizeStatusChange,
+    citaController.actualizar
+);
 router.delete('/:id', citaController.cancelar);
 
 return router;

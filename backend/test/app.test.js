@@ -95,3 +95,35 @@ test('health reporta fallo de base de datos sin exponer detalles internos', asyn
     assert.equal(body.error, 'Error interno del servidor');
     assert.equal(JSON.stringify(body).includes('contraseña secreta'), false);
 });
+
+test('solo sirve activos públicos y bloquea archivos internos', async t => {
+    const pool = { async query() { return [[], []]; } };
+    const { baseUrl } = await startTestServer(t, pool);
+
+    const loginPage = await fetch(`${baseUrl}/login.html`);
+    assert.equal(loginPage.status, 200);
+    assert.match(loginPage.headers.get('content-type'), /text\/html/);
+    assert.equal(loginPage.headers.get('x-content-type-options'), 'nosniff');
+    assert.equal(loginPage.headers.get('x-frame-options'), 'SAMEORIGIN');
+    assert.equal(loginPage.headers.get('content-security-policy'), null);
+
+    for (const route of [
+        '/backend/server.js',
+        '/backend/config/db.js',
+        '/database/schema.sql',
+        '/README.md',
+        '/backend/.env',
+        '/backend/package.json'
+    ]) {
+        const response = await fetch(`${baseUrl}${route}`);
+        assert.equal(response.status, 404, route);
+    }
+});
+
+test('activa trust proxy en producción', () => {
+    const pool = { async query() { return [[], []]; } };
+    const productionConfig = { ...config, NODE_ENV: 'production' };
+    const { app } = createApp(productionConfig, { pool });
+
+    assert.equal(app.get('trust proxy'), 1);
+});

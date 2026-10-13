@@ -14,7 +14,11 @@ function manejarError(res, error, mensajeGenerico) {
 
 async function crear(req, res) {
     try {
-        const cita = await citaService.crear(req.session.userId, req.body);
+        const cita = await citaService.crear(
+            req.session.userId,
+            req.session.usuario.rol,
+            req.body
+        );
         return res.status(201).json({
             mensaje: 'Cita registrada correctamente.',
             cita
@@ -50,6 +54,7 @@ async function actualizar(req, res) {
         const cita = await citaService.actualizar(
             req.params.id,
             req.session.userId,
+            req.session.usuario.rol,
             req.body
         );
         return res.json({

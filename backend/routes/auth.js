@@ -1,10 +1,25 @@
 // backend/routes/auth.js
 
 const express = require('express');
+const { rateLimit } = require('express-rate-limit');
 const validateBody = require('../middleware/validate-body');
 
 function createAuthRouter({ authController, verificarSesion }) {
 const router = express.Router();
+const loginRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Demasiados intentos de inicio de sesión. Inténtalo más tarde.' }
+});
+const registrationRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Demasiados intentos de registro. Inténtalo más tarde.' }
+});
 
 const validateLogin = validateBody({
     email: { type: 'string', required: true, email: true },
@@ -41,6 +56,7 @@ const validateRegistration = validateBody({
 // ==========================================
 router.post(
     '/login',
+    loginRateLimit,
     validateLogin,
     authController.login
 );
@@ -70,6 +86,7 @@ router.get(
 // ==========================================
 router.post(
     '/register',
+    registrationRateLimit,
     validateRegistration,
     authController.register
 );

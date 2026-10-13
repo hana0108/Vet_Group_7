@@ -14,8 +14,8 @@ const config = {
     NODE_ENV: 'test'
 };
 
-async function startTestServer(t, pool) {
-    const { app } = createApp(config, { pool });
+async function startTestServer(t, pool, appConfig = config) {
+    const { app } = createApp(appConfig, { pool });
     const server = app.listen(0);
     await new Promise(resolve => server.once('listening', resolve));
     t.after(() => new Promise(resolve => server.close(resolve)));
@@ -69,8 +69,6 @@ test('registra y normaliza nombre y correo, y almacena un hash de contraseña', 
 });
 
 test('rechaza nombres inválidos y contraseñas sin los requisitos de seguridad', async t => {
-    const pool = createRegistrationPool();
-    const baseUrl = await startTestServer(t, pool);
     const cases = [
         { nombre: 'A', password: 'VetGroup7!' },
         { nombre: 'Ana123', password: 'VetGroup7!' },
@@ -81,6 +79,8 @@ test('rechaza nombres inválidos y contraseñas sin los requisitos de seguridad'
     ];
 
     for (const caso of cases) {
+        const pool = createRegistrationPool();
+        const baseUrl = await startTestServer(t, pool);
         const response = await fetch(`${baseUrl}/api/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -93,9 +93,8 @@ test('rechaza nombres inválidos y contraseñas sin los requisitos de seguridad'
 
         assert.equal(response.status, 400, JSON.stringify(caso));
         assert.equal((await response.json()).error, 'Datos de solicitud inválidos.');
+        assert.equal(pool.calls.length, 0);
     }
-
-    assert.equal(pool.calls.length, 0);
 });
 
 test('login emite una cookie de sesión HttpOnly y SameSite=Lax', async t => {
@@ -127,4 +126,77 @@ test('login emite una cookie de sesión HttpOnly y SameSite=Lax', async t => {
     assert.equal(response.status, 200);
     assert.match(response.headers.get('set-cookie'), /HttpOnly/i);
     assert.match(response.headers.get('set-cookie'), /SameSite=Lax/i);
+});
+
+test('producción guarda sesiones en MySQL y emite cookie Secure detrás de proxy', async t => {
+    const passwordHash = await bcrypt.hash('VetGroup7!', 4);
+    const calls = [];
+    const pool = {
+        async query(sql) {
+            calls.push(sql);
+            if (sql.includes('SELECT * FROM usuarios')) {
+                return [[{
+                    id: 23,
+                    nombre: 'Ana María',
+                    email: 'ana@example.com',
+                    rol: 'cliente',
+                    password: passwordHash
+                }], []];
+            }
+            return [{ affectedRows: 1 }, []];
+        }
+    };
+    const productionConfig = { ...config, NODE_ENV: 'production' };
+    const baseUrl = await startTestServer(t, pool, productionConfig);
+    const response = await fetch(`${baseUrl}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Forwarded-Proto': 'https'
+        },
+        body: JSON.stringify({
+            email: 'ana@example.com',
+            password: 'VetGroup7!'
+        })
+    });
+
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('set-cookie'), /Secure/i);
+    assert.ok(calls.some(sql => sql.includes('CREATE TABLE IF NOT EXISTS express_sessions')));
+    assert.ok(calls.some(sql => sql.includes('INSERT INTO express_sessions')));
+});
+
+test('limita login a 10 intentos y registro a 5 por ventana por IP', async t => {
+    const pool = { async query() { return [[], []]; } };
+    const baseUrl = await startTestServer(t, pool);
+
+    for (let attempt = 1; attempt <= 10; attempt += 1) {
+        const response = await fetch(`${baseUrl}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        });
+        assert.equal(response.status, 400);
+    }
+    const limitedLogin = await fetch(`${baseUrl}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+    });
+    assert.equal(limitedLogin.status, 429);
+
+    for (let attempt = 1; attempt <= 5; attempt += 1) {
+        const response = await fetch(`${baseUrl}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        });
+        assert.equal(response.status, 400);
+    }
+    const limitedRegistration = await fetch(`${baseUrl}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+    });
+    assert.equal(limitedRegistration.status, 429);
 });

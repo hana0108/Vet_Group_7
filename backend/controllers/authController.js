@@ -8,6 +8,16 @@ async function login(req, res, next) {
             password
         );
 
+        await new Promise((resolve, reject) => {
+            req.session.regenerate(error => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve();
+            });
+        });
+
         req.session.userId = usuario.id;
         req.session.usuario = usuario;
 

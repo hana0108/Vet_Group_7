@@ -6,6 +6,7 @@ const ESTADOS_VALIDOS = [
     'cancelada',
     'completada'
 ];
+const ROLES_PROFESIONALES = ['veterinario', 'admin'];
 
 function crearError(mensaje, statusCode) {
     const error = new Error(mensaje);
@@ -125,9 +126,13 @@ async function validarRelaciones(cita, usuarioId) {
     }
 }
 
-async function crear(usuarioId, datos) {
+async function crear(usuarioId, rol, datos) {
     const usuario_id = validarId(usuarioId, 'usuario');
-    const cita = normalizarDatos(datos);
+    const cita = normalizarDatos(
+        ROLES_PROFESIONALES.includes(rol)
+            ? datos
+            : { ...datos, estado: 'pendiente' }
+    );
     await validarRelaciones(cita, usuario_id);
 
     const id = await citaRepository.crear(cita);
@@ -150,11 +155,31 @@ async function obtenerPorId(id, usuarioId) {
     return cita;
 }
 
-async function actualizar(id, usuarioId, datos) {
+async function actualizar(id, usuarioId, rol, datos) {
     const citaId = validarId(id, 'la cita');
     const usuario_id = validarId(usuarioId, 'usuario');
     const existente = await obtenerPorId(citaId, usuario_id);
-    const cita = normalizarDatos(datos, existente.estado);
+
+    if (['cancelada', 'completada'].includes(existente.estado)) {
+        throw crearError('Una cita cancelada o completada no se puede editar.', 409);
+    }
+
+    const esProfesional = ROLES_PROFESIONALES.includes(rol);
+    if (
+        !esProfesional &&
+        datos?.estado !== undefined &&
+        datos.estado !== existente.estado
+    ) {
+        throw crearError(
+            'Los clientes solo pueden cancelar una cita con la acción de cancelar.',
+            403
+        );
+    }
+
+    const cita = normalizarDatos(
+        esProfesional ? datos : { ...datos, estado: existente.estado },
+        existente.estado
+    );
 
     await validarRelaciones(cita, usuario_id);
 
@@ -166,7 +191,10 @@ async function actualizar(id, usuarioId, datos) {
 async function cancelar(id, usuarioId) {
     const citaId = validarId(id, 'la cita');
     const usuario_id = validarId(usuarioId, 'usuario');
-    await obtenerPorId(citaId, usuario_id);
+    const existente = await obtenerPorId(citaId, usuario_id);
+    if (['cancelada', 'completada'].includes(existente.estado)) {
+        throw crearError('Una cita cancelada o completada no se puede modificar.', 409);
+    }
 
     await citaRepository.cancelar(citaId, usuario_id);
     return citaRepository.obtenerPorId(citaId, usuario_id);
