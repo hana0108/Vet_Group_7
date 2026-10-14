@@ -1,14 +1,15 @@
 const mysql = require('mysql2/promise');
-require('dotenv').config();
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'vetgroup7_db',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+function createPool(config) {
+  return mysql.createPool({
+    host: config.DB_HOST,
+    user: config.DB_USER,
+    password: config.DB_PASSWORD,
+    database: config.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+  });
+}
 
-module.exports = pool;
+module.exports = { createPool };

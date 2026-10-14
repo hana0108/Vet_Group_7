@@ -2,9 +2,15 @@
   "name": "vet_group_7",
   "version": "1.0.0",
   "description": "Repositorio del grupo 7 para uso académico de la materia: Desarrollo de Aplicaciones Web.",
-  "main": "administración_citas.js",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:setup": "node scripts/db-setup.cjs",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +20,9 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
     "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
     "mysql2": "^3.24.4"
   }
 }

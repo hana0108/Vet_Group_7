@@ -1,8 +1,7 @@
 /*
  * Archivo central de JavaScript
  * VetGroup7 - Fase 2
- * Contiene datos principales, persistencia de citas
- * y componente dinámico de galería de mascotas.
+ * Contiene datos principales y el componente dinámico de galería de mascotas.
  */
 
 // ===============================
@@ -16,7 +15,7 @@ const mascotas = [
         tipo: "Perro",
         raza: "Perro pug",
         edad: "1.5 años",
-        imagen: "img/Bigotes.jpg",
+        imagen: "img/bigotes.jpg",
         estado: "Disponible",
         descripcion:
             "Bigotes es un perrito muy alegre, cariñoso y carismático. Le encanta acurrucarse en casa y tomar largas siestas junto a la familia."
@@ -27,7 +26,7 @@ const mascotas = [
         tipo: "Conejo",
         raza: "Conejo doméstico",
         edad: "3 años",
-        imagen: "img/Crank.jpg",
+        imagen: "img/crank.jpg",
         estado: "Disponible",
         descripcion:
             "Crank es un conejito curioso, manso y muy tranquilo. Adora comer vegetales frescos y explorar espacios protegidos."
@@ -46,7 +45,7 @@ const mascotas = [
         id: 4,
         nombre: "Lady",
         edad: "2.5 años",
-        imagen: "img/Lady.jpg",
+        imagen: "img/lady.jpg",
         raza: "Perra beagle",
         tipo: "Perro",
         estado: "En Proceso",
@@ -59,30 +58,10 @@ const mascotas = [
         tipo: "Tortuga",
         raza: "Tortuga terrestre",
         edad: "1 año",
-        imagen: "img/Felipe.jpg",
+        imagen: "img/felipe.jpg",
         estado: "Adoptado",
         descripcion:
             "Felipe es una tortuguita serena y paciente. Le encanta tomar el sol por las mañanas y moverse despacio a su propio ritmo."
-    }
-];
-
-// ===============================
-// DATOS DE LAS CITAS
-// ===============================
-
-let citas = [
-    {
-        id: 1,
-        dueño: "Usuario Ejemplo",
-        telefono: "8095551234",
-        correo: "ejemplo@email.com",
-        mascota: "Max",
-        tipo: "Perro",
-        raza: "Labrador",
-        edad: 4,
-        servicio: "Consulta general",
-        fecha: "2026-09-01",
-        hora: "10:00"
     }
 ];
 
@@ -132,41 +111,6 @@ function filterPorRaza(raza) {
 }
 
 // ===============================
-// CARGAR CITAS
-// ===============================
-
-function cargarDatosIniciales() {
-    const datos = localStorage.getItem("citas");
-
-    if (datos) {
-        citas = JSON.parse(datos);
-    }
-
-    return citas;
-}
-
-// ===============================
-// GUARDAR CITAS
-// ===============================
-
-function persistirCitas() {
-    localStorage.setItem("citas", JSON.stringify(citas));
-    return true;
-}
-
-// ===============================
-// AGREGAR UNA CITA
-// ===============================
-
-function agregarCita(cita) {
-    cita.id = citas.length + 1;
-    citas.push(cita);
-    persistirCitas();
-
-    return cita;
-}
-
-// ===============================
 // OBTENER MASCOTAS
 // ===============================
 
@@ -201,65 +145,78 @@ function crearBoton(texto, clases, handler, ariaLabel = "") {
 // ===============================
 
 function renderGaleria(contenedor, lista) {
-    contenedor.innerHTML = "";
+    contenedor.replaceChildren();
 
     if (lista.length === 0) {
-        contenedor.innerHTML = `
-            <p class="sin-resultados">
-                No se encontraron mascotas con ese criterio.
-            </p>
-        `;
+        const mensaje = document.createElement("p");
+        mensaje.className = "sin-resultados";
+        mensaje.textContent = "No se encontraron mascotas con ese criterio.";
+        contenedor.appendChild(mensaje);
 
         return 0;
     }
 
     lista.forEach(function (mascota) {
         const tarjeta = document.createElement("article");
-
         tarjeta.classList.add("tarjeta-mascota");
 
-        const claseEstado =
-            mascota.estado === "En Proceso" ? "proceso" : "";
+        const contenedorImagen = document.createElement("div");
+        contenedorImagen.className = "contenedor-img";
 
-        tarjeta.innerHTML = `
-            <div class="contenedor-img">
-                <div class="corona-badge ${claseEstado}">
-                    <span>🐾</span>
-                </div>
+        const corona = document.createElement("div");
+        corona.className = "corona-badge";
+        if (mascota.estado === "En Proceso") {
+            corona.classList.add("proceso");
+        }
 
-                <img
-                    src="${mascota.imagen}"
-                    alt="${mascota.nombre}"
-                >
-            </div>
+        const icono = document.createElement("span");
+        icono.textContent = "🐾";
+        corona.appendChild(icono);
 
-            <div class="info-mascota">
-                <span class="badge-tag ${claseEstado}">
-                    ${mascota.estado}
-                </span>
+        const imagen = document.createElement("img");
+        imagen.src = mascota.imagen ?? "";
+        imagen.alt = mascota.nombre ?? "";
+        contenedorImagen.append(corona, imagen);
 
-                <h2>${mascota.nombre}</h2>
+        const infoMascota = document.createElement("div");
+        infoMascota.className = "info-mascota";
 
-                <p class="descripcion">
-                    ${mascota.descripcion}
-                </p>
+        const etiquetaEstado = document.createElement("span");
+        etiquetaEstado.className = "badge-tag";
+        if (mascota.estado === "En Proceso") {
+            etiquetaEstado.classList.add("proceso");
+        }
+        etiquetaEstado.textContent = mascota.estado ?? "";
 
-                <div class="detalles-grid">
-                    <div class="detalle-item">
-                        <strong>Edad:</strong>
-                        ${mascota.edad}
-                    </div>
+        const nombre = document.createElement("h2");
+        nombre.textContent = mascota.nombre ?? "";
 
-                    <div class="detalle-item">
-                        <strong>Raza:</strong>
-                        ${mascota.raza}
-                    </div>
-                </div>
-            </div>
-        `;
+        const descripcion = document.createElement("p");
+        descripcion.className = "descripcion";
+        descripcion.textContent = mascota.descripcion ?? "";
 
-        const infoMascota =
-            tarjeta.querySelector(".info-mascota");
+        const detalles = document.createElement("div");
+        detalles.className = "detalles-grid";
+
+        const detalleEdad = document.createElement("div");
+        detalleEdad.className = "detalle-item";
+        const etiquetaEdad = document.createElement("strong");
+        etiquetaEdad.textContent = "Edad:";
+        detalleEdad.append(etiquetaEdad, document.createTextNode(
+            ` ${mascota.edad ?? ""}`
+        ));
+
+        const detalleRaza = document.createElement("div");
+        detalleRaza.className = "detalle-item";
+        const etiquetaRaza = document.createElement("strong");
+        etiquetaRaza.textContent = "Raza:";
+        detalleRaza.append(etiquetaRaza, document.createTextNode(
+            ` ${mascota.raza ?? ""}`
+        ));
+
+        detalles.append(detalleEdad, detalleRaza);
+        infoMascota.append(etiquetaEstado, nombre, descripcion, detalles);
+        tarjeta.append(contenedorImagen, infoMascota);
 
         const botonMasInfo = crearBoton(
             "Más información",
@@ -271,7 +228,6 @@ function renderGaleria(contenedor, lista) {
         );
 
         infoMascota.appendChild(botonMasInfo);
-
         contenedor.appendChild(tarjeta);
     });
 
@@ -400,8 +356,6 @@ function attachHandlers() {
 // INICIALIZACIÓN
 // ===============================
 
-cargarDatosIniciales();
-
 document.addEventListener("DOMContentLoaded", function () {
     const contenedor =
         document.getElementById("galeriaMascotas");
@@ -502,10 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // FUNCIONES GLOBALES
 // ===============================
 
-window.cargarDatosIniciales = cargarDatosIniciales;
-window.persistirCitas = persistirCitas;
 window.obtenerMascotas = obtenerMascotas;
-window.agregarCita = agregarCita;
 window.renderGaleria = renderGaleria;
 window.abrirPreview = abrirPreview;
 window.cerrarPreview = cerrarPreview;
@@ -535,14 +486,10 @@ function validarFormularioReserva(formData) {
         });
     }
 
-    const telefonoLimpio =
-        (formData.telefono || "")
-            .replace(/\D/g, "");
-
-    if (telefonoLimpio.length !== 10) {
+    if (!/^\d{10}$/.test(formData.telefono || "")) {
         errores.push({
             campo: "telefono",
-            mensaje: "El teléfono debe contener 10 dígitos."
+            mensaje: "El teléfono solo puede contener exactamente 10 dígitos."
         });
     }
 
@@ -565,6 +512,17 @@ function validarFormularioReserva(formData) {
             campo: "tipo",
             mensaje: "Selecciona el tipo de mascota."
         });
+    }
+
+    if (formData.edad !== "") {
+        const edad = Number(formData.edad);
+
+        if (!Number.isInteger(edad) || edad < 0 || edad > 30) {
+            errores.push({
+                campo: "edad",
+                mensaje: "La edad debe ser un número entero entre 0 y 30 años."
+            });
+        }
     }
 
     if (!formData.servicio) {
@@ -608,6 +566,36 @@ function validarFormularioReserva(formData) {
     };
 }
 
+function configurarCampoTelefono(campo) {
+    if (!campo) return;
+
+    campo.addEventListener("input", function () {
+        const valorNumerico = campo.value.replace(/\D/g, "");
+        if (campo.value !== valorNumerico) {
+            const posicion = campo.selectionStart;
+            campo.value = valorNumerico;
+            if (typeof posicion === "number") {
+                const nuevaPosicion = Math.min(posicion, valorNumerico.length);
+                campo.setSelectionRange(nuevaPosicion, nuevaPosicion);
+            }
+        }
+
+        const anterior = campo.parentElement.querySelector(".error-telefono");
+        if (anterior) anterior.remove();
+
+        if (valorNumerico.length > 10) {
+            const aviso = document.createElement("small");
+            aviso.className = "error-campo error-telefono";
+            aviso.setAttribute("role", "alert");
+            aviso.textContent = "El teléfono no es válido: debe tener exactamente 10 dígitos.";
+            campo.insertAdjacentElement("afterend", aviso);
+            campo.setAttribute("aria-invalid", "true");
+        } else {
+            campo.removeAttribute("aria-invalid");
+        }
+    });
+}
+
 function mostrarErrores(form, errores) {
     form.querySelectorAll(".error-campo")
         .forEach(function (elemento) {
@@ -648,6 +636,122 @@ function mostrarErrores(form, errores) {
     });
 }
 
+function mostrarErrorReserva(form, mensaje) {
+    const anterior = form.querySelector(".error-reserva");
+
+    if (anterior) {
+        anterior.remove();
+    }
+
+    const error = document.createElement("p");
+    error.className = "error-reserva";
+    error.setAttribute("role", "alert");
+    error.textContent = mensaje;
+    error.style.color = "#c62828";
+    form.prepend(error);
+}
+
+async function leerRespuestaApi(respuesta) {
+    const datos = await respuesta.json().catch(() => ({}));
+
+    if (!respuesta.ok) {
+        if (respuesta.status >= 500) {
+            throw new Error("El servidor no pudo completar la solicitud. Inténtalo nuevamente.");
+        }
+
+        if (respuesta.status === 401) {
+            throw new Error("Tu sesión expiró. Inicia sesión nuevamente.");
+        }
+
+        const detalles = Array.isArray(datos.detalles)
+            ? datos.detalles.join(" ")
+            : "";
+        throw new Error([datos.error, detalles].filter(Boolean).join(" ") ||
+            "No se pudo completar la solicitud.");
+    }
+
+    return datos;
+}
+
+function mensajeErrorParaUsuario(error) {
+    if (error instanceof TypeError) {
+        return "No se pudo conectar con el servidor. Comprueba que esté iniciado e inténtalo de nuevo.";
+    }
+
+    return error.message;
+}
+
+async function cargarOpcionesReserva(form) {
+    const [respuestaMascotas, respuestaServicios, respuestaUsuario] = await Promise.all([
+        fetch(`${API_BASE}/mascotas`, { credentials: "include" }),
+        fetch(`${API_BASE}/servicios`, { credentials: "include" }),
+        fetch(`${API_BASE}/auth/me`, { credentials: "include" })
+    ]);
+    const [datosMascotas, datosServicios, datosUsuario] = await Promise.all([
+        leerRespuestaApi(respuestaMascotas),
+        leerRespuestaApi(respuestaServicios),
+        leerRespuestaApi(respuestaUsuario)
+    ]);
+    form.elements.dueno.value = datosUsuario.usuario.nombre;
+    form.elements.correo.value = datosUsuario.usuario.email;
+    const selectorServicio = form.elements.servicio;
+    selectorServicio.replaceChildren(new Option("Seleccione un servicio", ""));
+
+    datosServicios.resultados.forEach(function (servicio) {
+        const opcion = new Option(
+            `${servicio.nombre} - RD$ ${Number(servicio.precio).toFixed(2)}`,
+            String(servicio.id)
+        );
+        selectorServicio.add(opcion);
+    });
+
+    return {
+        mascotas: datosMascotas.resultados,
+        servicios: datosServicios.resultados
+    };
+}
+
+function fechaNacimientoDesdeEdad(edad) {
+    if (edad === "") {
+        return null;
+    }
+
+    const fecha = new Date();
+    fecha.setFullYear(fecha.getFullYear() - Number(edad));
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const dia = String(fecha.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${dia}`;
+}
+
+async function obtenerOCrearMascotaReserva(datosFormulario, mascotas) {
+    const nombre = datosFormulario.mascota.trim();
+    const tipo = datosFormulario.tipo;
+    const mascotaExistente = mascotas.find(function (mascota) {
+        return mascota.nombre.trim().toLowerCase() === nombre.toLowerCase() &&
+            mascota.especie.toLowerCase() === tipo.toLowerCase();
+    });
+
+    if (mascotaExistente) {
+        return mascotaExistente;
+    }
+
+    const respuesta = await fetch(`${API_BASE}/mascotas`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            nombre,
+            especie: tipo,
+            raza: datosFormulario.raza.trim() || null,
+            fecha_nacimiento: fechaNacimientoDesdeEdad(datosFormulario.edad)
+        })
+    });
+    const datos = await leerRespuestaApi(respuesta);
+    mascotas.push(datos.mascota);
+    return datos.mascota;
+}
+
 function mostrarConfirmacion(form, resultado) {
     const confirmacionAnterior =
         form.querySelector(".confirmacion-reserva");
@@ -662,15 +766,12 @@ function mostrarConfirmacion(form, resultado) {
     confirmacion.className =
         "confirmacion-reserva";
 
-    confirmacion.innerHTML = `
-        <strong>✅ Cita reservada correctamente</strong>
+    const titulo = document.createElement("strong");
+    titulo.textContent = "Cita reservada correctamente";
 
-        <p>
-            La cita para ${resultado.cita.mascota}
-            fue registrada para el ${resultado.cita.fecha}
-            a las ${resultado.cita.hora}.
-        </p>
-    `;
+    const detalle = document.createElement("p");
+    detalle.textContent = `La cita para ${resultado.mascota} fue registrada para el ${resultado.fecha} a las ${resultado.hora}.`;
+    confirmacion.append(titulo, detalle);
 
     confirmacion.style.backgroundColor =
         "#e8f5e9";
@@ -698,8 +799,34 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    formulario.addEventListener("submit", function (evento) {
+    const botonEnviar = formulario.querySelector('[type="submit"]');
+    configurarCampoTelefono(formulario.elements.telefono);
+    let mascotasDisponibles = [];
+    let opcionesListas = false;
+    botonEnviar.disabled = true;
+
+    window.opcionesReservaCita = cargarOpcionesReserva(formulario);
+    window.opcionesReservaCita
+        .then(function (opciones) {
+            mascotasDisponibles = opciones.mascotas;
+            opcionesListas = true;
+            botonEnviar.disabled = false;
+        })
+        .catch(function (error) {
+            mostrarErrorReserva(formulario, mensajeErrorParaUsuario(error));
+        });
+
+    formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
+
+        if (!opcionesListas) {
+            return;
+        }
+
+        const errorAnterior = formulario.querySelector(".error-reserva");
+        if (errorAnterior) {
+            errorAnterior.remove();
+        }
 
         formulario
             .querySelectorAll("[aria-invalid]")
@@ -724,21 +851,39 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const resultado = reservarCita({
-            nombre: datosFormulario.dueno.trim(),
-            mascota: datosFormulario.mascota.trim(),
-            fecha: datosFormulario.fecha,
-            hora: datosFormulario.hora,
-            servicio: datosFormulario.servicio
-        });
-
-        if (resultado.ok) {
+        botonEnviar.disabled = true;
+        try {
+            const mascota = await obtenerOCrearMascotaReserva(
+                datosFormulario,
+                mascotasDisponibles
+            );
+            const respuesta = await fetch(`${API_BASE}/citas`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mascota_id: Number(mascota.id),
+                    servicio_id: Number(datosFormulario.servicio),
+                    fecha_hora: `${datosFormulario.fecha} ${datosFormulario.hora}`,
+                    telefono_contacto: datosFormulario.telefono,
+                    observaciones: datosFormulario.observaciones.trim() || null
+                })
+            });
+            await leerRespuestaApi(respuesta);
+            window.dispatchEvent(new CustomEvent('citas:actualizadas'));
             mostrarConfirmacion(
                 formulario,
-                resultado
+                {
+                    mascota: mascota.nombre,
+                    fecha: datosFormulario.fecha,
+                    hora: datosFormulario.hora
+                }
             );
-
             formulario.reset();
+        } catch (error) {
+            mostrarErrorReserva(formulario, mensajeErrorParaUsuario(error));
+        } finally {
+            botonEnviar.disabled = false;
         }
     });
 });

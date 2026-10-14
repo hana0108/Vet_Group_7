@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
 
         const respuesta = await fetch(
-            'http://localhost:3000/api/auth/me',
+            `${API_BASE}/auth/me`,
             {
                 method: 'GET',
                 credentials: 'include'

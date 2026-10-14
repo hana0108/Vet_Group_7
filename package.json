@@ -1,0 +1,14 @@
+{
+  "name": "vet_group_7",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "postinstall": "cd backend && npm install",
+    "start": "npm --prefix backend start",
+    "dev": "npm --prefix backend run dev",
+    "test": "npm --prefix backend test",
+    "db:setup": "npm --prefix backend run db:setup"
+  }
+}

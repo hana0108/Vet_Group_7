@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (
-            !/^[\p{L}]+(?:[' -][\p{L}]+)+$/u.test(nombre) ||
-            nombre.length < 3
+            !/^[\p{L}][\p{L} '’.-]*$/u.test(nombre) ||
+            nombre.length < 2
         ) {
-            return 'Escribe tu nombre completo usando al menos 3 caracteres.';
+            return 'Escribe un nombre válido usando al menos 2 caracteres.';
         }
 
         if (
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:3000/api/auth/register',
+                `${API_BASE}/auth/register`,
                 {
                     method: 'POST',
                     credentials: 'include',
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const respuesta = await fetch(
-                'http://localhost:3000/api/auth/login',
+                `${API_BASE}/auth/login`,
                 {
                     method: 'POST',
                     credentials: 'include',
